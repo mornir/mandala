@@ -1,6 +1,8 @@
 # *Trans*Hub
 Application web pour la gestion de mandats de traduction
 
+![alt tag](https://github.com/mornir/transhub/blob/master/TransHub2.PNG)
+
 ## Détails
 
 * Saisie simplifiée
