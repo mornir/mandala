@@ -3,6 +3,7 @@ import VueFire from 'vuefire';
 import VueRouter from 'vue-router';
 import App from './App.vue';
 import Vuetify from 'vuetify';
+import VueFuse from 'vue-fuse';
 
 import {
     routes
@@ -17,6 +18,7 @@ const router = new VueRouter({
 Vue.use(VueFire);
 Vue.use(VueRouter);
 Vue.use(Vuetify);
+Vue.use(VueFuse);
 
 new Vue({
     el: '#app',
