@@ -1,117 +1,161 @@
 <template>
-              <v-card horizontal class="mb-2" :class="currentStatut" >
+<v-card horizontal class="mb-2" :class="currentStatut">
 
-                    <v-card-column>
-                        <v-card-text>
-                            <v-row>
-                                <v-col xs4>
+    <v-card-column>
+        <v-card-text>
+            <v-layout>
+                <v-flex xs4>
 
-                                    <strong>{{mandat.name}}</strong><br>
-                                    <span>{{mandat.costs}}</span>,
-                                    <span>{{mandat.type}}</span>,
-                                    <span>1 Word</span>,
-                                    <span>{{mandat.source}}--&#62;{{mandat.target}}</span>,
-                                    <span>SDL? {{mandat.TAO}}</span>
-                                </v-col>
-                                <v-col xs1 >
+                    <strong>{{mandat.name}}</strong>
+                    <div>{{mandat.public_cible}}</div>
+           <!--            <span>{{mandat.type}}</span>,
+                 <span>{{mandat.source}}--&#62;{{mandat.target}}</span>,-->
+                </v-flex>
+                <v-flex xs1>
 
-                                    <strong>{{mandat.code}}</strong>
-                                    <div :class="{prioritaireClass: mandat.priority === 'Prioritaire'}">{{mandat.priority}}</div>
+                    <strong>{{mandat.code}}</strong>
+                    <div :class="{prioritaireClass: mandat.priority === 'Prioritaire'}">{{mandat.priority}}</div>
 
-                                </v-col>
-                                        <v-col xs1>
-
-                                    <div>{{mandat.mandant}}</div>
-                                    <div>{{mandat.public_cible}}</div>
-
-                                </v-col>
-                                <v-col xs2 class="text-xs-center">
-
-                                    <div>
-                                        <v-icon>move_to_inbox</v-icon>
-                                        <span>{{mandat.arrival}}</span>
-                                    </div>
-                                    <div>
-                                        <v-icon>send</v-icon>
-                                        <span>{{mandat.deadline}}</span>
-                                    </div>
-
-                                </v-col>
-                                <v-col xs2>
-
-                                    <div>
-                                        <v-icon>edit</v-icon>
-                                        <span class="responsable">{{mandat.translator}}</span>
-                                    </div><div class="responsable">
-                                        <v-icon>spellcheck</v-icon>
-                                        <span class="responsable">{{mandat.reviewer}}</span>
-                                    </div>
-
-                                </v-col>
-                                <v-col xs2>
-
-<!--                                    <v-btn outline class="orange--text buttonTest" @click.native="liquidation">{{mandat.activity}}</v-btn>-->
-                                    
-                                         <v-select 
-            :items="statuts"
-            v-model="mandat.statut"
-            label="statut"
-            light
-            single-line
-            auto
-          />
+                </v-flex>
+                <v-flex xs3 class="text-xs-center">
+                    
 
 
-                                </v-col>
-                            </v-row>
-                        </v-card-text>
-                    </v-card-column>
+<!--
+                    <div>
+                        <v-icon>move_to_inbox</v-icon>
+                        <span>{{mandat.arrival}}</span>
+                    </div>
+-->
+                    <div>
+                        <v-icon>send</v-icon>
+                        <strong>{{mandat.deadline}}</strong>
+                    </div>
+                    <div>
+                        <v-icon>person</v-icon>
+                        <strong>{{mandat.mandant}}</strong>
+                    </div>
+
+                </v-flex>
+                <v-flex xs2>
+
+                    <div>
+                        <v-icon>edit</v-icon>
+                        <strong>{{mandat.translator}}</strong>
+                    </div>
+                    <div>
+                        <v-icon>spellcheck</v-icon>
+                        <strong>{{mandat.reviewer}}</strong>
+                    </div>
+
+                </v-flex>
+                <v-flex xs2>
+
+                    <v-dialog v-model="dialogStatut" scrollable>
+                        <v-btn outline  slot="activator">{{mandat.statut}}</v-btn>
+                        <v-card>
+                            <v-card-title>Nouveau statut</v-card-title>
+                            <v-divider></v-divider>
+                            <v-card-row height="300px">
+                                <v-card-text>
+                                    <v-radio label="En traduction" v-model="selectedStatut" value="En traduction"></v-radio>
+                                    <v-radio label="Questions" v-model="selectedStatut" value="Questions"></v-radio>
+                                    <v-radio label="À révisé" v-model="selectedStatut" value="À révisé"></v-radio>
+                                    <v-radio label="Révision finie" v-model="selectedStatut" value="Révision finie"></v-radio>
+                                    <v-radio label="Liquidé" v-model="selectedStatut" value="Liquidé"></v-radio>
+                                </v-card-text>
+                            </v-card-row>
+                            <v-divider></v-divider>
+                            <v-card-row actions>
+                                <v-btn class="blue--text darken-1" flat @click.native="dialogStatut = false">Annuler</v-btn>
+                                <v-btn class="blue--text darken-1" flat @click.native="setStatut">Enregistrer</v-btn>
+                            </v-card-row>
+                        </v-card>
+                    </v-dialog>
+                          </v-flex>
+                
+                
+<v-flex xs1>
+    <v-dialog v-model="dialogInfo" scrollable>
+        <v-btn icon slot="activator">
+            <v-icon>info</v-icon>
+        </v-btn>
+        <v-card>
+            <v-card-title>Select Country</v-card-title>
+            <v-divider></v-divider>
+            <v-card-row height="300px">
+                <v-card-text>
+
+                </v-card-text>
+            </v-card-row>
+            <v-divider></v-divider>
+            <v-card-row actions>
+                <v-btn class="blue--text darken-1" flat @click.native="dialog = false">Annuler</v-btn>
+                <v-btn class="blue--text darken-1" flat @click.native="dialog = false">Enregistrer</v-btn>
+            </v-card-row>
+        </v-card>
+    </v-dialog>
 
 
-                </v-card>
+</v-flex>
+            </v-layout>
+        </v-card-text>
+    </v-card-column>
+
+
+</v-card>
 </template>
 
 <script>
+    import StatutModal from './StatutModal.vue';
+
     export default {
         props: ['mandat'],
         data() {
             return {
-                statuts: ['En traduction', 'Questions', 'Prêt pour révision', 'Révision finie', 'Liquidé'],
+                statuts: ['En traduction', 'Questions', 'À révisé', 'Révision finie', 'Liquidé'],
+                selectedStatut: '',
+                dialogStatut: false,
+                dialogInfo: false
             };
         },
         methods: {
             setStatut() {
                 const payload = {
                     key: this.mandat['.key'],
-                    newStatut: this.mandat.statut
+                    newStatut: this.selectedStatut
                 };
                 this.$emit('changedStatut', payload);
+                this.dialogStatut = false;
             }
         },
         computed: {
             currentStatut() {
                 if (this.mandat.statut === 'En traduction') {
-                    this.setStatut();
+                    //this.setStatut();
                     return 'amber lighten-1 black--text';
                 } else if (this.mandat.statut === 'Questions') {
-                    this.setStatut();
+                    //this.setStatut();
                     return 'red darken-1 black--text';
-                } else if (this.mandat.statut === 'Prêt pour révision') {
-                    this.setStatut();
+                } else if (this.mandat.statut === 'À révisé') {
+                    //this.setStatut();
                     //send email
                     return 'light-blue lighten-1 black--text';
                 } else if (this.mandat.statut === 'Révision finie') {
-                    this.setStatut();
+                    //this.setStatut();
                     //send email
                     return 'brown darken-1 black--text';
                 } else if (this.mandat.statut === 'Liquidé') {
-                    this.setStatut();
+                    //this.setStatut();
                     // notification
                     return 'light-green accent-4 black--text';
                 } else {
-                    alert('Erreur: statut de mandat inconnu');
+                    console.error('Erreur: statut de mandat inconnu');
                 }
             }
+        },
+        components: {
+            statutModal: StatutModal
         }
     };
 

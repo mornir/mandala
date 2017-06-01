@@ -2,44 +2,44 @@
 <v-card class="mb-5">
     <v-card-text>
         <v-container>
-            <v-row>
-                <v-col xs2>
+            <v-layout>
+                <v-flex xs2>
                     <v-subheader>Date d'arrivée</v-subheader>
-                </v-col>
-                <v-col xs6>
+                </v-flex>
+                <v-flex xs6>
                     <v-menu lazy :close-on-content-click="false" transition="v-scale-transition" right offset-x :nudge-left="20">
                         <v-text-field slot="activator" label="Date d'arrivée" v-model="localize" class="calenderField" readonly ></v-text-field>
                         <v-date-picker v-model="mandat.arrival" no-title scrollable></v-date-picker>
                     </v-menu>
-                </v-col>
-            </v-row>
-                <v-row>
-                <v-col xs2>
+                </v-flex>
+            </v-layout>
+                <v-layout>
+                <v-flex xs2>
                     <v-subheader>Délai fixé</v-subheader>
-                </v-col>
-                <v-col xs6>
+                </v-flex>
+                <v-flex xs6>
                     <v-menu lazy :close-on-content-click="false" transition="v-scale-transition" right offset-x :nudge-left="20">
                         <v-text-field slot="activator" label="Délai fixé" v-model="localize2" class="calenderField" readonly></v-text-field>
                         <v-date-picker v-model="mandat.deadline" no-title scrollable></v-date-picker>
                     </v-menu>
-                </v-col>
-            </v-row>
-                   <v-row>
-                <v-col xs2>
+                </v-flex>
+            </v-layout>
+                   <v-layout>
+                <v-flex xs2>
                     <v-subheader>Moment</v-subheader>
-                </v-col>
-                <v-col xs6>
+                </v-flex>
+                <v-flex xs6>
                     <v-btn-toggle :options="AM_PM_options" v-model="mandat.moment"></v-btn-toggle>
-                </v-col>
-            </v-row>
-            <v-row>
-                <v-col xs2>
+                </v-flex>
+            </v-layout>
+            <v-layout>
+                <v-flex xs2>
                     <v-subheader>Priorité</v-subheader>
-                </v-col>
-                <v-col xs6>
-                    <v-checkbox label="Prioritaire" v-model="mandat.priority" true-value="Prioritaire" false-value="Ordinaire" error light hide-details />
-                </v-col>
-            </v-row>
+                </v-flex>
+                <v-flex xs6>
+                    <v-checkbox label="Prioritaire" v-model="mandat.priority" true-value="Prioritaire" false-value="Ordinaire" error hide-details />
+                </v-flex>
+            </v-layout>
         </v-container>
     </v-card-text>
 </v-card>

@@ -1,6 +1,8 @@
 <template>
 <div>
 
+    <div v-if="currentUser">
+
     <h6 v-if="lateMandats.length" class="titre">En retard</h6>
     <trans-mandat v-for="mandat in lateMandats" :mandat=mandat :key="mandat.code" @changedStatut="newStatut"></trans-mandat>
 
@@ -20,7 +22,10 @@
 
     <h6 v-if="laterMandats.length" class="titre">A rendre plus tard</h6>
     <trans-mandat v-for="mandat in laterMandats" :mandat=mandat :key="mandat.code" @changedStatut="newStatut"></trans-mandat>
-
+    </div>
+    <div v-else>
+        <v-btn success @click.native="login">Se connecter</v-btn>
+</div>
 </div>
 </template>
 
@@ -28,6 +33,10 @@
     import Mandat from "./Mandat.vue";
     import moment from 'moment';
     //import 'moment/locale/fr';
+
+    import {
+        auth
+    } from '../firebase';
 
     import {
         db
@@ -40,24 +49,32 @@
         data() {
             return {
                 mandats: [],
-                currentUser: "Carine"
+                currentUser: null,
             };
         },
         firebase: {
-            mandats: db.ref('mandats/2016').orderByChild("statutFirebase").equalTo(true)
+            //mandats: db.ref('mandats/2016').orderByChild("statutFirebase").equalTo(true)
         },
         methods: {
             newStatut({
                 key,
                 newStatut
             }) {
-                console.log(key);
-                console.log(newStatut);
                 this.$firebaseRefs.mandats.child(key).child('statut').set(newStatut);
                 if (newStatut === 'Liquidé') {
                     this.$firebaseRefs.mandats.child(key).child('statutFirebase').set(false);
                 }
 
+            },
+            login() {
+                auth.signInWithEmailAndPassword('test@test.com', 'test11').catch((error) => {
+                    // Handle Errors here.
+                    this.$router.push('/');
+                    console.log(error);
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                    // ...
+                });
             }
         },
         computed: {
@@ -68,7 +85,6 @@
             },
             tomorrowMandats() {
                 return this.mandats.filter(item => {
-                    //return item.deadline === this.tomorrow;
                     return item.deadline === moment().add(1, 'days').format("DD/MM/YYYY");
                 });
             },
@@ -92,6 +108,21 @@
                     return moment(item.deadline, "DD/MM/YYYY") < moment().subtract(1, 'days');
                 });
             }
+        },
+        beforeCreate() {
+            auth.onAuthStateChanged((user) => {
+                if (user) {
+                    // User is signed in.
+                    this.currentUser = user;
+                    // Bind this instance's 'mandats'
+                    // Firebase reference via vuefire.js' $bindAsArray() method
+                    this.$bindAsArray('mandats', db.ref('mandats/2016').orderByChild("statutFirebase").equalTo(true));
+
+                } else {
+                    // User is signed out.
+                    this.currentUser = null;
+                }
+            });
         },
         components: {
             transMandat: Mandat

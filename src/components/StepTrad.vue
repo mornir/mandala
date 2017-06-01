@@ -2,88 +2,84 @@
 <v-card class="mb-5">
         <v-card-text>
             <v-container>
-                <v-row>
-                    <v-col xs2>
+                <v-layout>
+                    <v-flex xs2>
                         <v-subheader>Public-cible</v-subheader>
-                    </v-col>
-                    <v-col xs8>
+                    </v-flex>
+                    <v-flex xs8>
                         <v-text-field name="public_cible" v-model="mandat.public_cible" label="Public-cible"></v-text-field>
-                    </v-col>
-                </v-row>
-                <v-row>
-                    <v-col xs2>
+                    </v-flex>
+                </v-layout>
+                <v-layout>
+                    <v-flex xs2>
                         <v-subheader>Type de texte</v-subheader>
-                    </v-col>
-                    <v-col xs3>
+                    </v-flex>
+                    <v-flex xs3>
                         <v-select :items="textTypes" v-model="mandat.type" label="Type de texte" auto/>
-                    </v-col>
-                    <v-col xs2>
+                    </v-flex>
+                    <v-flex xs2>
                         <v-subheader>Activité</v-subheader>
-                    </v-col>
-                    <v-col xs3>
+                    </v-flex>
+                    <v-flex xs3>
                         <v-select :items="activities" v-model="mandat.activity" label="Activité" auto/>
-                    </v-col>
-                </v-row>
-                <v-row>
-                    <v-col xs2>
+                    </v-flex>
+                </v-layout>
+                <v-layout>
+                    <v-flex xs2>
                         <v-subheader>Direction</v-subheader>
-                    </v-col>
-                    <v-col xs3>
+                    </v-flex>
+                    <v-flex xs3>
                         <img src="../assets/germany.svg" alt="German" width="40px">
                         <v-btn icon class="black--text  mb-5" @click.native="toggleDirection">
                             <v-icon>{{arrowDirection}}</v-icon>
                         </v-btn>
                         <img src="../assets/france.svg" alt="French" width="40px">
-                    </v-col>
-                    <v-col xs2>
-                        <v-checkbox label="Trados" info light hide-details v-model="mandat.TAO" true-value="Oui" false-value="Non" />
-                    </v-col>
-                </v-row>
-                <v-row>
-                    <v-col xs2>
+                    </v-flex>
+                    <v-flex xs2>
+                        <v-checkbox label="Trados" info hide-details v-model="mandat.TAO" true-value="Oui" false-value="Non" />
+                    </v-flex>
+                </v-layout>
+                <v-layout>
+                    <v-flex xs2>
                         <v-subheader>Révision</v-subheader>
-                    </v-col>
-                    <v-col xs2>
-                        <v-radio label="Jérôme" v-model="mandat.reviewer" value="Jérôme" warning light hide-details />
-                    </v-col>
-                    <v-col xs2>
-                        <v-radio label="Sarah" v-model="mandat.reviewer" value="Sarah" info light hide-details />
-                    </v-col>
-                    <v-col xs2>
-                        <v-radio label="Autre" v-model="mandat.reviewer" value="autre" light hide-details />
-                    </v-col>
-                    <v-col xs2 v-if="mandat.reviewer === 'autre'">
+                    </v-flex>
+                    <v-flex xs2 v-if="displayName !== 'Carine'">
+                        <v-radio label="Carine" v-model="mandat.reviewer" value="Carine" warning hide-details />
+                    </v-flex>
+                    <v-flex xs2 v-if="displayName !== 'Jérôme'">
+                        <v-radio label="Jérôme" v-model="mandat.reviewer" value="Jérôme" warning hide-details />
+                    </v-flex>
+                    <v-flex xs2 v-if="displayName !== 'Sarah'">
+                        <v-radio label="Sarah" v-model="mandat.reviewer" value="Sarah" info hide-details />
+                    </v-flex>
+                    <v-flex xs2>
+                        <v-radio label="Autre" v-model="mandat.reviewer" value="autre"  hide-details />
+                    </v-flex>
+                    <v-flex xs2 v-if="mandat.reviewer === 'autre'">
                         <v-text-field name="autre" v-model="autreReviewer" label="Autre réviseur"></v-text-field>
-                    </v-col>
-                </v-row>
+                    </v-flex>
+                </v-layout>
             </v-container>
         </v-card-text>
     </v-card>
 </template>
 
 <script>
+    import {
+        auth
+    } from '../firebase';
+
     export default {
         props: ['mandat'],
         data() {
             return {
                 autreReviewer: 'sans',
+                reviewer1: '',
+                reviewer2: '',
+                currentUser: null,
                 arrowDirection: 'arrow_forward',
                 textTypes: ['REDAC', 'TEC', 'JUR', 'FINANC'],
-                activities: ['Traduction', 'Adaptation', 'Correction', 'Rédaction', 'Révision'],
-                reviewers: [{
-                        text: 'Jérôme',
-                        value: 'Jérôme'
-                    },
-
-                    {
-                        text: 'Sarah',
-                        value: 'Sarah'
-                    },
-                    {
-                        text: 'Autre',
-                        value: ''
-                    }
-                ]
+                activities: ['Traduction', 'Adaptation', 'Correction', 'Rédaction', 'Révision']
             };
         },
         methods: {
@@ -98,7 +94,27 @@
                     this.arrowDirection = 'arrow_forward';
                 }
             },
-        }
+        },
+        computed: {
+            displayName() {
+                if (this.currentUser === null) {
+                    return '';
+                } else {
+                    return this.currentUser.displayName;
+                }
+            }
+        },
+        beforeCreate() {
+            auth.onAuthStateChanged((user) => {
+                if (user) {
+                    // User is signed in.
+                    this.currentUser = user;
+                } else {
+                    // User is signed out.
+                    this.currentUser = null;
+                }
+            });
+        },
     };
 
 </script>

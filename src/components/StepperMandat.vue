@@ -6,22 +6,25 @@
         <v-stepper-step step="2" :complete="etape > 2" editable edit-icon="check">Calendrier</v-stepper-step>
         <v-divider />
         <v-stepper-step step="3" editable edit-icon="check">Traduction</v-stepper-step>
-    </v-stepper-header> 
+    </v-stepper-header>
+
     <v-stepper-content step="1" class="light-blue lighten-4">
-    <step-admin :mandat=mandat></step-admin>
-    <v-btn primary @click.native="etape = 2">Continuer</v-btn>
+        <step-admin :mandat=mandat></step-admin>
+        <v-btn primary @click.native="etape = 2" light>Continuer</v-btn>
     </v-stepper-content>
-   
-<v-stepper-content step="2" class="light-blue lighten-4">
-<step-cal :mandat=mandat></step-cal>
-<v-btn primary @click.native="etape = 3">Continuer</v-btn>
-<v-btn flat @click.native="etape = 1">Retour</v-btn>
-</v-stepper-content>
-<v-stepper-content step="3" class="light-blue lighten-4">
-    <step-trad :mandat=mandat></step-trad>
-    <v-btn success @click.native="newMandat()">Créer le mandat</v-btn>
-    <v-btn flat @click.native="etape = 2">Retour</v-btn>
-</v-stepper-content>
+
+    <v-stepper-content step="2" class="light-blue lighten-4">
+        <step-cal :mandat=mandat></step-cal>
+        <v-btn primary @click.native="etape = 3" light>Continuer</v-btn>
+        <v-btn flat @click.native="etape = 1">Retour</v-btn>
+    </v-stepper-content>
+
+    <v-stepper-content step="3" class="light-blue lighten-4">
+        <step-trad :mandat=mandat></step-trad>
+        <v-btn success @click.native="newMandat()" light>Créer le mandat</v-btn>
+        <v-btn flat @click.native="etape = 2">Retour</v-btn>
+    </v-stepper-content>
+
 </v-stepper>
 </template>
 
@@ -33,6 +36,10 @@
     import StepTrad from "./StepTrad.vue";
     import {
         db
+    } from '../firebase';
+
+    import {
+        auth
     } from '../firebase';
 
     export default {
@@ -66,7 +73,7 @@
                     TAO: 'Oui',
                     source: 'DE',
                     target: 'FR',
-                    translator: 'Carine',
+                    translator: '',
                     reviewer: 'Jérôme',
                     deadline: new Date(),
                     moment: null,
@@ -94,7 +101,7 @@
                     return item.value > 0;
                 });
 
-
+                this.mandat.translator = auth.currentUser.displayName;
 
                 this.mandat.arrival = new Date(this.mandat.arrival).toLocaleDateString('fr-FR');
                 this.mandat.deadline = new Date(this.mandat.deadline).toLocaleDateString('fr-FR');
