@@ -1,0 +1,11 @@
+{
+  "rules": {
+    ".read": "auth != null",
+    ".write": "auth != null",
+    "mandats": {
+      "2016": {
+        ".indexOn": "statutFirebase"
+      }
+    }
+  }
+}
