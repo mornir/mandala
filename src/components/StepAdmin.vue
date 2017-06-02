@@ -50,6 +50,14 @@
                             <input name="value.name" v-model="value.value" type="number" min="0">
                         </v-flex>
                     </v-layout>
+                         <v-layout>
+                        <v-flex xs3>
+                            <v-subheader>Remarque</v-subheader>
+                        </v-flex>
+                        <v-flex xs8>
+                            <v-text-field name="remarque" v-model="mandat.remarque" label="Remarque" autocomplete="off" multi-line></v-text-field>
+                        </v-flex>
+                    </v-layout>
                 </v-container>
             </v-card-text>
         </v-card>

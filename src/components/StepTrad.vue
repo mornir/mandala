@@ -44,7 +44,7 @@
                         <v-subheader>Révision</v-subheader>
                     </v-flex>
                     <v-flex xs2 v-if="displayName !== 'Carine'">
-                        <v-radio label="Carine" v-model="mandat.reviewer" value="Carine" warning hide-details />
+                        <v-radio label="Carine" v-model="mandat.reviewer" value="Carine" error hide-details />
                     </v-flex>
                     <v-flex xs2 v-if="displayName !== 'Jérôme'">
                         <v-radio label="Jérôme" v-model="mandat.reviewer" value="Jérôme" warning hide-details />

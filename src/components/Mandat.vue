@@ -8,7 +8,7 @@
 
                     <strong>{{mandat.name}}</strong>
                     <div>{{mandat.public_cible}}</div>
-           <!--            <span>{{mandat.type}}</span>,
+                    <!--            <span>{{mandat.type}}</span>,
                  <span>{{mandat.source}}--&#62;{{mandat.target}}</span>,-->
                 </v-flex>
                 <v-flex xs1>
@@ -18,15 +18,7 @@
 
                 </v-flex>
                 <v-flex xs3 class="text-xs-center">
-                    
 
-
-<!--
-                    <div>
-                        <v-icon>move_to_inbox</v-icon>
-                        <span>{{mandat.arrival}}</span>
-                    </div>
--->
                     <div>
                         <v-icon>send</v-icon>
                         <strong>{{mandat.deadline}}</strong>
@@ -51,8 +43,8 @@
                 </v-flex>
                 <v-flex xs2>
 
-                    <v-dialog v-model="dialogStatut" scrollable>
-                        <v-btn outline  slot="activator">{{mandat.statut}}</v-btn>
+                    <v-dialog v-model="dialogStatut" scrollable persistent>
+                        <v-btn outline slot="activator">{{mandat.statut}}</v-btn>
                         <v-card>
                             <v-card-title>Nouveau statut</v-card-title>
                             <v-divider></v-divider>
@@ -72,32 +64,29 @@
                             </v-card-row>
                         </v-card>
                     </v-dialog>
-                          </v-flex>
-                
-                
-<v-flex xs1>
-    <v-dialog v-model="dialogInfo" scrollable>
-        <v-btn icon slot="activator">
-            <v-icon>info</v-icon>
-        </v-btn>
-        <v-card>
-            <v-card-title>Select Country</v-card-title>
-            <v-divider></v-divider>
-            <v-card-row height="300px">
-                <v-card-text>
-
-                </v-card-text>
-            </v-card-row>
-            <v-divider></v-divider>
-            <v-card-row actions>
-                <v-btn class="blue--text darken-1" flat @click.native="dialog = false">Annuler</v-btn>
-                <v-btn class="blue--text darken-1" flat @click.native="dialog = false">Enregistrer</v-btn>
-            </v-card-row>
-        </v-card>
-    </v-dialog>
+                </v-flex>
 
 
-</v-flex>
+                <v-flex xs1>
+                    <v-dialog v-model="dialogInfo" :width="700">
+                        <v-btn icon slot="activator">
+                            <v-icon>info</v-icon>
+                        </v-btn>
+                        <v-card>
+                            <mandat-details :mandat="mandat"></mandat-details>
+
+                            <v-divider></v-divider>
+                            <v-card-row actions>
+                                <button v-clipboard="copyToClipboard">Copy to clipboard</button>
+                                <v-spacer></v-spacer>
+                                <v-btn class="blue--text darken-1" flat @click.native="dialogInfo = false">Annuler</v-btn>
+                                <v-btn class="blue--text darken-1" flat @click.native="dialogInfo = false">Modifier</v-btn>
+                            </v-card-row>
+                        </v-card>
+                    </v-dialog>
+
+
+                </v-flex>
             </v-layout>
         </v-card-text>
     </v-card-column>
@@ -108,6 +97,7 @@
 
 <script>
     import StatutModal from './StatutModal.vue';
+    import MandatDetails from './MandatDetails.vue';
 
     export default {
         props: ['mandat'],
@@ -116,7 +106,17 @@
                 statuts: ['En traduction', 'Questions', 'À révisé', 'Révision finie', 'Liquidé'],
                 selectedStatut: '',
                 dialogStatut: false,
-                dialogInfo: false
+                dialogInfo: false,
+                copyToClipboard: `<table>
+                                      <tr>
+                                        <td>${this.mandat.code}</td>
+                                        <td>${this.mandat.arrival}</td>
+                                        <td>${this.mandat.name}</td>
+                                        <td>${this.mandat.type}</td>
+                                        <td>1 Word</td>
+                                        <td>${this.mandat.activity}</td>
+                                      </tr>
+                                    </table>`
             };
         },
         methods: {
@@ -155,7 +155,8 @@
             }
         },
         components: {
-            statutModal: StatutModal
+            statutModal: StatutModal,
+            mandatDetails: MandatDetails
         }
     };
 

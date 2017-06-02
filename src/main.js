@@ -4,6 +4,7 @@ import VueRouter from 'vue-router';
 import App from './App.vue';
 import Vuetify from 'vuetify';
 import VueFuse from 'vue-fuse';
+import VueClipboards from 'vue-clipboards';
 
 import {
     routes
@@ -20,6 +21,7 @@ Vue.use(VueFire);
 Vue.use(VueRouter);
 Vue.use(Vuetify);
 Vue.use(VueFuse);
+Vue.use(VueClipboards);
 
 new Vue({
     el: '#app',

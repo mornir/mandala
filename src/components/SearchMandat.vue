@@ -1,35 +1,40 @@
 <template>
 <v-layout justify-center>
-    <v-card class="mb-5">
-        <v-card-text>
-
-            <v-layout column>
-                <h5>Rechercher un mandat</h5>
-                <vue-fuse :keys="keys" :list="mandats" :defaultAll="false" eventName="queryChanged">
+    <v-flex xs4>
+        <v-card>
+            <v-card-title class="primary white--text">
+                <span>Rechercher un mandat</span>
+            </v-card-title>
+            <v-card-text>
+                <vue-fuse :keys="keys" :list="mandats" :defaultAll="false" eventName="queryChanged" placeholder="Entrer nom du mandat">
                 </vue-fuse>
                 <v-list>
 
                     <v-list-item v-for="(result, index) in results" key="result.code">
-                          <v-list-tile ripple>
-                        <v-list-tile-content>
-                            <v-list-tile-title v-text="result.name"></v-list-tile-title>
-                        </v-list-tile-content>
-</v-list-tile>
+                        <v-list-tile ripple @click.native="mandat = result">
+                            <v-list-tile-content>
+                                <v-list-tile-title v-text="result.name"></v-list-tile-title>
+                            </v-list-tile-content>
+                        </v-list-tile>
                         <v-divider v-if="index + 1 < results.length"></v-divider>
                     </v-list-item>
 
-
                 </v-list>
-            </v-layout>
-        </v-card-text>
 
-    </v-card>
+            </v-card-text>
 
-
+        </v-card>
+    </v-flex>
+    <v-flex xs8>
+        <v-card v-if="mandat.name">
+            <mandat-details :mandat="mandat"></mandat-details>
+        </v-card>
+    </v-flex>
 </v-layout>
 </template>
 
 <script>
+    import MandatDetails from './MandatDetails.vue';
     import {
         db
     } from '../firebase';
@@ -39,63 +44,30 @@
             return {
                 mandats: [],
                 results: [],
-                centres: ['VKF', 'IRV', 'VKG'],
                 keys: ["name"],
                 mandat: {
                     code: '',
-                    name: 'Nouvelle',
-                    arrival: new Date(),
-                    type: 'REDAC',
-                    activity: 'Traduction',
-                    TAO: 'Oui',
-                    source: 'DE',
-                    target: 'FR',
+                    name: '',
+                    arrival: '',
+                    type: '',
+                    activity: '',
+                    TAO: '',
+                    source: '',
+                    target: '',
                     translator: '',
-                    reviewer: 'Jérôme',
-                    deadline: new Date(),
-                    moment: null,
-                    priority: 'Ordinaire',
+                    reviewer: '',
+                    deadline: '',
+                    moment: '',
+                    priority: '',
                     mandant: '',
-                    public_cible: 'ECA',
-                    costs: 'VKF',
-                    statut: 'En traduction',
-                    statutFirebase: true
-                },
-                bikes: [{
-                        brand: "Schwinn",
-                        model: {
-                            name: "Classic",
-                            id: "1345"
-                        }
-                    },
-                    {
-                        brand: "Red Line",
-                        model: {
-                            name: "Flight",
-                            id: "5430"
-                        }
-                    },
-                    {
-                        brand: "Hoffman",
-                        model: {
-                            name: "Condore",
-                            id: "0543"
-                        }
-                    },
-                    {
-                        brand: "Tribe",
-                        model: {
-                            name: "CRMO",
-                            id: "0432"
-                        }
-                    }
-                ]
+                    public_cible: '',
+                    costs: '',
+                    remarque: ''
+
+                }
             };
         },
         methods: {
-            search() {
-                //this.$bindAsArray('results', db.ref('mandats/2016').orderByChild("name").startAt(this.mandat.name).limitToLast(25));
-            },
             updateResults(results) {
                 console.log("hello");
                 this.results = results;
@@ -108,6 +80,9 @@
         },
         firebase: {
             mandats: db.ref('mandats/2016').orderByChild("statutFirebase").equalTo(false)
+        },
+        components: {
+            mandatDetails: MandatDetails
         }
     };
 

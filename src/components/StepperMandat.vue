@@ -74,13 +74,14 @@
                     source: 'DE',
                     target: 'FR',
                     translator: '',
-                    reviewer: 'Jérôme',
+                    reviewer: '',
                     deadline: new Date(),
                     moment: null,
                     priority: 'Ordinaire',
                     mandant: '',
                     public_cible: 'ECA',
                     costs: 'VKF',
+                    remarque: '',
                     statut: 'En traduction',
                     statutFirebase: true
                 }
