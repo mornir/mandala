@@ -2,6 +2,7 @@ import ListeMandats from './components/ListeMandats.vue';
 import StepperMandat from './components/StepperMandat.vue';
 import SearchMandat from './components/SearchMandat.vue';
 import Settings from './components/Settings.vue';
+import EditMandat from './components/EditMandat.vue';
 
 export const routes = [
     {
@@ -19,5 +20,9 @@ export const routes = [
     {
         path: '/parametres',
         component: Settings
+    },
+    {
+        path: '/edit/:key',
+        component: EditMandat
     }
 ];

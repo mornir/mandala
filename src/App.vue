@@ -55,6 +55,7 @@
 </script>
 
 <style lang="stylus">
-    @import '../node_modules/vuetify/src/stylus/main' @import './css/main.css'
+    @import '../node_modules/vuetify/src/stylus/main' @import '../node_modules/animate.css/animate.min.css' @import './css/main.css'
+    /*@import '../node_modules/vue2-animate/dist/vue2-animate.min.css' */
 
 </style>

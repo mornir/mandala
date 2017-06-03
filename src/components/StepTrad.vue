@@ -44,19 +44,19 @@
                         <v-subheader>Révision</v-subheader>
                     </v-flex>
                     <v-flex xs2 v-if="displayName !== 'Carine'">
-                        <v-radio label="Carine" v-model="mandat.reviewer" value="Carine" error hide-details />
+                        <v-radio label="Carine" v-model="mandat.reviewer" value="Carine" @click.native="autre = false" error hide-details />
                     </v-flex>
                     <v-flex xs2 v-if="displayName !== 'Jérôme'">
-                        <v-radio label="Jérôme" v-model="mandat.reviewer" value="Jérôme" warning hide-details />
+                        <v-radio label="Jérôme" v-model="mandat.reviewer" value="Jérôme" @click.native="autre = false"  warning hide-details />
                     </v-flex>
                     <v-flex xs2 v-if="displayName !== 'Sarah'">
-                        <v-radio label="Sarah" v-model="mandat.reviewer" value="Sarah" info hide-details />
+                        <v-radio label="Sarah" v-model="mandat.reviewer" value="Sarah" @click.native="autre = false" info hide-details />
                     </v-flex>
                     <v-flex xs2>
-                        <v-radio label="Autre" v-model="mandat.reviewer" value="autre"  hide-details />
+                        <v-radio label="Autre" v-model="mandat.reviewer" value="autre"  @click.native="autre = true" hide-details />
                     </v-flex>
-                    <v-flex xs2 v-if="mandat.reviewer === 'autre'">
-                        <v-text-field name="autre" v-model="autreReviewer" label="Autre réviseur"></v-text-field>
+                    <v-flex xs2 v-if="autre">
+                        <v-text-field name="autre" v-model="mandat.reviewer" label="Autre réviseur"></v-text-field>
                     </v-flex>
                 </v-layout>
             </v-container>
@@ -74,8 +74,7 @@
         data() {
             return {
                 autreReviewer: 'sans',
-                reviewer1: '',
-                reviewer2: '',
+                autre: false,
                 currentUser: null,
                 arrowDirection: 'arrow_forward',
                 textTypes: ['REDAC', 'TEC', 'JUR', 'FINANC'],
@@ -94,6 +93,9 @@
                     this.arrowDirection = 'arrow_forward';
                 }
             },
+            fireEvent(payload) {
+                this.$emit('inputChanged', payload);
+            }
         },
         computed: {
             displayName() {

@@ -69,7 +69,7 @@
 
                 <v-flex xs1>
                     <v-dialog v-model="dialogInfo" :width="700">
-                        <v-btn icon slot="activator">
+                        <v-btn icon slot="activator" class="black--text">
                             <v-icon>info</v-icon>
                         </v-btn>
                         <v-card>
@@ -80,7 +80,7 @@
                                 <button v-clipboard="copyToClipboard">Copy to clipboard</button>
                                 <v-spacer></v-spacer>
                                 <v-btn class="blue--text darken-1" flat @click.native="dialogInfo = false">Annuler</v-btn>
-                                <v-btn class="blue--text darken-1" flat @click.native="dialogInfo = false">Modifier</v-btn>
+                                <v-btn v-if="mandat.translator === currentTranslator" class="blue--text darken-1" flat @click.native="editMandat">Modifier</v-btn>
                             </v-card-row>
                         </v-card>
                     </v-dialog>
@@ -99,11 +99,16 @@
     import StatutModal from './StatutModal.vue';
     import MandatDetails from './MandatDetails.vue';
 
+    import {
+        auth
+    } from '../firebase';
+
     export default {
         props: ['mandat'],
         data() {
             return {
                 statuts: ['En traduction', 'Questions', 'À révisé', 'Révision finie', 'Liquidé'],
+                currentTranslator: auth.currentUser.displayName,
                 selectedStatut: '',
                 dialogStatut: false,
                 dialogInfo: false,
@@ -121,12 +126,18 @@
         },
         methods: {
             setStatut() {
+                this.dialogStatut = false;
                 const payload = {
                     key: this.mandat['.key'],
                     newStatut: this.selectedStatut
                 };
+
                 this.$emit('changedStatut', payload);
-                this.dialogStatut = false;
+
+            },
+            editMandat() {
+                this.dialogInfo = false;
+                this.$router.push(`/edit/${this.mandat['.key']}`);
             }
         },
         computed: {

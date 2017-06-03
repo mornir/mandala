@@ -4,7 +4,13 @@
     <div v-if="currentUser">
 
         <h6 v-if="lateMandats.length" class="titre">En retard</h6>
-        <trans-mandat v-for="mandat in lateMandats" :mandat=mandat :key="mandat.code" @changedStatut="newStatut"></trans-mandat>
+
+        <transition-group   name="bounce"
+  enter-active-class="animated bounceInLeft"
+  leave-active-class="animated bounceOutRight">
+   <trans-mandat v-for="mandat in lateMandats" :mandat=mandat :key="mandat.code" @changedStatut="newStatut"></trans-mandat>
+</transition-group>
+        
 
         <h6 v-if="mandatsPrioritaires.length" class="titre">Mandats prioritaires</h6>
         <trans-mandat v-for="mandat in mandatsPrioritaires" :mandat=mandat :key="mandat.code" @changedStatut="newStatut"></trans-mandat>
@@ -102,7 +108,10 @@
             }) {
                 this.$firebaseRefs.mandats.child(key).child('statut').set(newStatut);
                 if (newStatut === 'Liquidé') {
-                    this.$firebaseRefs.mandats.child(key).child('statutFirebase').set(false);
+
+                    setTimeout(() => {
+                        this.$firebaseRefs.mandats.child(key).child('statutFirebase').set(false);
+                    }, 800);
                 }
 
             },
