@@ -92,9 +92,6 @@
                     this.mandat.target = 'FR';
                     this.arrowDirection = 'arrow_forward';
                 }
-            },
-            fireEvent(payload) {
-                this.$emit('inputChanged', payload);
             }
         },
         computed: {
@@ -117,6 +114,11 @@
                 }
             });
         },
+        mounted() {
+            if (this.mandat.source === 'FR') {
+                this.arrowDirection = 'arrow_back';
+            }
+        }
     };
 
 </script>

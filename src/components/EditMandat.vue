@@ -55,23 +55,10 @@
         },
         methods: {
             saveChanges() {
-                //iterate over this.files extract value > 0 push into this.mandat.fichiers
-
-                this.mandat.fichiers = this.mandat.fichiers.filter(item => {
-                    return item.value > 0;
-                });
-
-                this.mandat.arrival = new Date(this.mandat.arrival).toLocaleDateString('fr-FR');
-                this.mandat.deadline = new Date(this.mandat.deadline).toLocaleDateString('fr-FR');
-
                 const updatedMandat = this.mandat;
-
                 delete updatedMandat['.key'];
-
                 db.ref('mandats/2016').child(this.$route.params.key).set(updatedMandat);
-
-                //this.$router.push('/');
-
+                this.$router.push('/');
             }
         },
         components: {

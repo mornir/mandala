@@ -47,7 +47,7 @@
                     </v-layout>
                     <v-layout>
                         <v-flex xs2 v-for="(value, index) in mandat.fichiers" :key="value.name" :class="{ 'offset-xs3': index === 0}">
-                            <input name="value.name" v-model="value.value" type="number" min="0">
+                            <input name="value.name" v-model.number="value.value" type="number" min="0">
                         </v-flex>
                     </v-layout>
                          <v-layout>

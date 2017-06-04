@@ -118,7 +118,7 @@
                                         <td>${this.mandat.arrival}</td>
                                         <td>${this.mandat.name}</td>
                                         <td>${this.mandat.type}</td>
-                                        <td>1 Word</td>
+                                        <td>${JSON.stringify(this.mandat.fichiers)}</td>
                                         <td>${this.mandat.activity}</td>
                                       </tr>
                                     </table>`
@@ -137,7 +137,16 @@
             },
             editMandat() {
                 this.dialogInfo = false;
-                this.$router.push(`/edit/${this.mandat['.key']}`);
+
+                setTimeout(() => {
+                    this.$router.push({
+                        name: 'edit',
+                        params: {
+                            key: this.mandat['.key']
+                        }
+                    });
+                }, 100);
+
             }
         },
         computed: {

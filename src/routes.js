@@ -23,6 +23,7 @@ export const routes = [
     },
     {
         path: '/edit/:key',
+        name: 'edit',
         component: EditMandat
     }
 ];

@@ -8,8 +8,9 @@
                 </v-flex>
                 <v-flex xs6>
                     <v-menu lazy :close-on-content-click="false" transition="v-scale-transition" right offset-x :nudge-left="20">
-                        <v-text-field slot="activator" label="Date d'arrivée" v-model="localize" class="calenderField" readonly ></v-text-field>
-                        <v-date-picker v-model="mandat.arrival" no-title scrollable></v-date-picker>
+                        <v-text-field slot="activator" label="Date d'arrivée" v-model="mandat.arrival" class="calenderField" readonly ></v-text-field>
+                        <v-date-picker v-model="arrivalDate" no-title scrollable :date-format="date => new Date(date).toLocaleDateString('fr-FR')"
+          :formatted-value.sync="mandat.arrival"></v-date-picker>
                     </v-menu>
                 </v-flex>
             </v-layout>
@@ -19,8 +20,9 @@
                 </v-flex>
                 <v-flex xs6>
                     <v-menu lazy :close-on-content-click="false" transition="v-scale-transition" right offset-x :nudge-left="20">
-                        <v-text-field slot="activator" label="Délai fixé" v-model="localize2" class="calenderField" readonly></v-text-field>
-                        <v-date-picker v-model="mandat.deadline" no-title scrollable></v-date-picker>
+                        <v-text-field slot="activator" label="Délai fixé" v-model="mandat.deadline" class="calenderField" readonly></v-text-field>
+                        <v-date-picker v-model="deadlineDate" no-title scrollable  :date-format="date => new Date(date).toLocaleDateString('fr-FR')"
+          :formatted-value.sync="mandat.deadline"></v-date-picker>
                     </v-menu>
                 </v-flex>
             </v-layout>
@@ -46,6 +48,7 @@
 </template>
 
 <script>
+    import moment from 'moment';
     export default {
         props: ['mandat'],
         data() {
@@ -62,11 +65,11 @@
             };
         },
         computed: {
-            localize() {
-                return new Date(this.mandat.arrival).toLocaleDateString('fr-FR');
+            arrivalDate() {
+                return moment(this.mandat.arrival, "DD/MM/YYYY");
             },
-            localize2() {
-                return new Date(this.mandat.deadline).toLocaleDateString('fr-FR');
+            deadlineDate() {
+                return moment(this.mandat.deadline, "DD/MM/YYYY");
             }
         }
     };

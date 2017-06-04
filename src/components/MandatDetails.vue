@@ -29,7 +29,7 @@
                     <div>Centre de coûts</div><strong>{{mandat.costs}}</strong>
                 </v-flex>
                 <v-flex xs5 sm4 md3 lg2>
-                    <div>Fichiers</div><strong><ul><li v-for="file in mandat.fichiers">{{file.value}} {{file.name}}</li></ul></strong>
+                    <div>Fichiers</div><strong><ul><li v-for="file in mandat.fichiers" v-if="file.value">{{file.value}} {{file.name}}</li></ul></strong>
                 </v-flex>
                 <v-flex xs5 sm4 md3 lg2>
                     <div>Public-cible</div><strong>{{mandat.public_cible}}</strong>

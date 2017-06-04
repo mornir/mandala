@@ -50,22 +50,26 @@
                 mandat: {
                     code: '',
                     name: '',
-                    arrival: new Date(),
+                    arrival: new Date().toLocaleDateString('fr-FR'),
                     fichiers: [{
-                            name: 'Word',
-                            value: 1
+                            value: 1,
+                            name: 'Word'
+
                         },
                         {
-                            name: 'Excel',
                             value: 0,
+                            name: 'Excel'
+
                         },
                         {
-                            name: 'PPT',
                             value: 0,
+                            name: 'PPT'
+
                         },
                         {
-                            name: 'PDF',
                             value: 0,
+                            name: 'PDF'
+
                         }
                     ],
                     type: 'REDAC',
@@ -75,13 +79,13 @@
                     target: 'FR',
                     translator: '',
                     reviewer: '',
-                    deadline: new Date(),
+                    deadline: new Date().toLocaleDateString('fr-FR'),
                     moment: null,
                     priority: 'Ordinaire',
                     mandant: '',
                     public_cible: 'ECA',
                     costs: 'VKF',
-                    remarque: '',
+                    remarque: 'Aucune',
                     statut: 'En traduction',
                     statutFirebase: true
                 }
@@ -93,16 +97,7 @@
         methods: {
             newMandat() {
 
-                //iterate over this.files extract value > 0 push into this.mandat.fichiers
-
-                this.mandat.fichiers = this.mandat.fichiers.filter(item => {
-                    return item.value > 0;
-                });
-
                 this.mandat.translator = auth.currentUser.displayName;
-
-                this.mandat.arrival = new Date(this.mandat.arrival).toLocaleDateString('fr-FR');
-                this.mandat.deadline = new Date(this.mandat.deadline).toLocaleDateString('fr-FR');
 
                 this.mandat.code = this.generateCode();
 

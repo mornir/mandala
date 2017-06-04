@@ -13,21 +13,42 @@
         
 
         <h6 v-if="mandatsPrioritaires.length" class="titre">Mandats prioritaires</h6>
+        <transition-group   name="bounce"
+  enter-active-class="animated bounceInLeft"
+  leave-active-class="animated bounceOutRight">
         <trans-mandat v-for="mandat in mandatsPrioritaires" :mandat=mandat :key="mandat.code" @changedStatut="newStatut"></trans-mandat>
+            </transition-group>
 
 
         <h6 v-if="todayMandats.length" class="titre">A rendre aujourd'hui</h6>
         <!--        <span v-else>Aucun mandat à rendre aujourd'hui</span>-->
+        <transition-group   name="bounce"
+  enter-active-class="animated bounceInLeft"
+  leave-active-class="animated bounceOutRight">
         <trans-mandat v-for="mandat in todayMandats" :mandat=mandat :key="mandat.code" @changedStatut="newStatut"></trans-mandat>
+            </transition-group>
 
         <h6 v-if="tomorrowMandats.length" class="titre">A rendre demain</h6>
+        <transition-group   name="bounce"
+  enter-active-class="animated bounceInLeft"
+  leave-active-class="animated bounceOutRight">
         <trans-mandat v-for="mandat in tomorrowMandats" :mandat=mandat :key="mandat.code" @changedStatut="newStatut"></trans-mandat>
+            </transition-group>
 
         <h6 v-if="weekMandats.length" class="titre">A rendre cette semaine</h6>
+        <transition-group   name="bounce"
+  enter-active-class="animated bounceInLeft"
+  leave-active-class="animated bounceOutRight">
         <trans-mandat v-for="mandat in weekMandats" :mandat=mandat :key="mandat.code" @changedStatut="newStatut"></trans-mandat>
+            </transition-group>
 
-        <h6 v-if="laterMandats.length" class="titre">A rendre plus tard</h6>
+        <h6 v-if="laterMandats.length" class="titre">A rendre la semaine prochaine ou plus tard encore</h6>
+        <transition-group   name="bounce"
+  enter-active-class="animated fadeIn"
+  leave-active-class="animated bounceOutRight">
         <trans-mandat v-for="mandat in laterMandats" :mandat=mandat :key="mandat.code" @changedStatut="newStatut"></trans-mandat>
+            </transition-group>
+
     </div>
 
 
@@ -59,7 +80,6 @@
 <script>
     import Mandat from "./Mandat.vue";
     import moment from 'moment';
-    //import 'moment/locale/fr';
 
     import {
         auth
@@ -68,9 +88,6 @@
     import {
         db
     } from '../firebase';
-
-    //necessary?
-    //moment.locale('fr');
 
     export default {
         data() {

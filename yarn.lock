@@ -3324,9 +3324,9 @@ vuefire@^1.4.3:
   version "1.4.3"
   resolved "https://registry.yarnpkg.com/vuefire/-/vuefire-1.4.3.tgz#6ad02e10d191efefbc1ca78da1611772289ff74c"
 
-vuetify@^0.12.2:
-  version "0.12.2"
-  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-0.12.2.tgz#3cab4c271e9069e50fe77846879370ad86cc3e92"
+vuetify@^0.12.6:
+  version "0.12.6"
+  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-0.12.6.tgz#11f7d01910e1c4a7d6c10d0af72f1a596c6732b1"
   dependencies:
     vue "^2.3.3"
     vue-server-renderer "^2.3.3"
