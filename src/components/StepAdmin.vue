@@ -8,7 +8,7 @@
                             <v-subheader>Nom du projet</v-subheader>
                         </v-flex>
                         <v-flex xs8>
-                            <v-text-field name="name" v-model="mandat.name" label="Nom du projet" autocomplete="off"></v-text-field>
+                            <v-text-field name="name" v-model.trim="mandat.name" label="Nom du projet" autocomplete="off"></v-text-field>
                         </v-flex>
                     </v-layout>
                     <v-layout>
@@ -25,7 +25,7 @@
                         </v-flex>
 
                         <v-flex xs4>
-                            <v-text-field name="mandant" v-model="mandat.mandant" label="Mandant"></v-text-field>
+                            <v-text-field name="mandant" v-model.trim="mandat.mandant" label="Mandant"></v-text-field>
                         </v-flex>
                     </v-layout>
                     <v-layout>
@@ -55,7 +55,7 @@
                             <v-subheader>Remarque</v-subheader>
                         </v-flex>
                         <v-flex xs8>
-                            <v-text-field name="remarque" v-model="mandat.remarque" label="Remarque" autocomplete="off" multi-line></v-text-field>
+                            <v-text-field name="remarque" v-model.trim="mandat.remarque" label="Remarque" autocomplete="off" multi-line></v-text-field>
                         </v-flex>
                     </v-layout>
                 </v-container>

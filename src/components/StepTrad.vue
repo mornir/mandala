@@ -7,7 +7,7 @@
                         <v-subheader>Public-cible</v-subheader>
                     </v-flex>
                     <v-flex xs8>
-                        <v-text-field name="public_cible" v-model="mandat.public_cible" label="Public-cible"></v-text-field>
+                        <v-text-field name="public_cible" v-model.trim="mandat.public_cible" label="Public-cible"></v-text-field>
                     </v-flex>
                 </v-layout>
                 <v-layout>
@@ -43,13 +43,13 @@
                     <v-flex xs2>
                         <v-subheader>Révision</v-subheader>
                     </v-flex>
-                    <v-flex xs2 v-if="displayName !== 'Carine'">
+                    <v-flex xs2 v-if="currentUser.displayName !== 'Carine'">
                         <v-radio label="Carine" v-model="mandat.reviewer" value="Carine" @click.native="autre = false" error hide-details />
                     </v-flex>
-                    <v-flex xs2 v-if="displayName !== 'Jérôme'">
+                    <v-flex xs2 v-if="currentUser.displayName !== 'Jérôme'">
                         <v-radio label="Jérôme" v-model="mandat.reviewer" value="Jérôme" @click.native="autre = false"  warning hide-details />
                     </v-flex>
-                    <v-flex xs2 v-if="displayName !== 'Sarah'">
+                    <v-flex xs2 v-if="currentUser.displayName !== 'Sarah'">
                         <v-radio label="Sarah" v-model="mandat.reviewer" value="Sarah" @click.native="autre = false" info hide-details />
                     </v-flex>
                     <v-flex xs2>
@@ -75,7 +75,7 @@
             return {
                 autreReviewer: 'sans',
                 autre: false,
-                currentUser: null,
+                currentUser: {},
                 arrowDirection: 'arrow_forward',
                 textTypes: ['REDAC', 'TEC', 'JUR', 'FINANC'],
                 activities: ['Traduction', 'Adaptation', 'Correction', 'Rédaction', 'Révision']
@@ -91,15 +91,6 @@
                     this.mandat.source = 'DE';
                     this.mandat.target = 'FR';
                     this.arrowDirection = 'arrow_forward';
-                }
-            }
-        },
-        computed: {
-            displayName() {
-                if (this.currentUser === null) {
-                    return '';
-                } else {
-                    return this.currentUser.displayName;
                 }
             }
         },

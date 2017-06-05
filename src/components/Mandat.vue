@@ -179,7 +179,6 @@
                     return 'brown darken-1 black--text';
                 } else if (this.mandat.statut === 'Liquidé') {
                     //this.setStatut();
-                    // notification
                     return 'light-green accent-4 black--text';
                 } else {
                     console.error('Erreur: statut de mandat inconnu');
