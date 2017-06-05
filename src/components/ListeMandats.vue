@@ -60,7 +60,8 @@
             </v-card-title>
             <v-card-text>
                 <v-select :items="users" v-model="selectedUser" label="Traducteur" auto></v-select>
-                <v-text-field name="password" label="Mot de passe" v-model="password" hide-details :rules="[checkError]"></v-text-field>
+                <v-text-field name="password" label="Mot de passe" v-model="password" hide-details></v-text-field>
+                <span v-if="errorMessage" style="color:red">{{errorMessage}}</span>
             </v-card-text>
             <v-divider></v-divider>
             <v-card-row actions>
@@ -173,9 +174,6 @@
                 return this.mandats.filter(item => {
                     return moment(item.deadline, "DD/MM/YYYY") < moment().subtract(1, 'days');
                 });
-            },
-            checkError() {
-                return this.errorMessage ? this.errorMessage : true;
             }
         },
         beforeCreate() {

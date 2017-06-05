@@ -85,8 +85,8 @@
                     mandant: '',
                     public_cible: 'ECA',
                     costs: 'VKF',
-                    remarque: 'Aucune',
-                    statut: 'En traduction',
+                    remarque: '',
+                    statut: 'Traduction',
                     statutFirebase: true
                 }
             };

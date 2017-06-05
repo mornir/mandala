@@ -9,7 +9,7 @@
                 <v-flex xs6>
                     <v-menu lazy :close-on-content-click="false" transition="v-scale-transition" right offset-x :nudge-left="20">
                         <v-text-field slot="activator" label="Date d'arrivée" v-model="mandat.arrival" class="calenderField" readonly ></v-text-field>
-                        <v-date-picker v-model="arrivalDate" no-title scrollable :date-format="date => new Date(date).toLocaleDateString('fr-FR')"
+                        <v-date-picker :allowed-dates="disableWeekends" :days="days" :months="months" v-model="arrivalDate" no-title scrollable :date-format="date => new Date(date).toLocaleDateString('fr-FR')"
           :formatted-value.sync="mandat.arrival"></v-date-picker>
                     </v-menu>
                 </v-flex>
@@ -21,7 +21,7 @@
                 <v-flex xs6>
                     <v-menu lazy :close-on-content-click="false" transition="v-scale-transition" right offset-x :nudge-left="20">
                         <v-text-field slot="activator" label="Délai fixé" v-model="mandat.deadline" class="calenderField" readonly></v-text-field>
-                        <v-date-picker v-model="deadlineDate" no-title scrollable  :date-format="date => new Date(date).toLocaleDateString('fr-FR')"
+                        <v-date-picker :allowed-dates="disableWeekends" :days="days" :months="months" v-model="deadlineDate" no-title scrollable  :date-format="date => new Date(date).toLocaleDateString('fr-FR')"
           :formatted-value.sync="mandat.deadline"></v-date-picker>
                     </v-menu>
                 </v-flex>
@@ -53,13 +53,18 @@
         props: ['mandat'],
         data() {
             return {
+                days: ['Dimance', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+                months: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+                disableWeekends: (date) => {
+                    return !(date.getDay() === 0 || date.getDay() === 6);
+                },
                 AM_PM_options: [{
-                        text: 'AM',
-                        value: 1
+                        text: 'Matin',
+                        value: 'Matin'
                     },
                     {
-                        text: 'PM',
-                        value: 2
+                        text: 'Après-midi',
+                        value: 'Après-midi'
                     },
                 ]
             };

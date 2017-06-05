@@ -50,7 +50,7 @@
                             <v-divider></v-divider>
                             <v-card-row height="300px">
                                 <v-card-text>
-                                    <v-radio label="En traduction" v-model="selectedStatut" value="En traduction"></v-radio>
+                                    <v-radio label="Traduction" v-model="selectedStatut" value="Traduction"></v-radio>
                                     <v-radio label="Questions" v-model="selectedStatut" value="Questions"></v-radio>
                                     <v-radio label="À révisé" v-model="selectedStatut" value="À révisé"></v-radio>
                                     <v-radio label="Révision finie" v-model="selectedStatut" value="Révision finie"></v-radio>
@@ -107,7 +107,7 @@
         props: ['mandat'],
         data() {
             return {
-                statuts: ['En traduction', 'Questions', 'À révisé', 'Révision finie', 'Liquidé'],
+                statuts: ['Traduction', 'Questions', 'À révisé', 'Révision finie', 'Liquidé'],
                 currentTranslator: auth.currentUser.displayName,
                 selectedStatut: '',
                 dialogStatut: false,
@@ -118,8 +118,20 @@
                                         <td>${this.mandat.arrival}</td>
                                         <td>${this.mandat.name}</td>
                                         <td>${this.mandat.type}</td>
-                                        <td>${JSON.stringify(this.mandat.fichiers)}</td>
+                                        <td>1 Word</td>
                                         <td>${this.mandat.activity}</td>
+                                        <td>${this.mandat.TAO}</td>
+                                        <td>${this.mandat.source}</td>
+                                        <td>${this.mandat.target}</td>
+                                        <td>${this.mandat.translator}</td>
+                                        <td>${this.mandat.reviewer}</td>
+                                        <td>${this.mandat.remarque}</td>
+                                        <td>${this.mandat.deadline}</td>
+                                        <td>${this.mandat.priority}</td>
+                                        <td>${this.mandat.mandant}</td>
+                                        <td>${this.mandat.public_cible}</td>
+                                        <td>${this.mandat.costs}</td>
+                                        <td>${this.mandat.statut}</td>
                                       </tr>
                                     </table>`
             };
@@ -151,7 +163,7 @@
         },
         computed: {
             currentStatut() {
-                if (this.mandat.statut === 'En traduction') {
+                if (this.mandat.statut === 'Traduction') {
                     //this.setStatut();
                     return 'amber lighten-1 black--text';
                 } else if (this.mandat.statut === 'Questions') {
