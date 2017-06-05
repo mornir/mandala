@@ -16,7 +16,7 @@
         "vue-fuse": "^1.1.0",
         "vue-router": "^2.5.3",
         "vuefire": "^1.4.3",
-        "vuetify": "^0.12.6"
+        "vuetify": "^0.12.7"
     },
     "devDependencies": {
         "buble": "^0.15.2",
