@@ -69,7 +69,6 @@
         },
         methods: {
             updateResults(results) {
-                console.log("hello");
                 this.results = results;
             }
         },

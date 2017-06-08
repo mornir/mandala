@@ -45,7 +45,7 @@
         computed: {
             revisions() {
                 return this.mandats.filter((mandat) => {
-                    return mandat.reviewer === this.currentTranslator && mandat.statut === "À révisé";
+                    return mandat.reviewer === this.currentTranslator && mandat.statut === "À réviser";
                 });
             },
             traductions() {

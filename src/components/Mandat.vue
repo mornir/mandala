@@ -52,7 +52,7 @@
                                 <v-card-text>
                                     <v-radio label="Traduction" v-model="selectedStatut" value="Traduction"></v-radio>
                                     <v-radio label="Questions" v-model="selectedStatut" value="Questions"></v-radio>
-                                    <v-radio label="À révisé" v-model="selectedStatut" value="À révisé"></v-radio>
+                                    <v-radio label="À réviser" v-model="selectedStatut" value="À réviser"></v-radio>
                                     <v-radio label="Révision finie" v-model="selectedStatut" value="Révision finie"></v-radio>
                                     <v-radio label="Liquidé" v-model="selectedStatut" value="Liquidé"></v-radio>
                                 </v-card-text>
@@ -107,7 +107,7 @@
         props: ['mandat'],
         data() {
             return {
-                statuts: ['Traduction', 'Questions', 'À révisé', 'Révision finie', 'Liquidé'],
+                statuts: ['Traduction', 'Questions', 'À réviser', 'Révision finie', 'Liquidé'],
                 currentTranslator: auth.currentUser.displayName,
                 selectedStatut: '',
                 dialogStatut: false,
@@ -139,12 +139,15 @@
         methods: {
             setStatut() {
                 this.dialogStatut = false;
-                const payload = {
-                    key: this.mandat['.key'],
-                    newStatut: this.selectedStatut
-                };
-
-                this.$emit('changedStatut', payload);
+                //                const payload = {
+                //                    key: this.mandat['.key'],
+                //                    newStatut: this.selectedStatut
+                //                };
+                //
+                //                console.log('hello from mandat');
+                //
+                //                this.$emit('changedStatut', payload);
+                this.$emit('changedStatut', this.selectedStatut);
 
             },
             editMandat() {
@@ -169,7 +172,7 @@
                 } else if (this.mandat.statut === 'Questions') {
                     //this.setStatut();
                     return 'red darken-1 black--text';
-                } else if (this.mandat.statut === 'À révisé') {
+                } else if (this.mandat.statut === 'À réviser') {
                     //this.setStatut();
                     //send email
                     return 'light-blue lighten-1 black--text';
