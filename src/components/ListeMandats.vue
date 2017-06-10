@@ -2,7 +2,7 @@
 <div>
 
     <div v-if="currentUser">
-
+        <div v-if="mandats.length">
         <h6 v-if="lateMandats.length" class="titre">En retard</h6>
 
         <transition-group   name="bounce"
@@ -43,30 +43,16 @@
   leave-active-class="animated bounceOutRight">
         <trans-mandat v-for="mandat in laterMandats" :mandat=mandat :key="mandat.code" @changedStatut="newStatut($event, mandat)"></trans-mandat>
             </transition-group>
+            </div>
+        <v-layout  v-else  justify-center>
+      <span class="title"><v-icon>beach_access</v-icon>  Aucun mandat en cours <v-icon>beach_access</v-icon></span>
+        </v-layout>
 
     </div>
 
-
     <v-layout v-else justify-center>
+        <login-screen></login-screen>
 
-        <v-card>
-            <v-card-title class="primary white--text">
-                <span>Se connecter</span>
-            </v-card-title>
-            <v-card-text>
-                <v-select :items="users" v-model="selectedUser" label="Traducteur" auto></v-select>
-                <v-text-field name="password" label="Mot de passe" v-model="password" hide-details></v-text-field>
-                <span v-if="errorMessage" style="color:red">{{errorMessage}}</span>
-            </v-card-text>
-            <v-divider></v-divider>
-            <v-card-row actions>
-                <v-spacer></v-spacer>
-                <v-btn flat success @click.native="login">Se connecter</v-btn>
-                <v-spacer></v-spacer>
-            </v-card-row>
-
-
-        </v-card>
     </v-layout>
 
 
@@ -76,6 +62,7 @@
 <script>
     import Mandat from "./Mandat.vue";
     import moment from 'moment';
+    import LoginScreen from "./LoginScreen.vue";
 
     import {
         auth
@@ -89,26 +76,7 @@
         data() {
             return {
                 mandats: [],
-                currentUser: {},
-                users: [{
-                        text: 'Carine',
-                        email: 'carine@test.com'
-                    },
-                    {
-                        text: 'Jérôme',
-                        email: 'test@test.com'
-                    },
-                    {
-                        text: 'Sarah',
-                        email: 'sarah@test.com'
-                    }
-                ],
-                selectedUser: {
-                    text: 'Carine',
-                    email: 'carine@test.com'
-                },
-                password: '',
-                errorMessage: ''
+                currentUser: {}
             };
         },
         //        firebase: {
@@ -134,16 +102,6 @@
                     }, 500);
                 }
 
-            },
-            login() {
-                //test@test.com, test11
-                auth.signInWithEmailAndPassword(this.selectedUser.email, this.password).catch((error) => {
-                    // Handle Errors here.
-                    console.log(error.message);
-                    if (error.code === 'auth/wrong-password') {
-                        this.errorMessage = 'Mot de passe incorrect';
-                    }
-                });
             }
         },
         computed: {
@@ -185,8 +143,7 @@
                     this.currentUser = user;
                     // Bind this instance's 'mandats'
                     // Firebase reference via vuefire.js' $bindAsArray() method
-                    //this.$bindAsArray('mandats', db.ref('mandats/2016').orderByChild("statutFirebase").equalTo(true));
-                    this.$bindAsArray('mandats', db.ref('mandatsEnCours'));
+                    this.$bindAsArray('mandats', db.ref('mandatsEnCours').orderByChild('timeStamp'));
 
                 } else {
                     // User is signed out.
@@ -195,7 +152,8 @@
             });
         },
         components: {
-            transMandat: Mandat
+            transMandat: Mandat,
+            loginScreen: LoginScreen
         }
     };
 

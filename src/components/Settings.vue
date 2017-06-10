@@ -45,7 +45,7 @@
             logout() {
                 auth.signOut().then(() => {
                     console.log('Signed Out');
-                    this.$router.push('/');
+                    this.$router.push('mesmandats');
                 }, (error) => {
                     console.error('Sign Out Error', error);
                 });

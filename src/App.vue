@@ -1,36 +1,38 @@
 <template>
 <v-app>
     <v-toolbar light>
-        <router-link tag="v-toolbar-logo" to="/" id="logo">MandaLa</router-link>
+        <router-link tag="v-toolbar-logo" to="mesmandats" id="logo">MandaLa</router-link>
         <v-toolbar-items>
+            <template v-if="currentUser">
+                <v-toolbar-item ripple :router=true href="mesmandats">
+                    <v-icon>person</v-icon>Mes mandats</v-toolbar-item>
+                <v-toolbar-item ripple :router=true href="touslesmandats">
+                    <v-icon>import_export</v-icon>Mandats</v-toolbar-item>
 
-            <v-toolbar-item ripple :router=true href="/">
-                <v-icon>import_export</v-icon>Mandats</v-toolbar-item>
-            <v-toolbar-item ripple :router=true href="mesmandats" v-if="currentUser">
-                <v-icon>person</v-icon>Mes mandats</v-toolbar-item>
-            <v-toolbar-item ripple :router=true href="nouveau" v-if="currentUser">
-                <v-icon>add</v-icon>Nouveau</v-toolbar-item>
-            <v-toolbar-item ripple :router=true href="rechercher" v-if="currentUser">
-                <v-icon>search</v-icon>Rechercher</v-toolbar-item>
+                <v-toolbar-item ripple :router=true href="nouveau">
+                    <v-icon>add</v-icon>Nouveau</v-toolbar-item>
+                <v-toolbar-item ripple :router=true href="rechercher">
+                    <v-icon>search</v-icon>Rechercher</v-toolbar-item>
 
 
-            <v-toolbar-item ripple :router=true href="parametres" v-if="currentUser">
-                <v-icon light>settings</v-icon>
-            </v-toolbar-item>
+                <v-toolbar-item ripple :router=true href="parametres">
+                    <v-icon light>settings</v-icon>
+                </v-toolbar-item>
+            </template>
 
-            <v-toolbar-item ripple>
-                <v-icon light>help_outline</v-icon>
-            </v-toolbar-item>
-        </v-toolbar-items>
-    </v-toolbar>
-    <main id="mainContainer">
-        <v-container>
-            <transition name="fade" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in" :duration="300">
-                <router-view></router-view>
-            </transition>
-        </v-container>
+<v-toolbar-item ripple>
+    <v-icon light>help_outline</v-icon>
+</v-toolbar-item>
+</v-toolbar-items>
+</v-toolbar>
+<main id="mainContainer">
+    <v-container>
+        <transition name="fade" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in" :duration="300">
+            <router-view></router-view>
+        </transition>
+    </v-container>
 
-    </main>
+</main>
 </v-app>
 </template>
 

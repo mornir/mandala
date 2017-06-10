@@ -87,7 +87,8 @@
                     public_cible: 'ECA',
                     costs: 'VKF',
                     remarque: '',
-                    statut: 'Traduction'
+                    statut: 'Traduction',
+                    timeStamp: 0
                 }
             };
         },
@@ -102,10 +103,16 @@
             newMandat() {
 
                 this.mandat.translator = auth.currentUser.displayName;
+
+                if (this.mandat.priority === 'Prioritaire') {
+                    this.mandat.timeStamp = moment(this.mandat.deadline, "DD/MM/YYYY").format('x');
+                }
+
                 this.mandat.code = this.generateCode();
                 const cleanCode = this.mandat.code.replace(/\./g, '_');
                 db.ref('mandatsEnCours').child(cleanCode).set(this.mandat);
-                this.$router.push('/');
+
+                this.$router.push('mesmandats');
 
 
                 /********

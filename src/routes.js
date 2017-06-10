@@ -7,7 +7,7 @@ import MesMandats from './components/MesMandats.vue';
 
 export const routes = [
     {
-        path: '/',
+        path: '/touslesmandats',
         component: ListeMandats
     },
     {
@@ -30,5 +30,9 @@ export const routes = [
         path: '/edit/:key',
         name: 'edit',
         component: EditMandat
+    },
+    {
+        path: '*',
+        redirect: '/mesmandats'
     }
 ];
