@@ -7,14 +7,14 @@
 
         <transition-group   name="bounce"
   leave-active-class="animated bounceOutRight">
-   <trans-mandat v-for="mandat in lateMandats" :mandat=mandat :key="mandat.code" @changedStatut="newStatut(mandat, $event)"></trans-mandat>
+   <trans-mandat v-for="mandat in lateMandats" :mandat=mandat :key="mandat.code" @changedStatut="newStatut($event, mandat)"></trans-mandat>
 </transition-group>
         
 
         <h6 v-if="mandatsPrioritaires.length" class="titre">Mandats prioritaires</h6>
         <transition-group   name="bounce"
   leave-active-class="animated bounceOutRight">
-        <trans-mandat v-for="mandat in mandatsPrioritaires" :mandat=mandat :key="mandat.code" @changedStatut="newStatut(mandat, $event)"></trans-mandat>
+        <trans-mandat v-for="mandat in mandatsPrioritaires" :mandat=mandat :key="mandat.code" @changedStatut="newStatut($event, mandat)"></trans-mandat>
             </transition-group>
 
 
@@ -29,19 +29,19 @@
         <h6 v-if="tomorrowMandats.length" class="titre">A rendre demain</h6>
         <transition-group   name="bounce"
   leave-active-class="animated bounceOutRight">
-        <trans-mandat v-for="mandat in tomorrowMandats" :mandat=mandat :key="mandat.code" @changedStatut="newStatut(mandat, $event)"></trans-mandat>
+        <trans-mandat v-for="mandat in tomorrowMandats" :mandat=mandat :key="mandat.code" @changedStatut="newStatut($event, mandat)"></trans-mandat>
             </transition-group>
 
         <h6 v-if="weekMandats.length" class="titre">A rendre cette semaine</h6>
         <transition-group   name="bounce"
   leave-active-class="animated bounceOutRight">
-        <trans-mandat v-for="mandat in weekMandats" :mandat=mandat :key="mandat.code" @changedStatut="newStatut(mandat, $event)"></trans-mandat>
+        <trans-mandat v-for="mandat in weekMandats" :mandat=mandat :key="mandat.code" @changedStatut="newStatut($event, mandat)"></trans-mandat>
             </transition-group>
 
         <h6 v-if="laterMandats.length" class="titre">A rendre la semaine prochaine ou plus tard encore</h6>
         <transition-group   name="bounce"
   leave-active-class="animated bounceOutRight">
-        <trans-mandat v-for="mandat in laterMandats" :mandat=mandat :key="mandat.code" @changedStatut="newStatut(mandat, $event)"></trans-mandat>
+        <trans-mandat v-for="mandat in laterMandats" :mandat=mandat :key="mandat.code" @changedStatut="newStatut($event, mandat)"></trans-mandat>
             </transition-group>
 
     </div>
@@ -111,12 +111,11 @@
                 errorMessage: ''
             };
         },
-        firebase: {
-            mandats: db.ref('mandatsEnCours')
-        },
+        //        firebase: {
+        //            mandats: db.ref('mandatsEnCours')
+        //        },
         methods: {
             newStatut(newStatut, mandat) {
-
 
                 const key = mandat['.key'];
                 this.$firebaseRefs.mandats.child(key).child('statut').set(newStatut);
@@ -124,13 +123,15 @@
                 if (newStatut === "Liquidé") {
 
                     const year = "20" + mandat.code.substring(0, 2);
+                    //const monthName = moment(mandat.code.substring(3, 5), "MM").format("MMMM"); Move to Codepen
+
                     const archivedMandat = mandat;
                     // TO DO create year from substring of mandat.deadline
                     delete archivedMandat['.key'];
-                    db.ref('mandats/' + year).child(key).set(archivedMandat);
+                    db.ref("mandats/" + year).child(key).set(archivedMandat);
                     setTimeout(() => {
                         this.$firebaseRefs.mandats.child(key).remove();
-                    }, 800);
+                    }, 500);
                 }
 
             },

@@ -87,8 +87,7 @@
                     public_cible: 'ECA',
                     costs: 'VKF',
                     remarque: '',
-                    statut: 'Traduction',
-                    statutFirebase: true
+                    statut: 'Traduction'
                 }
             };
         },
@@ -103,35 +102,55 @@
             newMandat() {
 
                 this.mandat.translator = auth.currentUser.displayName;
-
                 this.mandat.code = this.generateCode();
-
                 const cleanCode = this.mandat.code.replace(/\./g, '_');
-
                 db.ref('mandatsEnCours').child(cleanCode).set(this.mandat);
-
-                //this.$firebaseRefs.mandats.push(this.mandat);
-
                 this.$router.push('/');
 
-            },
-            generateCode() {
-                let counterValue = 1;
 
-                if (this.counter['.value']) {
-                    counterValue = this.counter['.value'];
-                }
+                /********
+                this.mandat.translator = auth.currentUser.displayName;
 
                 const year = moment().format("YY");
                 const month = moment().format("MM");
-                const number = ("00" + counterValue).slice(-3);
+
+                //handel error
+                this.getCounterValue().then((result) => {
+                    const number = ("00" + result.snapshot.val()).slice(-3);
+                    this.mandat.code = `${year}.${month}.${number}`;
+                    const cleanCode = this.mandat.code.replace(/\./g, '_');
+                    db.ref('mandatsEnCours').child(cleanCode).set(this.mandat);
+                });
+
+                this.$router.push('/'); //inside the callback??
+                
+                ********/
+
+            },
+            generateCode() {
+
+                //.set fonctionne aussi. mais avec .transaction, il est possible d'initialiser le counter à zéro if it was undefined before.
+                //handel error??
+                this.$firebaseRefs.counter.transaction((currentValue) => {
+                    return (currentValue || 0) + 1;
+                });
+
+                const year = moment().format("YY");
+                const month = moment().format("MM");
+                const number = ("00" + this.counter['.value']).slice(-3);
                 const code = `${year}.${month}.${number}`;
-
-                db.ref('counters').child(moment().format('YYYY')).child(moment().format('MMMM')).set(counterValue + 1);
-
                 return code;
 
             }
+            //            getCounterValue() {
+            //                if (!this.counter['.value']) {
+            //                    db.ref('counters').child(moment().format('YYYY')).child(moment().format('MMMM')).set(0);
+            //                }
+            //
+            //                return db.ref('counters').child(moment().format('YYYY')).child(moment().format('MMMM')).transaction((currentValue) => {
+            //                    return currentValue + 1;
+            //                });
+            //            }
         },
         components: {
             stepAdmin: StepAdmin,

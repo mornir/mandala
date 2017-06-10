@@ -139,14 +139,6 @@
         methods: {
             setStatut() {
                 this.dialogStatut = false;
-                //                const payload = {
-                //                    key: this.mandat['.key'],
-                //                    newStatut: this.selectedStatut
-                //                };
-                //
-                //                console.log('hello from mandat');
-                //
-                //                this.$emit('changedStatut', payload);
                 this.$emit('changedStatut', this.selectedStatut);
 
             },

@@ -48,7 +48,7 @@
         firebase() {
             return {
                 mandat: {
-                    source: db.ref('mandats/2016/' + this.$route.params.key),
+                    source: db.ref('mandatsEnCours/' + this.$route.params.key),
                     asObject: true
                 }
             };
@@ -57,7 +57,7 @@
             saveChanges() {
                 const updatedMandat = this.mandat;
                 delete updatedMandat['.key'];
-                db.ref('mandats/2016').child(this.$route.params.key).set(updatedMandat);
+                db.ref('mandatsEnCours/').child(this.$route.params.key).set(updatedMandat);
                 this.$router.push('/');
             }
         },

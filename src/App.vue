@@ -23,7 +23,7 @@
             </v-toolbar-item>
         </v-toolbar-items>
     </v-toolbar>
-    <main>
+    <main id="mainContainer">
         <v-container>
             <transition name="fade" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in" :duration="300">
                 <router-view></router-view>

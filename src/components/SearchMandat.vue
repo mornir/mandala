@@ -78,7 +78,7 @@
             });
         },
         firebase: {
-            mandats: db.ref('mandats/2016').orderByChild("statutFirebase").equalTo(false)
+            mandats: db.ref('mandats/2017')
         },
         components: {
             mandatDetails: MandatDetails
