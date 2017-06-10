@@ -2,7 +2,7 @@
 <div>
 
     <div v-if="currentUser">
-        <div v-if="mandats.length">
+        <div v-if="mandats.length && isMandats">
 
             <h6 class="titre" v-if="traductions.length">Mes traductions</h6>
 
@@ -17,7 +17,7 @@
             </transition-group>
         </div>
         <v-layout v-else justify-center>
-            <div class="title">
+            <div class="title" v-if="isMandats">
                 <p>Tu n'as aucune traduction ni révision en cours...</p>
                 <p>C'est le bon moment pour archiver des mandats ou créer des fiches dans MultiTerm
                     <v-icon>mood</v-icon>
@@ -34,8 +34,9 @@
 </template>
 
 <script>
-    import Mandat from "./Mandat.vue";
     import moment from 'moment';
+
+    import Mandat from "./Mandat.vue";
     import LoginScreen from "./LoginScreen.vue";
 
     import {
@@ -51,7 +52,8 @@
             return {
                 test: false,
                 currentUser: {},
-                mandats: []
+                mandats: [],
+                isMandats: false
             };
         },
         firebase: {
@@ -76,7 +78,10 @@
                     this.currentUser = user;
                     // Bind this instance's 'mandats'
                     // Firebase reference via vuefire.js' $bindAsArray() method
-                    this.$bindAsArray('mandats', db.ref('mandatsEnCours').orderByChild('timeStamp'));
+                    this.$bindAsArray('mandats', db.ref('mandatsEnCours').orderByChild('timeStamp'), null, () => {
+                        this.isMandats = true;
+                    });
+
 
                 } else {
                     // User is signed out.

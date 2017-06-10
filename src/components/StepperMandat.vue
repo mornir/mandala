@@ -79,7 +79,7 @@
                     source: 'DE',
                     target: 'FR',
                     translator: '',
-                    reviewer: '',
+                    reviewer: 'Jérôme',
                     deadline: new Date().toLocaleDateString('fr-FR'),
                     moment: null,
                     priority: 'Ordinaire',

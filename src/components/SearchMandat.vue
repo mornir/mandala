@@ -6,6 +6,7 @@
                 <span>Rechercher un mandat</span>
             </v-card-title>
             <v-card-text>
+                <v-select :items="years" v-model="selectedYear" label="Année" auto></v-select>
                 <vue-fuse :keys="keys" :list="mandats" :defaultAll="false" eventName="queryChanged" placeholder="Entrer nom du mandat">
                 </vue-fuse>
                 <v-list>
@@ -44,6 +45,8 @@
             return {
                 mandats: [],
                 results: [],
+                years: ['2017', '2018', '2019', '2020'],
+                selectedYear: '2017',
                 keys: ["name"],
                 mandat: {
                     code: '',
@@ -71,14 +74,27 @@
             updateResults(results) {
                 this.results = results;
             }
+
         },
         created() {
             this.$on('queryChanged', results => {
                 this.results = results;
             });
+            //
+            //            this.yearsRef.forEach((item) => {
+            //                console.log(item);
+            //                this.years.push(item['.key']);
+            //            });
+
         },
-        firebase: {
-            mandats: db.ref('mandats/2017')
+
+
+
+        firebase() {
+            return {
+                mandats: db.ref('mandats/2017')
+                //years: db.ref('counters')
+            }
         },
         components: {
             mandatDetails: MandatDetails

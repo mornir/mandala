@@ -2,7 +2,7 @@
 <div>
 
     <div v-if="currentUser">
-        <div v-if="mandats.length">
+        <div v-if="mandats.length && isMandats">
         <h6 v-if="lateMandats.length" class="titre">En retard</h6>
 
         <transition-group   name="bounce"
@@ -19,7 +19,6 @@
 
 
         <h6 v-if="todayMandats.length" class="titre">A rendre aujourd'hui</h6>
-        <!--        <span v-else>Aucun mandat à rendre aujourd'hui</span>-->
         
         <transition-group   name="bounce"
   leave-active-class="animated bounceOutRight">
@@ -45,10 +44,11 @@
             </transition-group>
             </div>
         <v-layout  v-else  justify-center>
-      <span class="title"><v-icon>beach_access</v-icon>  Aucun mandat en cours <v-icon>beach_access</v-icon></span>
+      <span class="title" v-if="isMandats"><v-icon>beach_access</v-icon>  Aucun mandat en cours <v-icon>beach_access</v-icon></span>
         </v-layout>
 
     </div>
+
 
     <v-layout v-else justify-center>
         <login-screen></login-screen>
@@ -60,8 +60,9 @@
 </template>
 
 <script>
-    import Mandat from "./Mandat.vue";
     import moment from 'moment';
+
+    import Mandat from "./Mandat.vue";
     import LoginScreen from "./LoginScreen.vue";
 
     import {
@@ -76,12 +77,10 @@
         data() {
             return {
                 mandats: [],
-                currentUser: {}
+                currentUser: {},
+                isMandats: false
             };
         },
-        //        firebase: {
-        //            mandats: db.ref('mandatsEnCours')
-        //        },
         methods: {
             newStatut(newStatut, mandat) {
 
@@ -143,7 +142,9 @@
                     this.currentUser = user;
                     // Bind this instance's 'mandats'
                     // Firebase reference via vuefire.js' $bindAsArray() method
-                    this.$bindAsArray('mandats', db.ref('mandatsEnCours').orderByChild('timeStamp'));
+                    this.$bindAsArray('mandats', db.ref('mandatsEnCours').orderByChild('timeStamp'), null, () => {
+                        this.isMandats = true;
+                    });
 
                 } else {
                     // User is signed out.
