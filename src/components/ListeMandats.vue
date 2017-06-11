@@ -93,9 +93,8 @@
                     //const monthName = moment(mandat.code.substring(3, 5), "MM").format("MMMM"); Move to Codepen
 
                     const archivedMandat = mandat;
-                    // TO DO create year from substring of mandat.deadline
                     delete archivedMandat['.key'];
-                    db.ref("mandats/" + year).child(key).set(archivedMandat);
+                    db.ref("mandatsLiquidés/" + year).child(key).set(archivedMandat);
                     setTimeout(() => {
                         this.$firebaseRefs.mandats.child(key).remove();
                     }, 500);
@@ -106,32 +105,32 @@
         computed: {
             todayMandats() {
                 return this.mandats.filter(item => {
-                    return item.deadline === moment().format("DD/MM/YYYY");
+                    return item.délai === moment().format("DD/MM/YYYY");
                 });
             },
             tomorrowMandats() {
                 return this.mandats.filter(item => {
-                    return item.deadline === moment().add(1, 'days').format("DD/MM/YYYY");
+                    return item.délai === moment().add(1, 'days').format("DD/MM/YYYY");
                 });
             },
             laterMandats() {
                 return this.mandats.filter(item => {
-                    return moment(item.deadline, "DD/MM/YYYY").isoWeek() > moment().isoWeek();
+                    return moment(item.délai, "DD/MM/YYYY").isoWeek() > moment().isoWeek();
                 });
             },
             mandatsPrioritaires() {
                 return this.mandats.filter(item => {
-                    return item.priority === "Prioritaire";
+                    return item.priorité === "Prioritaire";
                 });
             },
             weekMandats() {
                 return this.mandats.filter(item => {
-                    return moment(item.deadline, "DD/MM/YYYY").isoWeek() == moment().isoWeek() && moment(item.deadline, "DD/MM/YYYY") > moment().add(1, 'days');
+                    return moment(item.délai, "DD/MM/YYYY").isoWeek() == moment().isoWeek() && moment(item.délai, "DD/MM/YYYY") > moment().add(1, 'days');
                 });
             },
             lateMandats() {
                 return this.mandats.filter(item => {
-                    return moment(item.deadline, "DD/MM/YYYY") < moment().subtract(1, 'days');
+                    return moment(item.délai, "DD/MM/YYYY") < moment().subtract(1, 'days');
                 });
             }
         },

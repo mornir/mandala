@@ -8,7 +8,7 @@
                             <v-subheader>Nom du projet</v-subheader>
                         </v-flex>
                         <v-flex xs8>
-                            <v-text-field name="name" v-model.trim="mandat.name" label="Nom du projet" autocomplete="off"></v-text-field>
+                            <v-text-field name="name" v-model.trim="mandat.nom" label="Nom du projet" autocomplete="off"></v-text-field>
                         </v-flex>
                     </v-layout>
                     <v-layout>
@@ -17,7 +17,7 @@
                         </v-flex>
 
                         <v-flex xs2>
-                            <v-select :items="centres" v-model="mandat.costs" single-line auto/>
+                            <v-select :items="centres" v-model="mandat.centre_coûts" single-line auto/>
                         </v-flex>
 
                         <v-flex xs2>
@@ -46,8 +46,8 @@
                         </v-flex>
                     </v-layout>
                     <v-layout>
-                        <v-flex xs2 v-for="(value, index) in mandat.fichiers" :key="value.name" :class="{ 'offset-xs3': index === 0}">
-                            <input name="value.name" v-model.number="value.value" type="number" min="0">
+                        <v-flex xs2 v-for="(fichier, index) in mandat.fichiers" :key="fichier.fichier" :class="{ 'offset-xs3': index === 0}">
+                            <input name="fichier.fichier" v-model.number="fichier.nombre" type="number" min="0">
                         </v-flex>
                     </v-layout>
                          <v-layout>

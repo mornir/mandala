@@ -50,42 +50,42 @@
                 counter: {},
                 mandat: {
                     code: '',
-                    name: '',
-                    arrival: new Date().toLocaleDateString('fr-FR'),
+                    nom: '',
+                    arrivée: new Date().toLocaleDateString('fr-FR'),
                     fichiers: [{
-                            value: 1,
-                            name: 'Word'
+                            nombre: 1,
+                            fichier: 'Word'
 
                         },
                         {
-                            value: 0,
-                            name: 'Excel'
+                            nombre: 0,
+                            fichier: 'Excel'
 
                         },
                         {
-                            value: 0,
-                            name: 'PPT'
+                            nombre: 0,
+                            fichier: 'PPT'
 
                         },
                         {
-                            value: 0,
-                            name: 'PDF'
+                            nombre: 0,
+                            fichier: 'PDF'
 
                         }
                     ],
                     type: 'REDAC',
-                    activity: 'Traduction',
+                    activité: 'Traduction',
                     TAO: 'Oui',
                     source: 'DE',
-                    target: 'FR',
-                    translator: '',
-                    reviewer: 'Jérôme',
-                    deadline: new Date().toLocaleDateString('fr-FR'),
+                    cible: 'FR',
+                    traducteur: '',
+                    réviseur: 'Jérôme',
+                    délai: new Date().toLocaleDateString('fr-FR'),
                     moment: null,
-                    priority: 'Ordinaire',
+                    priorité: 'Ordinaire',
                     mandant: '',
                     public_cible: 'ECA',
-                    costs: 'VKF',
+                    centre_coûts: 'VKF',
                     remarque: '',
                     statut: 'Traduction',
                     timeStamp: 0
@@ -95,24 +95,24 @@
         firebase: {
             mandats: db.ref('mandatsEnCours'),
             counter: {
-                source: db.ref('counters').child(moment().format('YYYY')).child(moment().format('MMMM')),
+                source: db.ref('compteurs').child(moment().format('YYYY')).child(moment().format('MMMM')),
                 asObject: true
             }
         },
         methods: {
             newMandat() {
 
-                this.mandat.translator = auth.currentUser.displayName;
+                this.mandat.traducteur = auth.currentUser.displayName;
 
-                if (this.mandat.priority === 'Prioritaire') {
-                    this.mandat.timeStamp = moment(this.mandat.deadline, "DD/MM/YYYY").format('x');
+                if (this.mandat.priorité === 'Prioritaire') {
+                    this.mandat.timeStamp = moment(this.mandat.délai, "DD/MM/YYYY").format('x');
                 }
 
                 this.mandat.code = this.generateCode();
                 const cleanCode = this.mandat.code.replace(/\./g, '_');
                 db.ref('mandatsEnCours').child(cleanCode).set(this.mandat);
 
-                this.$router.push('mesmandats');
+                //this.$router.push('mesmandats');
 
 
                 /********

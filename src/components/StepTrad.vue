@@ -21,7 +21,7 @@
                         <v-subheader>Activité</v-subheader>
                     </v-flex>
                     <v-flex xs3>
-                        <v-select :items="activities" v-model="mandat.activity" label="Activité" auto/>
+                        <v-select :items="activities" v-model="mandat.activité" label="Activité" auto/>
                     </v-flex>
                 </v-layout>
                 <v-layout>
@@ -44,19 +44,19 @@
                         <v-subheader>Révision</v-subheader>
                     </v-flex>
                     <v-flex xs2 v-if="currentUser.displayName !== 'Carine'">
-                        <v-radio label="Carine" v-model="mandat.reviewer" value="Carine" @click.native="autre = false" error hide-details />
+                        <v-radio label="Carine" v-model="mandat.réviseur" value="Carine" @click.native="autre = false" error hide-details />
                     </v-flex>
                     <v-flex xs2 v-if="currentUser.displayName !== 'Jérôme'">
-                        <v-radio label="Jérôme" v-model="mandat.reviewer" value="Jérôme" @click.native="autre = false"  warning hide-details />
+                        <v-radio label="Jérôme" v-model="mandat.réviseur" value="Jérôme" @click.native="autre = false"  warning hide-details />
                     </v-flex>
                     <v-flex xs2 v-if="currentUser.displayName !== 'Sarah'">
-                        <v-radio label="Sarah" v-model="mandat.reviewer" value="Sarah" @click.native="autre = false" info hide-details />
+                        <v-radio label="Sarah" v-model="mandat.réviseur" value="Sarah" @click.native="autre = false" info hide-details />
                     </v-flex>
                     <v-flex xs2>
-                        <v-radio label="Autre" v-model="mandat.reviewer" value="autre"  @click.native="autre = true" hide-details />
+                        <v-radio label="Autre" v-model="mandat.réviseur" value="autre"  @click.native="autre = true" hide-details />
                     </v-flex>
                     <v-flex xs2 v-if="autre">
-                        <v-text-field name="autre" v-model="mandat.reviewer" label="Autre réviseur"></v-text-field>
+                        <v-text-field name="autre" v-model="mandat.réviseur" label="Autre réviseur"></v-text-field>
                     </v-flex>
                 </v-layout>
             </v-container>
@@ -83,13 +83,13 @@
         },
         methods: {
             toggleDirection() {
-                if (this.mandat.source === 'DE' && this.mandat.target === 'FR') {
+                if (this.mandat.source === 'DE') {
                     this.mandat.source = 'FR';
-                    this.mandat.target = 'DE';
+                    this.mandat.cible = 'DE';
                     this.arrowDirection = 'arrow_back';
                 } else {
                     this.mandat.source = 'DE';
-                    this.mandat.target = 'FR';
+                    this.mandat.cible = 'FR';
                     this.arrowDirection = 'arrow_forward';
                 }
             }

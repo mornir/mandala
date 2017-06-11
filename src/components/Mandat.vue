@@ -6,22 +6,21 @@
             <v-layout>
                 <v-flex xs4>
 
-                    <strong>{{mandat.name}}</strong>
+                    <strong>{{mandat.nom}}</strong>
                     <div>{{mandat.public_cible}}</div>
-                    <!--            <span>{{mandat.type}}</span>,
-                 <span>{{mandat.source}}--&#62;{{mandat.target}}</span>,-->
+                    
                 </v-flex>
                 <v-flex xs1>
 
                     <strong>{{mandat.code}}</strong>
-                    <div :class="{prioritaireClass: mandat.priority === 'Prioritaire'}">{{mandat.priority}}</div>
+                    <div :class="{prioritaireClass: mandat.priority === 'Prioritaire'}">{{mandat.priorité}}</div>
 
                 </v-flex>
                 <v-flex xs3 class="text-xs-center">
 
                     <div>
                         <v-icon>send</v-icon>
-                        <strong>{{mandat.deadline}}</strong>
+                        <strong>{{mandat.délai}}</strong>
                     </div>
                     <div>
                         <v-icon>person</v-icon>
@@ -33,11 +32,11 @@
 
                     <div>
                         <v-icon>edit</v-icon>
-                        <strong>{{mandat.translator}}</strong>
+                        <strong>{{mandat.traducteur}}</strong>
                     </div>
                     <div>
                         <v-icon>spellcheck</v-icon>
-                        <strong>{{mandat.reviewer}}</strong>
+                        <strong>{{mandat.réviseur}}</strong>
                     </div>
 
                 </v-flex>
@@ -80,7 +79,7 @@
                                 <button v-clipboard="copyToClipboard">Copy to clipboard</button>
                                 <v-spacer></v-spacer>
                                 <v-btn class="blue--text darken-1" flat @click.native="dialogInfo = false">Annuler</v-btn>
-                                <v-btn v-if="mandat.translator === currentTranslator" class="blue--text darken-1" flat @click.native="editMandat">Modifier</v-btn>
+                                <v-btn v-if="mandat.traducteur === currentTranslator" class="blue--text darken-1" flat @click.native="editMandat">Modifier</v-btn>
                             </v-card-row>
                         </v-card>
                     </v-dialog>
@@ -96,7 +95,6 @@
 </template>
 
 <script>
-    import StatutModal from './StatutModal.vue';
     import MandatDetails from './MandatDetails.vue';
 
     import {
@@ -115,22 +113,22 @@
                 copyToClipboard: `<table>
                                       <tr>
                                         <td>${this.mandat.code}</td>
-                                        <td>${this.mandat.arrival}</td>
-                                        <td>${this.mandat.name}</td>
+                                        <td>${this.mandat.arrivée}</td>
+                                        <td>${this.mandat.nom}</td>
                                         <td>${this.mandat.type}</td>
                                         <td>1 Word</td>
-                                        <td>${this.mandat.activity}</td>
+                                        <td>${this.mandat.activité}</td>
                                         <td>${this.mandat.TAO}</td>
                                         <td>${this.mandat.source}</td>
-                                        <td>${this.mandat.target}</td>
-                                        <td>${this.mandat.translator}</td>
-                                        <td>${this.mandat.reviewer}</td>
+                                        <td>${this.mandat.cible}</td>
+                                        <td>${this.mandat.traducteur}</td>
+                                        <td>${this.mandat.réviseur}</td>
                                         <td>${this.mandat.remarque}</td>
-                                        <td>${this.mandat.deadline}</td>
-                                        <td>${this.mandat.priority}</td>
+                                        <td>${this.mandat.délai}</td>
+                                        <td>${this.mandat.priorité}</td>
                                         <td>${this.mandat.mandant}</td>
                                         <td>${this.mandat.public_cible}</td>
-                                        <td>${this.mandat.costs}</td>
+                                        <td>${this.mandat.centre_coûts}</td>
                                         <td>${this.mandat.statut}</td>
                                       </tr>
                                     </table>`
@@ -140,7 +138,6 @@
             setStatut() {
                 this.dialogStatut = false;
                 this.$emit('changedStatut', this.selectedStatut);
-
             },
             editMandat() {
                 this.dialogInfo = false;
@@ -181,7 +178,6 @@
             }
         },
         components: {
-            statutModal: StatutModal,
             mandatDetails: MandatDetails
         }
     };

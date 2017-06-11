@@ -14,7 +14,7 @@
                     <v-list-item v-for="(result, index) in results" key="result.code">
                         <v-list-tile ripple @click.native="mandat = result">
                             <v-list-tile-content>
-                                <v-list-tile-title v-text="result.name"></v-list-tile-title>
+                                <v-list-tile-title v-text="result.nom"></v-list-tile-title>
                             </v-list-tile-content>
                         </v-list-tile>
                         <v-divider v-if="index + 1 < results.length"></v-divider>
@@ -27,7 +27,7 @@
         </v-card>
     </v-flex>
     <v-flex xs8>
-        <v-card v-if="mandat.name">
+        <v-card v-if="mandat.nom">
             <mandat-details :mandat="mandat"></mandat-details>
         </v-card>
     </v-flex>
@@ -47,25 +47,25 @@
                 results: [],
                 years: ['2017', '2018', '2019', '2020'],
                 selectedYear: '2017',
-                keys: ["name"],
+                keys: ["nom"],
                 mandat: {
-                    code: '',
-                    name: '',
-                    arrival: '',
-                    type: '',
-                    activity: '',
-                    TAO: '',
-                    source: '',
-                    target: '',
-                    translator: '',
-                    reviewer: '',
-                    deadline: '',
-                    moment: '',
-                    priority: '',
-                    mandant: '',
-                    public_cible: '',
-                    costs: '',
-                    remarque: ''
+                    //                    code: '',
+                    //                    nom: '',
+                    //                    arrivée: '',
+                    //                    type: '',
+                    //                    activity: '',
+                    //                    TAO: '',
+                    //                    source: '',
+                    //                    target: '',
+                    //                    translator: '',
+                    //                    reviewer: '',
+                    //                    deadline: '',
+                    //                    moment: '',
+                    //                    priority: '',
+                    //                    mandant: '',
+                    //                    public_cible: '',
+                    //                    costs: '',
+                    //                    remarque: ''
 
                 }
             };
@@ -92,7 +92,7 @@
 
         firebase() {
             return {
-                mandats: db.ref('mandats/2017')
+                mandats: db.ref('mandatsLiquidés/2017')
                 //years: db.ref('counters')
             }
         },

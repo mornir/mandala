@@ -5,14 +5,14 @@
         <v-toolbar-items>
             <template v-if="currentUser">
                 <v-toolbar-item ripple :router=true href="mesmandats">
-                    <v-icon>person</v-icon>Mes mandats</v-toolbar-item>
+                    <v-icon>person</v-icon><span class="hidden-sm-and-down">Mes mandats</span></v-toolbar-item>
                 <v-toolbar-item ripple :router=true href="touslesmandats">
-                    <v-icon>import_export</v-icon>Mandats</v-toolbar-item>
+                    <v-icon>import_export</v-icon><span class="hidden-sm-and-down">Mandats</span></v-toolbar-item>
 
                 <v-toolbar-item ripple :router=true href="nouveau">
-                    <v-icon>add</v-icon>Nouveau</v-toolbar-item>
+                    <v-icon>add</v-icon><span class="hidden-sm-and-down">Nouveau</span></v-toolbar-item>
                 <v-toolbar-item ripple :router=true href="rechercher">
-                    <v-icon>search</v-icon>Rechercher</v-toolbar-item>
+                    <v-icon>search</v-icon><span class="hidden-sm-and-down">Rechercher</span></v-toolbar-item>
 
 
                 <v-toolbar-item ripple :router=true href="parametres">
