@@ -1,33 +1,26 @@
 <template>
-    <v-layout justify-center>
-        <v-card>
-        <v-card-title class="primary white--text">
-            Mon profil
-            
-        </v-card-title>
-            <v-card-text>
-           <v-card-row>
-               <div class="subheading">
-                <span>Mon prénom : </span>
-                <strong>{{currentUser.displayName }}</strong>
+<v-layout justify-center>
+    <v-card>
+        <v-card-title class="primary white--text">Mon profil</v-card-title>
+        <v-card-text>
+            <v-card-row>
+                <div class="subheading">
+                    <span>Mon prénom : </span>
+                    <strong>{{currentUser.displayName}}</strong>
                 </div>
-                </v-card-row>
-                  
-                  <v-text-field
-              name="displayName"
-              label="Nouveau prénom"
-                                v-model="displayName"
-            ></v-text-field>
-          <v-btn @click.native="update">Mettre à jour le prénom</v-btn>
-                
-                <v-btn error @click.native="logout">Se déconnecter</v-btn>
-            
-            </v-card-text>
-        
-        
-        </v-card>
-  
-  </v-layout>
+            </v-card-row>
+
+            <v-text-field name="displayName" label="Nouveau prénom" v-model="displayName"></v-text-field>
+            <v-btn @click.native="update">Mettre à jour le prénom</v-btn>
+
+            <v-btn error @click.native="logout">Se déconnecter</v-btn>
+
+        </v-card-text>
+
+
+    </v-card>
+
+</v-layout>
 </template>
 
 <script>

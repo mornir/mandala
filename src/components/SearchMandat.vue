@@ -35,6 +35,8 @@
 </template>
 
 <script>
+    import moment from 'moment';
+
     import MandatDetails from './MandatDetails.vue';
     import {
         db
@@ -45,29 +47,11 @@
             return {
                 mandats: [],
                 results: [],
-                years: ['2017', '2018', '2019', '2020'],
-                selectedYear: '2017',
+                years2: ['2017', '2018', '2019', '2020'],
+                years: [],
+                selectedYear: 2017,
                 keys: ["nom"],
-                mandat: {
-                    //                    code: '',
-                    //                    nom: '',
-                    //                    arrivée: '',
-                    //                    type: '',
-                    //                    activity: '',
-                    //                    TAO: '',
-                    //                    source: '',
-                    //                    target: '',
-                    //                    translator: '',
-                    //                    reviewer: '',
-                    //                    deadline: '',
-                    //                    moment: '',
-                    //                    priority: '',
-                    //                    mandant: '',
-                    //                    public_cible: '',
-                    //                    costs: '',
-                    //                    remarque: ''
-
-                }
+                mandat: {}
             };
         },
         methods: {
@@ -80,20 +64,15 @@
             this.$on('queryChanged', results => {
                 this.results = results;
             });
-            //
-            //            this.yearsRef.forEach((item) => {
-            //                console.log(item);
-            //                this.years.push(item['.key']);
-            //            });
+
+            for (let i = moment().year(); i >= 2017; i--) {
+                this.years.push(i);
+            }
 
         },
-
-
-
         firebase() {
             return {
-                mandats: db.ref('mandatsLiquidés/2017')
-                //years: db.ref('counters')
+                mandats: db.ref('mandatsLiquidés/' + this.selectedYear),
             }
         },
         components: {
