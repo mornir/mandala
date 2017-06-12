@@ -112,7 +112,7 @@
                 const cleanCode = this.mandat.code.replace(/\./g, '_');
                 db.ref('mandatsEnCours').child(cleanCode).set(this.mandat);
 
-                //this.$router.push('mesmandats');
+                this.$router.push('mesmandats');
 
 
                 /********

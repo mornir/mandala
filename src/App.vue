@@ -1,17 +1,17 @@
 <template>
 <v-app>
     <v-toolbar light>
-        <router-link tag="v-toolbar-logo" to="mesmandats" id="logo">MandaLa</router-link>
+        <router-link tag="v-toolbar-logo" to="/mesmandats" id="logo">MandaLa</router-link>
         <v-toolbar-items>
             <template v-if="currentUser">
-                <v-toolbar-item ripple :router=true href="mesmandats">
+                <v-toolbar-item ripple :router=true href="/mesmandats">
                     <v-icon>person</v-icon><span class="hidden-sm-and-down">Mes mandats</span></v-toolbar-item>
-                <v-toolbar-item ripple :router=true href="touslesmandats">
+                <v-toolbar-item ripple :router=true href="/touslesmandats">
                     <v-icon>import_export</v-icon><span class="hidden-sm-and-down">Mandats</span></v-toolbar-item>
 
-                <v-toolbar-item ripple :router=true href="nouveau">
+                <v-toolbar-item ripple :router=true href="/nouveau">
                     <v-icon>add</v-icon><span class="hidden-sm-and-down">Nouveau</span></v-toolbar-item>
-                <v-toolbar-item ripple :router=true href="rechercher">
+                <v-toolbar-item ripple :router=true href="/rechercher">
                     <v-icon>search</v-icon><span class="hidden-sm-and-down">Rechercher</span></v-toolbar-item>
 
 
