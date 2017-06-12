@@ -8,7 +8,7 @@
 
                     <strong>{{mandat.nom}}</strong>
                     <div>{{mandat.public_cible}}</div>
-                    
+
                 </v-flex>
                 <v-flex xs1>
 
