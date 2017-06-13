@@ -78,7 +78,7 @@
                             <v-card-row actions>
                                 <button v-clipboard="copyToClipboard">Copy to clipboard</button>
                                 <v-spacer></v-spacer>
-                                <v-btn class="blue--text darken-1" flat @click.native="closeModal">Annuler</v-btn>
+                                <v-btn class="blue--text darken-1" flat @click.native="dialogInfo = false">Annuler</v-btn>
                                 <v-btn v-if="mandat.traducteur === currentTranslator" class="blue--text darken-1" flat @click.native="editMandat">Modifier</v-btn>
                             </v-card-row>
                         </v-card>
@@ -152,12 +152,6 @@
                     });
                 }, 100);
 
-            },
-            closeModal(){
-               
-               
-                this.$refs.dialog.removeOverlay();
-                this.dialogInfo = false;
             }
         },
         computed: {
