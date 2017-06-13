@@ -105,6 +105,8 @@
                 this.mandat.traducteur = auth.currentUser.displayName;
 
                 if (this.mandat.priorité === 'Prioritaire') {
+                    this.mandat.timeStamp = 0;
+                } else {
                     this.mandat.timeStamp = moment(this.mandat.délai, "DD/MM/YYYY").format('x');
                 }
 

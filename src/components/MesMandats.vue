@@ -1,6 +1,5 @@
 <template>
 <div>
-
     <div v-if="currentUser">
         <div v-if="traductions.length || revisions.length && isMandats">
 
