@@ -7,7 +7,7 @@
         <v-divider />
         <v-stepper-step step="3" editable edit-icon="check">Traduction</v-stepper-step>
     </v-stepper-header>
-
+    
     <v-stepper-content step="1" class="light-blue lighten-4">
         <step-admin :mandat="mandat"></step-admin>
         <v-btn primary @click.native="etape = 2" light>Continuer</v-btn>
@@ -81,7 +81,7 @@
                     cible: 'FR',
                     traducteur: '',
                     réviseur: 'Jérôme',
-                    moment: null,
+                    moment: '',
                     priorité: 'Ordinaire',
                     mandant: '',
                     public_cible: 'ECA',

@@ -4,31 +4,40 @@
     <v-card-column>
         <v-card-text>
             <v-layout>
-                <v-flex xs4>
+                <v-flex xs3>
 
                     <strong>{{mandat.nom}}</strong>
-                    <div>{{mandat.public_cible}}</div>
+
 
                 </v-flex>
-                <v-flex xs1>
+                <v-flex xs2>
 
                     <strong>{{mandat.code}}</strong>
-                    <div :class="{prioritaireClass: mandat.priority === 'Prioritaire'}">{{mandat.priorité}}</div>
+                    <div>{{mandat.mandant}}</div>
 
                 </v-flex>
-                <v-flex xs3 class="text-xs-center">
+                <v-flex xs2>
 
                     <div>
                         <v-icon>send</v-icon>
                         <strong>{{mandat.délai}}</strong>
                     </div>
-                    <div>
-                        <v-icon>person</v-icon>
-                        <strong>{{mandat.mandant}}</strong>
+                    <div v-if="mandat.moment === 'Matin' || mandat.priorité === 'Prioritaire'">
+                        <div>
+                            <v-icon>warning</v-icon>
+                            
+                            <strong v-if="mandat.priorité === 'Prioritaire'">{{mandat.priorité}}</strong>
+                            <strong v-if="mandat.moment === 'Matin'">{{mandat.moment}}</strong>
+                            
+
+                        </div>
+                    </div>
+                    <div v-else>
+                        Ordinaire
                     </div>
 
                 </v-flex>
-                <v-flex xs2>
+                <v-flex xs1>
 
                     <div>
                         <v-icon>edit</v-icon>
@@ -66,27 +75,54 @@
                     </v-dialog>
                 </v-flex>
 
+                    <v-flex xs1>
 
-                <v-flex xs1>
-                    <v-dialog v-model="dialogInfo" :width="700" ref="dialog">
-                        <v-btn icon slot="activator" class="black--text">
-                            <v-icon>info</v-icon>
-                        </v-btn>
-                        <v-card>
-                            <mandat-details :mandat="mandat"></mandat-details>
+                        <v-dialog v-model="dialogInfo" :width="700">
+                            <v-btn icon slot="activator" class="black--text">
+                                <v-icon>info</v-icon>
+                            </v-btn>
+                            <v-card>
+                                <mandat-details :mandat="mandat"></mandat-details>
 
-                            <v-divider></v-divider>
-                            <v-card-row actions>
-                                <button v-clipboard="copyToClipboard">Copier les données</button>
-                                <v-spacer></v-spacer>
-                                <v-btn class="blue--text darken-1" flat @click.native="dialogInfo = false">Annuler</v-btn>
-                                <v-btn v-if="mandat.translator === currentTranslator" class="blue--text darken-1" flat @click.native="editMandat">Modifier</v-btn>
-                            </v-card-row>
-                        </v-card>
-                    </v-dialog>
+                                <v-divider></v-divider>
+                                <v-card-row actions>
+                                    <button v-clipboard="copyToClipboard">Copier dans Excel</button>
+                                    <v-spacer></v-spacer>
+                                    <v-btn class="blue--text darken-1" flat @click.native="dialogInfo = false">Fermer</v-btn>
+                                    <v-btn v-if="mandat.traducteur === currentTranslator" class="blue--text darken-1" flat @click.native="editMandat">Modifier</v-btn>
+                                </v-card-row>
+                            </v-card>
+                        </v-dialog>
 
 
-                </v-flex>
+                    </v-flex>
+                
+                                 <v-flex xs1 v-if="mandat.remarque">
+
+                        <v-dialog v-model="dialogRemarque">
+                            <v-btn icon slot="activator" class="black--text">
+                                <v-icon>comment</v-icon>
+                            </v-btn>
+                            <v-card>
+                                <v-card-text>
+                                    {{mandat.remarque}}
+                                </v-card-text>
+                                <v-divider></v-divider>
+                                <v-card-row actions>
+                                    <v-btn class="blue--text darken-1" flat @click.native="dialogRemarque = false">Fermer</v-btn>
+                                    <!--
+                                <v-btn v-if="mandat.traducteur === currentTranslator" class="blue--text darken-1" flat @click.native="editMandat">Modifier</v-btn>
+                                -->
+                                </v-card-row>
+                            </v-card>
+
+
+                        </v-dialog>
+                    </v-flex>
+
+
+
+              
             </v-layout>
         </v-card-text>
     </v-card-column>
@@ -111,6 +147,7 @@
                 selectedStatut: '',
                 dialogStatut: false,
                 dialogInfo: false,
+                dialogRemarque: false,
                 copyToClipboard: `<table>
                                       <tr>
                                         <td>${this.mandat.code}</td>
@@ -158,17 +195,17 @@
         computed: {
             currentStatut() {
                 if (this.mandat.statut === 'Traduction') {
-                    return 'amber lighten-1 black--text';
+                    return 'amber lighten-2 black--text';
                 } else if (this.mandat.statut === 'Premier jet') {
                     return 'blue lighten-4 black--text';
                 } else if (this.mandat.statut === 'Questions') {
-                    return 'red darken-1 black--text';
+                    return 'red lighten-1 black--text';
                 } else if (this.mandat.statut === 'À réviser') {
                     //send notification
-                    return 'light-blue lighten-1 black--text';
+                    return 'purple lighten-2 black--text';
                 } else if (this.mandat.statut === 'Révision finie') {
                     //send notification
-                    return 'brown darken-1 black--text';
+                    return 'light-blue lighten-1 black--text';
                 } else if (this.mandat.statut === 'Liquidé') {
                     return 'light-green accent-4 black--text';
                 } else {
@@ -184,8 +221,6 @@
 </script>
 
 <style>
-    .prioritaireClass {
-        color: red;
-    }
+
 
 </style>

@@ -1,7 +1,7 @@
 <template>
 <div>
     <v-card-title class="primary white--text">
-        <span>Détails pour {{mandat.nom}}</span>
+        <span>{{mandat.nom}}</span>
 
     </v-card-title>
     <v-card-text>
@@ -64,7 +64,7 @@
                     <div>Fichiers</div><strong><ul><li v-for="file in mandat.fichiers" v-if="file.nombre">{{file.nombre}} {{file.fichier}}</li></ul></strong>
                 </v-flex>
                 
-                <v-flex xs5 sm4 md3 lg2>
+                <v-flex xs5 sm4 md3 lg2 v-if="mandat.remarque">
                     <div>Remarque</div><strong>{{mandat.remarque}}</strong>
                 </v-flex>
             </v-layout>
