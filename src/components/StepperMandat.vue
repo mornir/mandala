@@ -51,7 +51,8 @@
                 mandat: {
                     code: '',
                     nom: '',
-                    arrivée: new Date().toLocaleDateString('fr-FR'),
+                    arrivée: moment().format("DD/MM/YYYY"),
+                    délai: moment().format("DD/MM/YYYY"),
                     fichiers: [{
                             nombre: 1,
                             fichier: 'Word'
@@ -80,7 +81,6 @@
                     cible: 'FR',
                     traducteur: '',
                     réviseur: 'Jérôme',
-                    délai: new Date().toLocaleDateString('fr-FR'),
                     moment: null,
                     priorité: 'Ordinaire',
                     mandant: '',
@@ -102,6 +102,10 @@
         methods: {
             newMandat() {
 
+                //FIX FOR IE11 which insert non ASCII caracters
+                this.mandat.arrivée = this.mandat.arrivée.replace(/[^\x00-\x7F]/g, "");
+                this.mandat.délai = this.mandat.délai.replace(/[^\x00-\x7F]/g, "");
+
                 this.mandat.traducteur = auth.currentUser.displayName;
 
                 if (this.mandat.priorité === 'Prioritaire') {
@@ -113,8 +117,9 @@
                 this.mandat.code = this.generateCode();
                 const cleanCode = this.mandat.code.replace(/\./g, '_');
                 db.ref('mandatsEnCours').child(cleanCode).set(this.mandat);
+                //IF SUCCESS THEN UPDATE COMPTEUR!!!!!!!!!!
 
-                this.$router.push('mesmandats');
+                this.$router.push('touslesmandats');
 
 
                 /********

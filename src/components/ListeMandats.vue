@@ -1,6 +1,5 @@
 <template>
 <div>
-
     <div v-if="currentUser">
         <div v-if="mandats.length && isMandats">
             <h6 v-if="lateMandats.length" class="titre">En retard</h6>

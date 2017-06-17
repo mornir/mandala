@@ -72,8 +72,8 @@
         },
         firebase() {
             return {
-                mandats: db.ref('mandatsLiquidés/' + this.selectedYear),
-            }
+                mandats: db.ref('mandatsLiquidés/' + this.selectedYear)
+            };
         },
         components: {
             mandatDetails: MandatDetails

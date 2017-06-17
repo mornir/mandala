@@ -7,26 +7,26 @@
                     <v-subheader>Date d'arrivée</v-subheader>
                 </v-flex>
                 <v-flex xs6>
-                    <v-menu lazy :close-on-content-click="false" transition="v-scale-transition" right offset-x :nudge-left="20">
+                      <v-menu lazy :close-on-content-click="false" transition="v-scale-transition" right offset-x :nudge-left="20">
                         <v-text-field slot="activator" label="Date d'arrivée" v-model="mandat.arrivée" class="calenderField" readonly ></v-text-field>
                         <v-date-picker :allowed-dates="disableWeekends" :days="days" :months="months" v-model="arrivalDate" no-title scrollable :date-format="date => new Date(date).toLocaleDateString('fr-FR')"
           :formatted-value.sync="mandat.arrivée"></v-date-picker>
                     </v-menu>
                 </v-flex>
             </v-layout>
-                <v-layout>
+            <v-layout>
                 <v-flex xs2>
                     <v-subheader>Délai fixé</v-subheader>
                 </v-flex>
                 <v-flex xs6>
                     <v-menu lazy :close-on-content-click="false" transition="v-scale-transition" right offset-x :nudge-left="20">
                         <v-text-field slot="activator" label="Délai fixé" v-model="mandat.délai" class="calenderField" readonly></v-text-field>
-                        <v-date-picker :allowed-dates="disableWeekends" :days="days" :months="months" v-model="deadlineDate" no-title scrollable  :date-format="date => new Date(date).toLocaleDateString('fr-FR')"
+                        <v-date-picker :days="days" :months="months" v-model="deadlineDate" no-title scrollable  :date-format="date => new Date(date).toLocaleDateString('fr-FR')"
           :formatted-value.sync="mandat.délai"></v-date-picker>
                     </v-menu>
                 </v-flex>
             </v-layout>
-                   <v-layout>
+            <v-layout>
                 <v-flex xs2>
                     <v-subheader>Moment</v-subheader>
                 </v-flex>

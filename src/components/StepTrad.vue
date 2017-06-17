@@ -29,11 +29,11 @@
                         <v-subheader>Direction</v-subheader>
                     </v-flex>
                     <v-flex xs3>
-                        <img src="../assets/germany.svg" alt="German" width="40px" height="40">
+                        <img src="../assets/germany.svg" alt="German" width="40px" height="40px">
                         <v-btn icon class="black--text  mb-5" @click.native="toggleDirection">
                             <v-icon>{{arrowDirection}}</v-icon>
                         </v-btn>
-                        <img src="../assets/france.svg" alt="French" width="40px" height="40">
+                        <img src="../assets/france.svg" alt="French" width="40px" height="40px">
                     </v-flex>
                     <v-flex xs2>
                         <v-checkbox label="Trados" info hide-details v-model="mandat.TAO" true-value="Oui" false-value="Non" />

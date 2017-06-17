@@ -50,6 +50,7 @@
                             <v-card-row height="300px">
                                 <v-card-text>
                                     <v-radio label="Traduction" v-model="selectedStatut" value="Traduction"></v-radio>
+                                    <v-radio label="Premier jet" v-model="selectedStatut" value="Premier jet"></v-radio>
                                     <v-radio label="Questions" v-model="selectedStatut" value="Questions"></v-radio>
                                     <v-radio label="À réviser" v-model="selectedStatut" value="À réviser"></v-radio>
                                     <v-radio label="Révision finie" v-model="selectedStatut" value="Révision finie"></v-radio>
@@ -76,10 +77,10 @@
 
                             <v-divider></v-divider>
                             <v-card-row actions>
-                                <button v-clipboard="copyToClipboard">Copy to clipboard</button>
+                                <button v-clipboard="copyToClipboard">Copier les données</button>
                                 <v-spacer></v-spacer>
                                 <v-btn class="blue--text darken-1" flat @click.native="dialogInfo = false">Annuler</v-btn>
-                                <v-btn v-if="mandat.traducteur === currentTranslator" class="blue--text darken-1" flat @click.native="editMandat">Modifier</v-btn>
+                                <v-btn v-if="mandat.translator === currentTranslator" class="blue--text darken-1" flat @click.native="editMandat">Modifier</v-btn>
                             </v-card-row>
                         </v-card>
                     </v-dialog>
@@ -105,7 +106,7 @@
         props: ['mandat'],
         data() {
             return {
-                statuts: ['Traduction', 'Questions', 'À réviser', 'Révision finie', 'Liquidé'],
+                statuts: ['Traduction', 'Premiet jet', 'Questions', 'À réviser', 'Révision finie', 'Liquidé'],
                 currentTranslator: auth.currentUser.displayName,
                 selectedStatut: '',
                 dialogStatut: false,
@@ -138,7 +139,7 @@
             setStatut() {
                 this.dialogStatut = false;
                 this.$emit('changedStatut', this.selectedStatut);
-          
+
             },
             editMandat() {
                 this.dialogInfo = false;
@@ -157,21 +158,18 @@
         computed: {
             currentStatut() {
                 if (this.mandat.statut === 'Traduction') {
-                    //this.setStatut();
                     return 'amber lighten-1 black--text';
+                } else if (this.mandat.statut === 'Premier jet') {
+                    return 'blue lighten-4 black--text';
                 } else if (this.mandat.statut === 'Questions') {
-                    //this.setStatut();
                     return 'red darken-1 black--text';
                 } else if (this.mandat.statut === 'À réviser') {
-                    //this.setStatut();
-                    //send email
+                    //send notification
                     return 'light-blue lighten-1 black--text';
                 } else if (this.mandat.statut === 'Révision finie') {
-                    //this.setStatut();
-                    //send email
+                    //send notification
                     return 'brown darken-1 black--text';
                 } else if (this.mandat.statut === 'Liquidé') {
-                    //this.setStatut();
                     return 'light-green accent-4 black--text';
                 } else {
                     console.error('Erreur: statut de mandat inconnu');

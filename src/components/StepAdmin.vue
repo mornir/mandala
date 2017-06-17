@@ -8,7 +8,7 @@
                             <v-subheader>Nom du projet</v-subheader>
                         </v-flex>
                         <v-flex xs8>
-                            <v-text-field name="name" v-model.trim="mandat.nom" label="Nom du projet" autocomplete="off"></v-text-field>
+                            <v-text-field name="nom" v-model.trim="mandat.nom" label="Nom du projet" autocomplete="off"></v-text-field>
                         </v-flex>
                     </v-layout>
                     <v-layout>
@@ -46,8 +46,8 @@
                         </v-flex>
                     </v-layout>
                     <v-layout>
-                        <v-flex xs2 v-for="(fichier, index) in mandat.fichiers" :key="fichier.fichier" :class="{ 'offset-xs3': index === 0}">
-                            <input name="fichier.fichier" v-model.number="fichier.nombre" type="number" min="0">
+                        <v-flex xs2 v-for="(file, index) in mandat.fichiers" :key="file.fichier" :class="{ 'offset-xs3': index === 0}">
+                            <input name="file.fichier" v-model.number="file.nombre" type="number" min="0">
                         </v-flex>
                     </v-layout>
                          <v-layout>
