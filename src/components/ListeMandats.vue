@@ -84,6 +84,8 @@
                     const archivedMandat = mandat;
                     delete archivedMandat['.key'];
                     db.ref("mandatsLiquidés/" + year).child(key).set(archivedMandat);
+
+                    //Quickfix for overlay, will be fixed Vuetify 0.13
                     setTimeout(() => {
                         this.$firebaseRefs.mandats.child(key).remove();
                     }, 500);

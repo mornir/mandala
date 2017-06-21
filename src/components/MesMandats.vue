@@ -55,9 +55,6 @@
                 isMandats: false
             };
         },
-        //        firebase: {
-        //            mandats: db.ref('mandatsEnCours').orderByChild('timeStamp')
-        //        },
         methods: {
             newStatut(newStatut, mandat) {
 
@@ -67,11 +64,11 @@
                 if (newStatut === "Liquidé") {
 
                     const year = "20" + mandat.code.substring(0, 2);
-                    //const monthName = moment(mandat.code.substring(3, 5), "MM").format("MMMM"); Move to Codepen
 
                     const archivedMandat = mandat;
                     delete archivedMandat['.key'];
                     db.ref("mandatsLiquidés/" + year).child(key).set(archivedMandat);
+
                     setTimeout(() => {
                         this.$firebaseRefs.mandats.child(key).remove();
                     }, 500);

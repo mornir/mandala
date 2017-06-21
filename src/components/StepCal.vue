@@ -21,7 +21,7 @@
                 <v-flex xs6>
                     <v-menu lazy :close-on-content-click="false" transition="v-scale-transition" right offset-x :nudge-left="20">
                         <v-text-field slot="activator" label="Délai fixé" v-model="mandat.délai" class="calenderField" readonly></v-text-field>
-                        <v-date-picker :days="days" :months="months" v-model="deadlineDate" no-title scrollable  :date-format="date => new Date(date).toLocaleDateString('fr-FR')"
+                        <v-date-picker :days="days" :allowed-dates="disableWeekends" :months="months" v-model="deadlineDate" no-title scrollable  :date-format="date => new Date(date).toLocaleDateString('fr-FR')"
           :formatted-value.sync="mandat.délai"></v-date-picker>
                     </v-menu>
                 </v-flex>
