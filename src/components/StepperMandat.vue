@@ -121,7 +121,7 @@
 
                 this.$router.push('touslesmandats');
 
-
+                // resolved promise, keeping after test of simultaneous mandat creation
                 /********
                 this.mandat.translator = auth.currentUser.displayName;
 

@@ -25,10 +25,10 @@
                     <div v-if="mandat.moment === 'Matin' || mandat.priorité === 'Prioritaire'">
                         <div>
                             <v-icon>warning</v-icon>
-                            
+
                             <strong v-if="mandat.priorité === 'Prioritaire'">{{mandat.priorité}}</strong>
                             <strong v-if="mandat.moment === 'Matin'">{{mandat.moment}}</strong>
-                            
+
 
                         </div>
                     </div>
@@ -75,54 +75,51 @@
                     </v-dialog>
                 </v-flex>
 
-                    <v-flex xs1>
+                <v-flex xs1>
 
-                        <v-dialog v-model="dialogInfo" :width="700">
-                            <v-btn icon slot="activator" class="black--text">
-                                <v-icon>info</v-icon>
-                            </v-btn>
-                            <v-card>
-                                <mandat-details :mandat="mandat"></mandat-details>
+                    <v-dialog v-model="dialogInfo" :width="700">
+                        <v-btn icon slot="activator" class="black--text">
+                            <v-icon>info</v-icon>
+                        </v-btn>
+                        <v-card>
+                            <mandat-details :mandat="mandat"></mandat-details>
 
-                                <v-divider></v-divider>
-                                <v-card-row actions>
-                                    <button v-clipboard="copyToClipboard">Copier dans Excel</button>
-                                    <v-spacer></v-spacer>
-                                    <v-btn class="blue--text darken-1" flat @click.native="dialogInfo = false">Fermer</v-btn>
-                                    <v-btn v-if="mandat.traducteur === currentTranslator" class="blue--text darken-1" flat @click.native="editMandat">Modifier</v-btn>
-                                </v-card-row>
-                            </v-card>
-                        </v-dialog>
+                            <v-divider></v-divider>
+                            <v-card-row actions>
+                                <button v-clipboard="copyToClipboard">Copier dans Excel</button>
+                                <v-spacer></v-spacer>
+                                <v-btn class="blue--text darken-1" flat @click.native="dialogInfo = false">Fermer</v-btn>
+                                <v-btn v-if="mandat.traducteur === currentTranslator" class="blue--text darken-1" flat @click.native="editMandat">Modifier</v-btn>
+                            </v-card-row>
+                        </v-card>
+                    </v-dialog>
 
 
-                    </v-flex>
-                
-                                 <v-flex xs1 v-if="mandat.remarque">
+                </v-flex>
 
-                        <v-dialog v-model="dialogRemarque">
-                            <v-btn icon slot="activator" class="black--text">
-                                <v-icon>comment</v-icon>
-                            </v-btn>
-                            <v-card>
-                                <v-card-text>
-                                    {{mandat.remarque}}
-                                </v-card-text>
-                                <v-divider></v-divider>
-                                <v-card-row actions>
-                                    <v-btn class="blue--text darken-1" flat @click.native="dialogRemarque = false">Fermer</v-btn>
-                                    <!--
+                <v-flex xs1 v-if="mandat.remarque">
+
+                    <v-dialog v-model="dialogRemarque">
+                        <v-btn icon slot="activator" class="black--text">
+                            <v-icon>comment</v-icon>
+                        </v-btn>
+                        <v-card>
+                            <v-card-text>
+                                {{mandat.remarque}}
+                            </v-card-text>
+                            <v-divider></v-divider>
+                            <v-card-row actions>
+                                <v-btn class="blue--text darken-1" flat @click.native="dialogRemarque = false">Fermer</v-btn>
+                                <!--
                                 <v-btn v-if="mandat.traducteur === currentTranslator" class="blue--text darken-1" flat @click.native="editMandat">Modifier</v-btn>
                                 -->
-                                </v-card-row>
-                            </v-card>
+                            </v-card-row>
+                        </v-card>
 
 
-                        </v-dialog>
-                    </v-flex>
-
-
-
-              
+                    </v-dialog>
+                    
+                </v-flex>
             </v-layout>
         </v-card-text>
     </v-card-column>
@@ -181,6 +178,8 @@
             editMandat() {
                 this.dialogInfo = false;
 
+
+                //after upgrading to Vuetify 0.13, can delete setTimeout
                 setTimeout(() => {
                     this.$router.push({
                         name: 'edit',

@@ -2,15 +2,16 @@
 <div>
     <div v-if="currentUser">
         <div v-if="traductions.length || revisions.length && isMandats">
-
-            <h6 class="titre" v-if="traductions.length">Mes traductions</h6>
-
+            <transition name="fade" leave-active-class="animated fadeOut">
+                <h6 class="titre" v-if="traductions.length">Mes traductions</h6>
+            </transition>
             <transition-group name="bounce" leave-active-class="animated bounceOutRight">
                 <trans-mandat v-for="mandat in traductions" :mandat=mandat :key="mandat.code" @changedStatut="newStatut($event, mandat)"></trans-mandat>
             </transition-group>
 
-
-            <h6 class="titre" v-if="revisions.length">Mes révisions</h6>
+            <transition name="fade" leave-active-class="animated fadeOut">
+                <h6 class="titre" v-if="revisions.length">Mes révisions</h6>
+            </transition>
             <transition-group name="bounce" leave-active-class="animated bounceOutRight">
                 <trans-mandat v-for="mandat in revisions" :mandat=mandat :key="mandat.code" @changedStatut="newStatut($event, mandat)"></trans-mandat>
             </transition-group>

@@ -37,11 +37,11 @@
                 </v-flex>
                 
                 <v-flex xs5 sm4 md3 lg2>
-                    <div>Traducteur</div><strong>{{mandat.traducteur}}</strong>
+                    <div>Traduction</div><strong>{{mandat.traducteur}}</strong>
                 </v-flex>
                 
                 <v-flex xs5 sm4 md3 lg2>
-                    <div>Réviseur</div><strong>{{mandat.réviseur}}</strong>
+                    <div>Révision</div><strong>{{mandat.réviseur}}</strong>
                 </v-flex>
                 
                 <v-flex xs5 sm4 md3 lg2>

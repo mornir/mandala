@@ -19,10 +19,6 @@
                     <v-icon light>settings</v-icon>
                 </v-toolbar-item>
             </template>
-
-<v-toolbar-item ripple>
-    <v-icon light>help_outline</v-icon>
-</v-toolbar-item>
 </v-toolbar-items>
 </v-toolbar>
 <main id="mainContainer">

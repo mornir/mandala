@@ -4,7 +4,7 @@ const admin = require('firebase-admin');
 
 admin.initializeApp(functions.config().firebase);
 
-//necessary to get full access right (?)
+// The Firebase Admin SDK to access the Firebase Realtime Database. 
 const db = admin.database();
 
 const FUNCTIONS_CLIENT_ID = functions.config().googleapi.client_id;
@@ -87,23 +87,36 @@ const DATA_PATH = '/mandatsEnCours';
 
 // trigger function to write to Sheet when new data comes in on DATA_PATH
 // {item} is a variable containing the key name, accessible through event.params.VARIABLE
-exports.appendRecordToSpreadsheet = functions.database.ref(`${DATA_PATH}/{ITEM}`).onWrite(
-    (event) => {
-        const newRecord = event.data.current.val();
-        // return a promise containing the updated speadsheet data (ID, range, new data, etc.)
-        // here we actually don't process the `response` object
-        // https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/append
-        // return appendPromise
-        appendPromise({
-            spreadsheetId: SHEET_ID,
-            range: 'A:C',
-            valueInputOption: 'USER_ENTERED',
-            insertDataOption: 'INSERT_ROWS',
-            resource: {
-                values: [[newRecord.code, newRecord.arrivée, newRecord.nom]]
+exports.appendRecordToSpreadsheet = functions.database
+    .ref(`${DATA_PATH}/{ITEM}`)
+    .onWrite(
+        (event) => {
+
+            // Only edit data when it is first created.
+            if (event.data.previous.exists()) {
+                return;
             }
+            // Exit when the data is deleted.
+            // I think I don't need this
+            //      if (!event.data.exists()) {
+            //        return;
+            //      }
+
+            const newRecord = event.data.current.val();
+            // return a promise containing the updated speadsheet data (ID, range, new data, etc.)
+            // here we actually don't process the `response` object
+            // https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/append
+            // but I still leave the return object since it was in the orginal example
+            return appendPromise({
+                spreadsheetId: SHEET_ID,
+                range: 'A:C',
+                valueInputOption: 'USER_ENTERED',
+                insertDataOption: 'INSERT_ROWS',
+                resource: {
+                    values: [[newRecord.code, newRecord.arrivée, newRecord.nom]]
+                }
+            });
         });
-    });
 
 
 // HTTPS function to write new data to DATA_PATH, for testing
