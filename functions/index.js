@@ -117,18 +117,3 @@ exports.appendRecordToSpreadsheet = functions.database
                 }
             });
         });
-
-
-// HTTPS function to write new data to DATA_PATH, for testing
-//exports.testSheetWrite = functions.https.onRequest((req, res) => {
-//    const random1 = Math.floor(Math.random() * 100);
-//    const random2 = Math.floor(Math.random() * 100);
-//    const random3 = Math.floor(Math.random() * 100);
-//    const ID = new Date().getUTCMilliseconds();
-//    return db.ref(`${DATA_PATH}/${ID}`).set({
-//        firstColumn: random1,
-//        secondColumn: random2,
-//        thirdColumn: random3
-//    }).then(() => res.status(200).send(
-//        `Wrote ${random1}, ${random2}, ${random3} to DB, trigger should now update Sheet.`));
-//});
