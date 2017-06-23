@@ -34,49 +34,12 @@
 </template>
 
 <script>
-    import moment from 'moment';
-
-    import Mandat from "./Mandat.vue";
-    import LoginScreen from "./LoginScreen.vue";
-
     import {
-        auth
-    } from '../firebase';
-
-    import {
-        db
-    } from '../firebase';
+        displayMandats
+    } from './mixins/displayMandats';
 
     export default {
-        data() {
-            return {
-                test: false,
-                currentUser: {},
-                mandats: [],
-                isMandats: false
-            };
-        },
-        methods: {
-            newStatut(newStatut, mandat) {
-
-                const key = mandat['.key'];
-                this.$firebaseRefs.mandats.child(key).child('statut').set(newStatut);
-
-                if (newStatut === "Liquidé") {
-
-                    const year = "20" + mandat.code.substring(0, 2);
-
-                    const archivedMandat = mandat;
-                    delete archivedMandat['.key'];
-                    db.ref("mandatsLiquidés/" + year).child(key).set(archivedMandat);
-
-                    setTimeout(() => {
-                        this.$firebaseRefs.mandats.child(key).remove();
-                    }, 500);
-                }
-
-            }
-        },
+        mixins: [displayMandats],
         computed: {
             traductions() {
                 return this.mandats.filter((mandat) => {
@@ -88,28 +51,6 @@
                     return mandat.réviseur === this.currentUser.displayName && mandat.statut === "À réviser";
                 });
             }
-        },
-        beforeCreate() {
-            auth.onAuthStateChanged((user) => {
-                if (user) {
-                    // User is signed in.
-                    this.currentUser = user;
-                    // Bind this instance's 'mandats'
-                    // Firebase reference via vuefire.js' $bindAsArray() method
-                    this.$bindAsArray('mandats', db.ref('mandatsEnCours').orderByChild('timeStamp'), null, () => {
-                        this.isMandats = true;
-                    });
-
-
-                } else {
-                    // User is signed out.
-                    this.currentUser = null;
-                }
-            });
-        },
-        components: {
-            transMandat: Mandat,
-            loginScreen: LoginScreen
         }
     };
 

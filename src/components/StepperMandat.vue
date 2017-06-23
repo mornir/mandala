@@ -119,7 +119,7 @@
                 db.ref('mandatsEnCours').child(cleanCode).set(this.mandat);
                 //IF SUCCESS THEN UPDATE COMPTEUR!!!!!!!!!!
 
-                this.$router.push('touslesmandats');
+                this.$router.push('mesmandats');
 
                 // resolved promise, keeping after test of simultaneous mandat creation
                 /********

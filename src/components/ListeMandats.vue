@@ -2,7 +2,7 @@
 <div>
     <div v-if="currentUser">
         <div v-if="mandats.length && isMandats">
-            
+
             <h6 v-if="lateMandats.length" class="titre">En retard</h6>
 
             <transition-group name="bounce" leave-active-class="animated bounceOutRight">
@@ -10,29 +10,29 @@
             </transition-group>
 
             <transition name="fade" leave-active-class="animated fadeOut">
-            <h6 v-if="todayMandats.length" class="titre">A rendre aujourd'hui</h6>
-                </transition>
+                <h6 v-if="todayMandats.length" class="titre">A rendre aujourd'hui</h6>
+            </transition>
 
             <transition-group name="bounce" leave-active-class="animated bounceOutRight">
                 <trans-mandat v-for="mandat in todayMandats" :mandat=mandat :key="mandat.code" @changedStatut="newStatut($event, mandat)"></trans-mandat>
             </transition-group>
-            
- <transition name="fade" leave-active-class="animated fadeOut">
-            <h6 v-if="tomorrowMandats.length" class="titre">A rendre demain</h6>
-      </transition>
+
+            <transition name="fade" leave-active-class="animated fadeOut">
+                <h6 v-if="tomorrowMandats.length" class="titre">A rendre demain</h6>
+            </transition>
             <transition-group name="bounce" leave-active-class="animated bounceOutRight">
                 <trans-mandat v-for="mandat in tomorrowMandats" :mandat=mandat :key="mandat.code" @changedStatut="newStatut($event, mandat)"></trans-mandat>
             </transition-group>
-  <transition name="fade" leave-active-class="animated fadeOut">
-            <h6 v-if="weekMandats.length" class="titre">A rendre cette semaine</h6>
+            <transition name="fade" leave-active-class="animated fadeOut">
+                <h6 v-if="weekMandats.length" class="titre">A rendre cette semaine</h6>
             </transition>
-      
+
             <transition-group name="bounce" leave-active-class="animated bounceOutRight">
                 <trans-mandat v-for="mandat in weekMandats" :mandat=mandat :key="mandat.code" @changedStatut="newStatut($event, mandat)"></trans-mandat>
             </transition-group>
-  <transition name="fade" leave-active-class="animated fadeOut">
-            <h6 v-if="laterMandats.length" class="titre">A rendre la semaine prochaine ou plus tard encore</h6>
-             </transition>
+            <transition name="fade" leave-active-class="animated fadeOut">
+                <h6 v-if="laterMandats.length" class="titre">A rendre la semaine prochaine ou plus tard encore</h6>
+            </transition>
             <transition-group name="bounce" leave-active-class="animated bounceOutRight">
                 <trans-mandat v-for="mandat in laterMandats" :mandat=mandat :key="mandat.code" @changedStatut="newStatut($event, mandat)"></trans-mandat>
             </transition-group>
@@ -51,49 +51,12 @@
 
 <script>
     import moment from 'moment';
-
-    import Mandat from "./Mandat.vue";
-    import LoginScreen from "./LoginScreen.vue";
-
     import {
-        auth
-    } from '../firebase';
-
-    import {
-        db
-    } from '../firebase';
+        displayMandats
+    } from './mixins/displayMandats';
 
     export default {
-        data() {
-            return {
-                mandats: [],
-                currentUser: {},
-                isMandats: false
-            };
-        },
-        methods: {
-            newStatut(newStatut, mandat) {
-
-                const key = mandat['.key'];
-                this.$firebaseRefs.mandats.child(key).child('statut').set(newStatut);
-
-                if (newStatut === "Liquidé") {
-
-                    const year = "20" + mandat.code.substring(0, 2);
-                    //const monthName = moment(mandat.code.substring(3, 5), "MM").format("MMMM"); Move to Codepen
-
-                    const archivedMandat = mandat;
-                    delete archivedMandat['.key'];
-                    db.ref("mandatsLiquidés/" + year).child(key).set(archivedMandat);
-
-                    //Quickfix for overlay, will be fixed Vuetify 0.13
-                    setTimeout(() => {
-                        this.$firebaseRefs.mandats.child(key).remove();
-                    }, 500);
-                }
-
-            }
-        },
+        mixins: [displayMandats],
         computed: {
             todayMandats() {
                 return this.mandats.filter(item => {
@@ -120,27 +83,6 @@
                     return moment(item.délai, "DD/MM/YYYY") < moment().subtract(1, 'days');
                 });
             }
-        },
-        beforeCreate() {
-            auth.onAuthStateChanged((user) => {
-                if (user) {
-                    // User is signed in.
-                    this.currentUser = user;
-                    // Bind this instance's 'mandats'
-                    // Firebase reference via vuefire.js' $bindAsArray() method
-                    this.$bindAsArray('mandats', db.ref('mandatsEnCours').orderByChild('timeStamp'), null, () => {
-                        this.isMandats = true;
-                    });
-
-                } else {
-                    // User is signed out.
-                    this.currentUser = null;
-                }
-            });
-        },
-        components: {
-            transMandat: Mandat,
-            loginScreen: LoginScreen
         }
     };
 
