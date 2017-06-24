@@ -28,6 +28,7 @@
                   // create complete year for archiving
                   const year = "20" + mandat.code.substring(0, 2);
 
+                  // make a copy and delete .key property, otherwise can't store in Firebase
                   const archivedMandat = mandat;
                   delete archivedMandat['.key'];
                   db.ref("mandatsLiquidés/" + year).child(key).set(archivedMandat);

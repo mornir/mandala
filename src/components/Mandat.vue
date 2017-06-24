@@ -178,7 +178,6 @@
             editMandat() {
                 this.dialogInfo = false;
 
-
                 //after upgrading to Vuetify 0.13, can delete setTimeout
                 setTimeout(() => {
                     this.$router.push({

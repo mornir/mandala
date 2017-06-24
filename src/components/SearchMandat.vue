@@ -47,7 +47,6 @@
             return {
                 mandats: [],
                 results: [],
-                years2: ['2017', '2018', '2019', '2020'],
                 years: [],
                 selectedYear: 2017,
                 keys: ["nom"],

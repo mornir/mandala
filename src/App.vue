@@ -1,7 +1,7 @@
 <template>
 <v-app>
     <v-toolbar light>
-        <router-link tag="v-toolbar-logo" to="/mesmandats" id="logo">MandaLa</router-link>
+        <router-link tag="v-toolbar-logo" to="/mesmandats" id="logo">MandaLa<small class="body-1">[ beta ]</small></router-link>
         <v-toolbar-items>
             <template v-if="currentUser">
                 <v-toolbar-item ripple :router=true href="/mesmandats">

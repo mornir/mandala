@@ -47,9 +47,7 @@
         },
         methods: {
             login() {
-                //test@test.com, test11
                 auth.signInWithEmailAndPassword(this.selectedUser.email, this.password).catch((error) => {
-                    // Handle Errors here.
                     console.log(error.message);
                     if (error.code === 'auth/wrong-password') {
                         this.errorMessage = 'Mot de passe incorrect';

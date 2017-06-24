@@ -115,36 +115,19 @@
                 }
 
                 this.mandat.code = this.generateCode();
+                // le caractère . ne peut pas être enregistré dans Firebase
                 const cleanCode = this.mandat.code.replace(/\./g, '_');
                 db.ref('mandatsEnCours').child(cleanCode).set(this.mandat);
-                //IF SUCCESS THEN UPDATE COMPTEUR!!!!!!!!!!
 
-                this.$router.push('mesmandats');
+                //this.$router.push('mesmandats');
 
-                // resolved promise, keeping after test of simultaneous mandat creation
-                /********
-                this.mandat.translator = auth.currentUser.displayName;
 
-                const year = moment().format("YY");
-                const month = moment().format("MM");
-
-                //handel error
-                this.getCounterValue().then((result) => {
-                    const number = ("00" + result.snapshot.val()).slice(-3);
-                    this.mandat.code = `${year}.${month}.${number}`;
-                    const cleanCode = this.mandat.code.replace(/\./g, '_');
-                    db.ref('mandatsEnCours').child(cleanCode).set(this.mandat);
-                });
-
-                this.$router.push('/'); //inside the callback??
-                
-                ********/
 
             },
             generateCode() {
 
                 //.set fonctionne aussi. mais avec .transaction, il est possible d'initialiser le counter à zéro if it was undefined before.
-                //handel error??
+                //handel error, return by promise??
                 this.$firebaseRefs.counter.transaction((currentValue) => {
                     return (currentValue || 0) + 1;
                 });
@@ -156,15 +139,6 @@
                 return code;
 
             }
-            //            getCounterValue() {
-            //                if (!this.counter['.value']) {
-            //                    db.ref('counters').child(moment().format('YYYY')).child(moment().format('MMMM')).set(0);
-            //                }
-            //
-            //                return db.ref('counters').child(moment().format('YYYY')).child(moment().format('MMMM')).transaction((currentValue) => {
-            //                    return currentValue + 1;
-            //                });
-            //            }
         },
         components: {
             stepAdmin: StepAdmin,

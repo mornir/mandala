@@ -76,12 +76,7 @@
 
 <script>
     export default {
-        props: ['mandat'],
-        data() {
-            return {
-
-            };
-        }
+        props: ['mandat']
     };
 
 </script>

@@ -7,6 +7,9 @@ admin.initializeApp(functions.config().firebase);
 // The Firebase Admin SDK to access the Firebase Realtime Database. 
 const db = admin.database();
 
+
+// https://firebase.google.com/docs/functions/config-env
+// https://howtofirebase.com/firebase-cloud-functions-753935e80323
 const FUNCTIONS_CLIENT_ID = functions.config().googleapi.client_id;
 const FUNCTIONS_SECRET_KEY = functions.config().googleapi.client_secret;
 const FUNCTIONS_REDIRECT = 'https://us-central1-transhub-24008.cloudfunctions.net/OauthCallback';
@@ -31,11 +34,11 @@ exports.authGoogleAPI = functions.https.onRequest((req, res) =>
 );
 
 
-
-//express/node --> see udemy course to understand
 const DB_TOKEN_PATH = '/api_tokens';
+
 exports.OauthCallback = functions.https.onRequest((request, respond) => {
 
+    // https://expressjs.com/en/4x/api.html#req.query
     const code = request.query.code;
     functionsOauthClient.getToken(code, (err, tokens) => {
         // Now tokens contains an access_token and an optional refresh_token. Save them.
@@ -106,7 +109,8 @@ exports.appendRecordToSpreadsheet = functions.database
             // return a promise containing the updated speadsheet data (ID, range, new data, etc.)
             // here we actually don't process the `response` object
             // https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/append
-            // but I still leave the return object since it was in the orginal example
+            // but I still leave the return object since it was in the orginal example and
+            // it seems recommended to return a promise https://firebase.googleblog.com/2017/06/keep-your-promises-when-using-cloud.html
             return appendPromise({
                 spreadsheetId: SHEET_ID,
                 range: 'A:C',

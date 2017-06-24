@@ -53,7 +53,7 @@
                         <v-radio label="Sarah" v-model="mandat.réviseur" value="Sarah" @click.native="autre = false" info hide-details />
                     </v-flex>
                     <v-flex xs2>
-                        <v-radio label="Autre" v-model="mandat.réviseur" value="autre"  @click.native="autre = true" hide-details />
+                        <v-radio label="Autre" v-model="mandat.réviseur" value=""  @click.native="autre = true" success hide-details />
                     </v-flex>
                     <v-flex xs2 v-if="autre">
                         <v-text-field name="autre" v-model="mandat.réviseur" label="Autre réviseur"></v-text-field>
@@ -73,7 +73,6 @@
         props: ['mandat'],
         data() {
             return {
-                autreReviewer: 'sans',
                 autre: false,
                 currentUser: {},
                 arrowDirection: 'arrow_forward',
