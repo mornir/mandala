@@ -114,30 +114,23 @@
                     this.mandat.timeStamp = moment(this.mandat.délai, "DD/MM/YYYY").format('x');
                 }
 
-                this.mandat.code = this.generateCode();
-                // le caractère . ne peut pas être enregistré dans Firebase
                 const cleanCode = this.mandat.code.replace(/\./g, '_');
-                db.ref('mandatsEnCours').child(cleanCode).set(this.mandat);
-
-                //this.$router.push('mesmandats');
-
-
-
-            },
-            generateCode() {
-
-                //.set fonctionne aussi. mais avec .transaction, il est possible d'initialiser le counter à zéro if it was undefined before.
-                //handel error, return by promise??
-                this.$firebaseRefs.counter.transaction((currentValue) => {
-                    return (currentValue || 0) + 1;
-                });
-
                 const year = moment().format("YY");
                 const month = moment().format("MM");
-                const number = ("00" + this.counter['.value']).slice(-3);
-                const code = `${year}.${month}.${number}`;
-                return code;
 
+                // https://firebase.google.com/docs/database/web/read-and-write#save_data_as_transactions
+                this.getCounterValue().then((result) => {
+                    const number = ("00" + result.snapshot.val()).slice(-3);
+                    this.mandat.code = `${year}.${month}.${number}`;
+                    const cleanCode = this.mandat.code.replace(/\./g, '_');
+                    this.$firebaseRefs.mandats.child(cleanCode).set(this.mandat);
+                });
+
+            },
+            getCounterValue() {
+                return db.ref('counters').child(moment().format('YYYY')).transaction((currentValue) => {
+                    return (currentValue || 0) + 1;
+                });
             }
         },
         components: {
