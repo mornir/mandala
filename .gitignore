@@ -5,3 +5,4 @@ dist/
 npm-debug.log
 src/firebase.js
 src/assets/
+stats.json

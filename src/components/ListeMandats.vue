@@ -6,7 +6,7 @@
             <h6 v-if="lateMandats.length" class="titre">En retard</h6>
 
             <transition-group name="bounce" leave-active-class="animated bounceOutRight">
-                <trans-mandat v-for="mandat in lateMandats" :mandat=mandat :key="mandat.code" @changedStatut="newStatut($event, mandat)"></trans-mandat>
+                <trans-mandat v-for="mandat in lateMandats" :mandat=mandat :key="mandat.code" @changedStatut="newStatut($event, mandat)" @newRemarque="saveRemarque($event, mandat)"></trans-mandat>
             </transition-group>
 
             <transition name="fade" leave-active-class="animated fadeOut">
@@ -14,27 +14,27 @@
             </transition>
 
             <transition-group name="bounce" leave-active-class="animated bounceOutRight">
-                <trans-mandat v-for="mandat in todayMandats" :mandat=mandat :key="mandat.code" @changedStatut="newStatut($event, mandat)"></trans-mandat>
+                <trans-mandat v-for="mandat in todayMandats" :mandat=mandat :key="mandat.code" @changedStatut="newStatut($event, mandat)" @newRemarque="saveRemarque($event, mandat)"></trans-mandat>
             </transition-group>
 
             <transition name="fade" leave-active-class="animated fadeOut">
                 <h6 v-if="tomorrowMandats.length" class="titre">A rendre demain</h6>
             </transition>
             <transition-group name="bounce" leave-active-class="animated bounceOutRight">
-                <trans-mandat v-for="mandat in tomorrowMandats" :mandat=mandat :key="mandat.code" @changedStatut="newStatut($event, mandat)"></trans-mandat>
+                <trans-mandat v-for="mandat in tomorrowMandats" :mandat=mandat :key="mandat.code" @changedStatut="newStatut($event, mandat)" @newRemarque="saveRemarque($event, mandat)"></trans-mandat>
             </transition-group>
             <transition name="fade" leave-active-class="animated fadeOut">
                 <h6 v-if="weekMandats.length" class="titre">A rendre cette semaine</h6>
             </transition>
 
             <transition-group name="bounce" leave-active-class="animated bounceOutRight">
-                <trans-mandat v-for="mandat in weekMandats" :mandat=mandat :key="mandat.code" @changedStatut="newStatut($event, mandat)"></trans-mandat>
+                <trans-mandat v-for="mandat in weekMandats" :mandat=mandat :key="mandat.code" @changedStatut="newStatut($event, mandat)" @newRemarque="saveRemarque($event, mandat)"></trans-mandat>
             </transition-group>
             <transition name="fade" leave-active-class="animated fadeOut">
                 <h6 v-if="laterMandats.length" class="titre">A rendre la semaine prochaine ou plus tard encore</h6>
             </transition>
             <transition-group name="bounce" leave-active-class="animated bounceOutRight">
-                <trans-mandat v-for="mandat in laterMandats" :mandat=mandat :key="mandat.code" @changedStatut="newStatut($event, mandat)"></trans-mandat>
+                <trans-mandat v-for="mandat in laterMandats" :mandat=mandat :key="mandat.code" @changedStatut="newStatut($event, mandat)" @newRemarque="saveRemarque($event, mandat)"></trans-mandat>
             </transition-group>
         </div>
         <v-layout v-else justify-center>

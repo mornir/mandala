@@ -39,6 +39,10 @@
                   }, 500);
               }
 
+          },
+          saveRemarque(newRemarque, mandat) {
+              const key = mandat['.key'];
+              this.$firebaseRefs.mandats.child(key).child('remarque').set(newRemarque);
           }
       },
       beforeCreate() {

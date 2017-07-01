@@ -126,6 +126,8 @@
                     this.$firebaseRefs.mandats.child(cleanCode).set(this.mandat);
                 });
 
+                this.$router.push("/mesmandats");
+
             },
             getCounterValue() {
                 return db.ref('counters').child(moment().format('YYYY')).transaction((currentValue) => {

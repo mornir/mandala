@@ -5,19 +5,13 @@
         <v-card-text>
             <v-layout>
                 <v-flex xs3>
-
                     <strong>{{mandat.nom}}</strong>
-
-
                 </v-flex>
                 <v-flex xs2>
-
                     <strong>{{mandat.code}}</strong>
                     <div>{{mandat.mandant}}</div>
-
                 </v-flex>
                 <v-flex xs2>
-
                     <div>
                         <v-icon>send</v-icon>
                         <strong>{{mandat.délai}}</strong>
@@ -25,20 +19,15 @@
                     <div v-if="mandat.moment === 'Matin' || mandat.priorité === 'Prioritaire'">
                         <div>
                             <v-icon>warning</v-icon>
-
                             <strong v-if="mandat.priorité === 'Prioritaire'">{{mandat.priorité}}</strong>
                             <strong v-if="mandat.moment === 'Matin'">{{mandat.moment}}</strong>
-
-
                         </div>
                     </div>
                     <div v-else>
                         Ordinaire
                     </div>
-
                 </v-flex>
                 <v-flex xs1>
-
                     <div>
                         <v-icon>edit</v-icon>
                         <strong>{{mandat.traducteur}}</strong>
@@ -47,19 +36,17 @@
                         <v-icon>spellcheck</v-icon>
                         <strong>{{mandat.réviseur}}</strong>
                     </div>
-
                 </v-flex>
                 <v-flex xs2>
-
                     <v-dialog v-model="dialogStatut" scrollable persistent>
                         <v-btn outline slot="activator">{{mandat.statut}}</v-btn>
                         <v-card>
                             <v-card-title>Nouveau statut</v-card-title>
                             <v-divider></v-divider>
-                            <v-card-row height="300px">
+                            <v-card-row height="400px" width="800px">
                                 <v-card-text>
                                     <v-radio label="Traduction" v-model="selectedStatut" value="Traduction"></v-radio>
-                                    <v-radio label="Premier jet" v-model="selectedStatut" value="Premier jet"></v-radio>
+                                    <v-radio label="Premier jet" v-model="selectedStatut" value="Premier_jet"></v-radio>
                                     <v-radio label="Questions" v-model="selectedStatut" value="Questions"></v-radio>
                                     <v-radio label="À réviser" v-model="selectedStatut" value="À réviser"></v-radio>
                                     <v-radio label="Révision finie" v-model="selectedStatut" value="Révision finie"></v-radio>
@@ -76,7 +63,6 @@
                 </v-flex>
 
                 <v-flex xs1>
-
                     <v-dialog v-model="dialogInfo" :width="700">
                         <v-btn icon slot="activator" class="black--text">
                             <v-icon>info</v-icon>
@@ -93,32 +79,28 @@
                             </v-card-row>
                         </v-card>
                     </v-dialog>
-
-
                 </v-flex>
-
-                <v-flex xs1 v-if="mandat.remarque">
-
-                    <v-dialog v-model="dialogRemarque">
+                <v-flex xs1>
+                    <v-dialog v-model="dialogRemarque" persistent>
                         <v-btn icon slot="activator" class="black--text">
-                            <v-icon>comment</v-icon>
+                            <v-icon v-if="mandat.remarque">message</v-icon>
+                            <v-icon v-else>chat_bubble_outline</v-icon>
                         </v-btn>
                         <v-card>
                             <v-card-text>
-                                {{mandat.remarque}}
+                                <div v-if="!editRemarque">{{mandat.remarque}}</div>
+                                <div v-else>
+                                    <v-text-field name="remarque" v-model.trim="textRemarque" label="Remarque" multi-line></v-text-field>
+                                </div>
                             </v-card-text>
                             <v-divider></v-divider>
                             <v-card-row actions>
-                                <v-btn class="blue--text darken-1" flat @click.native="dialogRemarque = false">Fermer</v-btn>
-                                <!--
-                                <v-btn v-if="mandat.traducteur === currentTranslator" class="blue--text darken-1" flat @click.native="editMandat">Modifier</v-btn>
-                                -->
+                                <v-btn class="blue--text darken-1" flat @click.native="closeRemarque">Fermer</v-btn>
+                                <v-btn v-if="editRemarque" class="blue--text darken-1" flat @click.native="setRemarque">enregistrer</v-btn>
+                                <v-btn v-else class="blue--text darken-1" flat @click.native="editRemarque = true">éditer</v-btn>
                             </v-card-row>
                         </v-card>
-
-
                     </v-dialog>
-                    
                 </v-flex>
             </v-layout>
         </v-card-text>
@@ -145,6 +127,8 @@
                 dialogStatut: false,
                 dialogInfo: false,
                 dialogRemarque: false,
+                editRemarque: false,
+                textRemarque: this.mandat.remarque,
                 copyToClipboard: `<table>
                                       <tr>
                                         <td>${this.mandat.code}</td>
@@ -175,6 +159,15 @@
                 this.$emit('changedStatut', this.selectedStatut);
 
             },
+            setRemarque() {
+                this.dialogRemarque = false;
+                this.$emit('newRemarque', this.textRemarque);
+            },
+            closeRemarque() {
+                this.editRemarque = false;
+                this.dialogRemarque = false;
+                this.textRemarque = this.mandat.remarque;
+            },
             editMandat() {
                 this.dialogInfo = false;
 
@@ -186,8 +179,7 @@
                             key: this.mandat['.key']
                         }
                     });
-                }, 100);
-
+                }, 200);
             }
         },
         computed: {

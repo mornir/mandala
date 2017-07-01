@@ -55,7 +55,7 @@
                             <v-subheader>Remarque</v-subheader>
                         </v-flex>
                         <v-flex xs8>
-                            <v-text-field name="remarque" v-model.trim="mandat.remarque" label="Remarque" autocomplete="off" multi-line></v-text-field>
+                            <v-text-field name="remarque" v-model.trim="mandat.remarque" label="Remarque" multi-line></v-text-field>
                         </v-flex>
                     </v-layout>
                 </v-container>
