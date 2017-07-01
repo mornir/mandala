@@ -14,10 +14,13 @@
                 <v-toolbar-item ripple :router=true href="/rechercher">
                     <v-icon>search</v-icon><span class="hidden-sm-and-down">Rechercher</span></v-toolbar-item>
 
-
+                <v-toolbar-item ripple :router=true href="mitarbeiter">
+                    <v-icon light>people</v-icon>
+                </v-toolbar-item>
                 <v-toolbar-item ripple :router=true href="parametres">
                     <v-icon light>settings</v-icon>
                 </v-toolbar-item>
+              
             </template>
 </v-toolbar-items>
 </v-toolbar>

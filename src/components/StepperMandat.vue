@@ -81,7 +81,7 @@
                     cible: 'FR',
                     traducteur: '',
                     réviseur: 'Jérôme',
-                    moment: '',
+                    heure: '00:00',
                     priorité: 'Ordinaire',
                     mandant: '',
                     public_cible: 'ECA',
@@ -123,7 +123,7 @@
                     const number = ("00" + result.snapshot.val()).slice(-3);
                     this.mandat.code = `${year}.${month}.${number}`;
                     const cleanCode = this.mandat.code.replace(/\./g, '_');
-                    this.$firebaseRefs.mandats.child(cleanCode).set(this.mandat);
+                    this.$firebaseRefs.mandats.child(this.mandat.code).set(this.mandat);
                 });
 
                 this.$router.push("/mesmandats");

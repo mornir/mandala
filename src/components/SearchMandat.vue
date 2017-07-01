@@ -2,7 +2,7 @@
 <v-layout justify-center>
     <v-flex xs4>
         <v-card>
-            <v-card-title class="primary white--text">
+            <v-card-title class="indigo white--text">
                 <span>Rechercher un mandat</span>
             </v-card-title>
             <v-card-text>

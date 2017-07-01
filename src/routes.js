@@ -4,6 +4,7 @@ import SearchMandat from './components/SearchMandat.vue';
 import Settings from './components/Settings.vue';
 import EditMandat from './components/EditMandat.vue';
 import MesMandats from './components/MesMandats.vue';
+import Mitarbeiter from './components/Mitarbeiter.vue';
 
 export const routes = [
     {
@@ -25,6 +26,10 @@ export const routes = [
     {
         path: '/parametres',
         component: Settings
+    },
+    {
+        path: '/mitarbeiter',
+        component: Mitarbeiter
     },
     {
         path: '/edit/:key',

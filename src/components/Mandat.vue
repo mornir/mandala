@@ -16,11 +16,11 @@
                         <v-icon>send</v-icon>
                         <strong>{{mandat.délai}}</strong>
                     </div>
-                    <div v-if="mandat.moment === 'Matin' || mandat.priorité === 'Prioritaire'">
+                    <div v-if="mandat.heure !== '00:00' || mandat.priorité === 'Prioritaire'">
                         <div>
                             <v-icon>warning</v-icon>
                             <strong v-if="mandat.priorité === 'Prioritaire'">{{mandat.priorité}}</strong>
-                            <strong v-if="mandat.moment === 'Matin'">{{mandat.moment}}</strong>
+                            <strong v-if="mandat.heure !== '00:00'">{{mandat.heure}}</strong>
                         </div>
                     </div>
                     <div v-else>
