@@ -46,7 +46,7 @@
                             <v-card-row height="400px" width="800px">
                                 <v-card-text>
                                     <v-radio label="Traduction" v-model="selectedStatut" value="Traduction"></v-radio>
-                                    <v-radio label="Premier jet" v-model="selectedStatut" value="Premier_jet"></v-radio>
+                                    <v-radio label="Premier jet" v-model="selectedStatut" value="Premier jet"></v-radio>
                                     <v-radio label="Questions" v-model="selectedStatut" value="Questions"></v-radio>
                                     <v-radio label="À réviser" v-model="selectedStatut" value="À réviser"></v-radio>
                                     <v-radio label="Révision finie" v-model="selectedStatut" value="Révision finie"></v-radio>
