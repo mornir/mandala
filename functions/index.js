@@ -7,14 +7,11 @@ admin.initializeApp(functions.config().firebase);
 // The Firebase Admin SDK to access the Firebase Realtime Database. 
 const db = admin.database();
 
-
 // https://firebase.google.com/docs/functions/config-env
 // https://howtofirebase.com/firebase-cloud-functions-753935e80323
 const FUNCTIONS_CLIENT_ID = functions.config().googleapi.client_id;
 const FUNCTIONS_SECRET_KEY = functions.config().googleapi.client_secret;
 const FUNCTIONS_REDIRECT = 'https://us-central1-transhub-24008.cloudfunctions.net/OauthCallback';
-
-
 
 const OAuth2 = google.auth.OAuth2;
 
@@ -33,7 +30,6 @@ exports.authGoogleAPI = functions.https.onRequest((req, res) =>
     }))
 );
 
-
 const DB_TOKEN_PATH = '/api_tokens';
 
 exports.OauthCallback = functions.https.onRequest((request, respond) => {
@@ -48,7 +44,6 @@ exports.OauthCallback = functions.https.onRequest((request, respond) => {
         return db.ref(DB_TOKEN_PATH).set(tokens).then(() => respond.status(200).send('OK'));
     });
 });
-
 
 let oauthTokens = null;
 
@@ -87,7 +82,6 @@ function appendPromise(requestWithoutAuth) {
 const SHEET_ID = '1gZLi7dKThTR3mfsJ3CPnZck1mmsK2WT_osrUse53EW8'; // (long string in middle of Sheet URL)
 const DATA_PATH = '/mandatsEnCours';
 
-
 // trigger function to write to Sheet when new data comes in on DATA_PATH
 // {item} is a variable containing the key name, accessible through event.params.VARIABLE
 exports.appendRecordToSpreadsheet = functions.database
@@ -112,14 +106,21 @@ exports.appendRecordToSpreadsheet = functions.database
             // but I still leave the return object since it was in the orginal example and
             // it seems recommended to return a promise https://firebase.googleblog.com/2017/06/keep-your-promises-when-using-cloud.html
 
+            const fichiersString = newRecord.fichiers.reduce((result, item) => {
+                if (item.nombre < 1) {
+                    return result;
+                }
+                return result.concat(item.nombre, ' ', item.fichier, ', ');
+            }, '').slice(0, -2);
+
             //TO DO: stringify fichier array
             return appendPromise({
                 spreadsheetId: SHEET_ID,
-                range: 'A:C',
+                range: 'A:P',
                 valueInputOption: 'USER_ENTERED',
                 insertDataOption: 'INSERT_ROWS',
                 resource: {
-                    values: [[newRecord.code, newRecord.arrivée, newRecord.nom, newRecord.type, newRecord.fichiers, newRecord.activity, newRecord.TAO, newRecord.source, newRecord.cible, newRecord.traducteur, newRecord.réviseur, newRecord.délai, newRecord.priorité, newRecord.mandant, newRecord.public_cible, newRecord.centre_coûts]]
+                    values: [[newRecord.code, newRecord.arrivée, newRecord.nom, newRecord.type, fichiersString, newRecord.activity, newRecord.TAO, newRecord.source, newRecord.cible, newRecord.traducteur, newRecord.réviseur, newRecord.délai, newRecord.priorité, newRecord.mandant, newRecord.public_cible, newRecord.centre_coûts]]
                 }
             });
         });
