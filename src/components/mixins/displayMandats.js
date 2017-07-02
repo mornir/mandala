@@ -51,6 +51,7 @@
                   // User is signed in.
                   this.currentUser = user;
                   // Bind this instance's 'mandats' via vuefire.js' $bindAsArray() method
+                  // last argument is called when the binding has been completed
                   this.$bindAsArray('mandats', db.ref('mandatsEnCours').orderByChild('timeStamp'), null, () => {
                       this.isMandats = true;
                   });

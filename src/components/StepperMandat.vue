@@ -46,8 +46,6 @@
         data() {
             return {
                 etape: 1,
-                mandats: [],
-                counter: {},
                 mandat: {
                     code: '',
                     nom: '',
@@ -92,13 +90,6 @@
                 }
             };
         },
-        firebase: {
-            mandats: db.ref('mandatsEnCours'),
-            counter: {
-                source: db.ref('compteurs').child(moment().format('YYYY')).child(moment().format('MMMM')),
-                asObject: true
-            }
-        },
         methods: {
             newMandat() {
 
@@ -114,7 +105,6 @@
                     this.mandat.timeStamp = moment(this.mandat.délai, "DD/MM/YYYY").format('x');
                 }
 
-                const cleanCode = this.mandat.code.replace(/\./g, '_');
                 const year = moment().format("YY");
                 const month = moment().format("MM");
 
@@ -122,15 +112,16 @@
                 this.getCounterValue().then((result) => {
                     const number = ("00" + result.snapshot.val()).slice(-3);
                     this.mandat.code = `${year}.${month}.${number}`;
+                    // dot caracter is not accepted as a key
                     const cleanCode = this.mandat.code.replace(/\./g, '_');
-                    this.$firebaseRefs.mandats.child(this.mandat.code).set(this.mandat);
+                    db.ref('mandatsEnCours').child(cleanCode).set(this.mandat);
                 });
 
                 this.$router.push("/mesmandats");
 
             },
             getCounterValue() {
-                return db.ref('counters').child(moment().format('YYYY')).transaction((currentValue) => {
+                return db.ref('compteurs').child(moment().format('YYYY')).transaction((currentValue) => {
                     return (currentValue || 0) + 1;
                 });
             }

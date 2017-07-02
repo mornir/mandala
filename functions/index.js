@@ -111,13 +111,15 @@ exports.appendRecordToSpreadsheet = functions.database
             // https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/append
             // but I still leave the return object since it was in the orginal example and
             // it seems recommended to return a promise https://firebase.googleblog.com/2017/06/keep-your-promises-when-using-cloud.html
+
+            //TO DO: stringify fichier array
             return appendPromise({
                 spreadsheetId: SHEET_ID,
                 range: 'A:C',
                 valueInputOption: 'USER_ENTERED',
                 insertDataOption: 'INSERT_ROWS',
                 resource: {
-                    values: [[newRecord.code, newRecord.arrivée, newRecord.nom]]
+                    values: [[newRecord.code, newRecord.arrivée, newRecord.nom, newRecord.type, newRecord.fichiers, newRecord.activity, newRecord.TAO, newRecord.source, newRecord.cible, newRecord.traducteur, newRecord.réviseur, newRecord.délai, newRecord.priorité, newRecord.mandant, newRecord.public_cible, newRecord.centre_coûts]]
                 }
             });
         });
