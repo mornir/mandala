@@ -55,7 +55,6 @@
 </template>
 
 <script>
-    import moment from 'moment';
     export default {
         props: ['mandat'],
         data() {
@@ -71,10 +70,10 @@
         },
         computed: {
             arrivalDate() {
-                return moment(this.mandat.arrivée, "DD/MM/YYYY");
+                return this.$moment(this.mandat.arrivée, "DD/MM/YYYY");
             },
             deadlineDate() {
-                return moment(this.mandat.délai, "DD/MM/YYYY");
+                return this.$moment(this.mandat.délai, "DD/MM/YYYY");
             }
         }
     };

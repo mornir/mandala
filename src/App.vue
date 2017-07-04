@@ -30,7 +30,6 @@
             <router-view></router-view>
         </transition>
     </v-container>
-
 </main>
 </v-app>
 </template>

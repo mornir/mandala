@@ -1,9 +1,8 @@
 <template>
 <div>
-    <v-card-title class="primary white--text">
-        <span>{{mandat.nom}}</span>
-
-    </v-card-title>
+<v-toolbar class="indigo" light>
+    <v-toolbar-title>{{mandat.nom}}</v-toolbar-title>
+</v-toolbar>
     <v-card-text>
         <div class="details">
             <v-layout row wrap>

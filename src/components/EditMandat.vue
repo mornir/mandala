@@ -29,8 +29,6 @@
 </template>
 
 <script>
-    import moment from 'moment';
-
     import StepAdmin from "./StepAdmin.vue";
     import StepCal from "./StepCal.vue";
     import StepTrad from "./StepTrad.vue";

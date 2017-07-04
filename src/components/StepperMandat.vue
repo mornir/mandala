@@ -29,8 +29,6 @@
 </template>
 
 <script>
-    import moment from 'moment';
-
     import StepAdmin from "./StepAdmin.vue";
     import StepCal from "./StepCal.vue";
     import StepTrad from "./StepTrad.vue";
@@ -49,8 +47,8 @@
                 mandat: {
                     code: '',
                     nom: '',
-                    arrivée: moment().format("DD/MM/YYYY"),
-                    délai: moment().format("DD/MM/YYYY"),
+                    arrivée: this.$moment().format("DD/MM/YYYY"),
+                    délai: this.$moment().format("DD/MM/YYYY"),
                     fichiers: [{
                             nombre: 1,
                             fichier: 'Word'
@@ -102,11 +100,11 @@
                 if (this.mandat.priorité === 'Prioritaire') {
                     this.mandat.timeStamp = 0;
                 } else {
-                    this.mandat.timeStamp = moment(this.mandat.délai, "DD/MM/YYYY").format('x');
+                    this.mandat.timeStamp = this.$moment(this.mandat.délai, "DD/MM/YYYY").format('x');
                 }
 
-                const year = moment().format("YY");
-                const month = moment().format("MM");
+                const year = this.$moment().format("YY");
+                const month = this.$moment().format("MM");
 
                 // https://firebase.google.com/docs/database/web/read-and-write#save_data_as_transactions
                 this.getCounterValue().then((result) => {
@@ -121,7 +119,7 @@
 
             },
             getCounterValue() {
-                return db.ref('compteurs').child(moment().format('YYYY')).transaction((currentValue) => {
+                return db.ref('compteurs').child(this.$moment().format('YYYY')).transaction((currentValue) => {
                     return (currentValue || 0) + 1;
                 });
             }

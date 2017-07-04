@@ -5,6 +5,11 @@ import App from './App.vue';
 import Vuetify from 'vuetify';
 import VueFuse from 'vue-fuse';
 import VueClipboards from 'vue-clipboards';
+import moment from 'moment';
+
+Object.defineProperty(Vue.prototype, '$moment', {
+    value: moment
+});
 
 import {
     routes

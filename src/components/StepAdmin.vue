@@ -17,7 +17,7 @@
                         </v-flex>
 
                         <v-flex xs2>
-                            <v-select :items="centres" v-model="mandat.centre_coûts" single-line auto/>
+                            <v-select :items="centres" v-model="mandat.centre_coûts" @input="rebind" single-line/>
                         </v-flex>
 
                         <v-flex xs2>
@@ -25,7 +25,8 @@
                         </v-flex>
 
                         <v-flex xs4>
-                            <v-text-field name="mandant" v-model.trim="mandat.mandant" label="Mandant"></v-text-field>
+<!--                            <v-text-field name="mandant" v-model.trim="mandat.mandant" label="Mandant"></v-text-field>-->
+                            <v-select :items="mandants" v-model="mandant" @input="saveMandant" single-line/>
                         </v-flex>
                     </v-layout>
                     <v-layout>
@@ -61,16 +62,31 @@
                 </v-container>
             </v-card-text>
         </v-card>
-     
 </template>
 
 <script>
+    import {
+        db
+    } from '../firebase';
     export default {
         props: ['etape', 'mandat'],
         data() {
             return {
-                centres: ['VKF', 'IRV', 'VKG']
+                centres: ['VKF', 'IRV', 'VKG'],
+                mandant: {}
             };
+        },
+        created() {
+            this.$bindAsArray('mandants', db.ref('mandantsListe/' + this.mandat.centre_coûts));
+        },
+        methods: {
+            rebind() {
+                this.$unbind('mandants');
+                this.$bindAsArray('mandants', db.ref('mandantsListe/' + this.mandat.centre_coûts));
+            },
+            saveMandant() {
+                this.mandat.mandant = this.mandant.text;
+            }
         }
     };
 

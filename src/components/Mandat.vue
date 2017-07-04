@@ -41,8 +41,9 @@
                     <v-dialog v-model="dialogStatut" scrollable persistent>
                         <v-btn outline slot="activator">{{mandat.statut}}</v-btn>
                         <v-card>
-                            <v-card-title>Nouveau statut</v-card-title>
-                            <v-divider></v-divider>
+                            <v-toolbar class="indigo" light>
+                                <v-toolbar-title>Nouveau statut</v-toolbar-title>
+                            </v-toolbar>
                             <v-card-row height="400px" width="800px">
                                 <v-card-text>
                                     <v-radio label="Traduction" v-model="selectedStatut" value="Traduction"></v-radio>
@@ -87,6 +88,9 @@
                             <v-icon v-else>chat_bubble_outline</v-icon>
                         </v-btn>
                         <v-card>
+                            <v-toolbar class="indigo" light>
+                                <v-toolbar-title>Laisser un message</v-toolbar-title>
+                            </v-toolbar>
                             <v-card-text>
                                 <div v-if="!editRemarque">{{mandat.remarque}}</div>
                                 <div v-else>

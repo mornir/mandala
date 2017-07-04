@@ -6,7 +6,8 @@
                 <span>Rechercher un mandat</span>
             </v-card-title>
             <v-card-text>
-                <v-select :items="years" v-model="selectedYear" label="Année" auto></v-select>
+                <v-select :items="years" v-model="selectedYear" label="Année" @input="rebind"></v-select>
+                <v-btn click.native="update">update</v-btn>
                 <vue-fuse :keys="keys" :list="mandats" :defaultAll="false" eventName="queryChanged" placeholder="Entrer nom du mandat">
                 </vue-fuse>
                 <v-list>
@@ -35,8 +36,6 @@
 </template>
 
 <script>
-    import moment from 'moment';
-
     import MandatDetails from './MandatDetails.vue';
     import {
         db
@@ -45,7 +44,6 @@
     export default {
         data() {
             return {
-                mandats: [],
                 results: [],
                 years: [],
                 selectedYear: 2017,
@@ -56,23 +54,25 @@
         methods: {
             updateResults(results) {
                 this.results = results;
+            },
+            rebind() {
+                this.$unbind('mandats');
+                this.$bindAsArray('mandats', db.ref('mandatsLiquidés/' + this.selectedYear));
             }
 
         },
+
         created() {
             this.$on('queryChanged', results => {
                 this.results = results;
             });
 
-            for (let i = moment().year(); i >= 2017; i--) {
+            for (let i = this.$moment().year(); i >= 2017; i--) {
                 this.years.push(i);
             }
 
-        },
-        firebase() {
-            return {
-                mandats: db.ref('mandatsLiquidés/' + this.selectedYear)
-            };
+            this.$bindAsArray('mandats', db.ref('mandatsLiquidés/' + this.$moment().year()));
+
         },
         components: {
             mandatDetails: MandatDetails
@@ -82,10 +82,6 @@
 </script>
 
 <style>
-    .fuzzy {
-        color: red
-    }
-    
     input[type=search] {
         width: 100%;
         padding: 12px 20px;

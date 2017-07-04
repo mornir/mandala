@@ -25,6 +25,8 @@
 
               if (newStatut === "Liquidé") {
 
+                  //TO DO: CREATE TIME STAMP
+
                   // create complete year for archiving
                   const year = "20" + mandat.code.substring(0, 2);
 

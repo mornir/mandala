@@ -50,7 +50,6 @@
 </template>
 
 <script>
-    import moment from 'moment';
     import {
         displayMandats
     } from './mixins/displayMandats';
@@ -60,27 +59,27 @@
         computed: {
             todayMandats() {
                 return this.mandats.filter(item => {
-                    return item.délai === moment().format("DD/MM/YYYY");
+                    return item.délai === this.$moment().format("DD/MM/YYYY");
                 });
             },
             tomorrowMandats() {
                 return this.mandats.filter(item => {
-                    return item.délai === moment().add(1, 'days').format("DD/MM/YYYY");
+                    return item.délai === this.$moment().add(1, 'days').format("DD/MM/YYYY");
                 });
             },
             laterMandats() {
                 return this.mandats.filter(item => {
-                    return moment(item.délai, "DD/MM/YYYY").isoWeek() > moment().isoWeek();
+                    return this.$moment(item.délai, "DD/MM/YYYY").isoWeek() > this.$moment().isoWeek();
                 });
             },
             weekMandats() {
                 return this.mandats.filter(item => {
-                    return moment(item.délai, "DD/MM/YYYY").isoWeek() == moment().isoWeek() && moment(item.délai, "DD/MM/YYYY") > moment().add(1, 'days');
+                    return this.$moment(item.délai, "DD/MM/YYYY").isoWeek() == this.$moment().isoWeek() && this.$moment(item.délai, "DD/MM/YYYY") > this.$moment().add(1, 'days');
                 });
             },
             lateMandats() {
                 return this.mandats.filter(item => {
-                    return moment(item.délai, "DD/MM/YYYY") < moment().subtract(1, 'days');
+                    return this.$moment(item.délai, "DD/MM/YYYY") < this.$moment().subtract(1, 'days');
                 });
             }
         }

@@ -7,38 +7,41 @@
             </v-toolbar>
             <v-card-text>
 
-                <v-layout row justify-space-around>
+                <v-layout>
+                    <v-flex xs2>
+                        <v-subheader>Kürzel</v-subheader>
+                    </v-flex>
                     <v-flex xs2>
                         <v-text-field label="Kürzel" v-model="newMandant.Kürzel" :maxlength="4"></v-text-field>
                     </v-flex>
-                    <v-flex xs4>
-                        <v-text-field label="Prénom" v-model="newMandant.prénom"></v-text-field>
+                    <v-flex xs2>
+                        <v-subheader>Nom</v-subheader>
                     </v-flex>
                     <v-flex xs4>
-                        <v-text-field label="Nom" v-model="newMandant.nom"></v-text-field>
+                        <v-text-field label="Nom" v-model="newMandant.text"></v-text-field>
                     </v-flex>
                 </v-layout>
                 <v-layout>
-                       <v-flex xs4>
-                            <v-subheader>Centre de coûts</v-subheader>
-                        </v-flex>
-                        <v-flex xs4>
-                         <v-select label="Centre de coûts" :items="centres" v-model="centre" multiple/>
-                        </v-flex>
-                
-                
+                    <v-flex xs4>
+                        <v-subheader>Centre de coûts</v-subheader>
+                    </v-flex>
+                    <v-flex xs4>
+                        <v-select label="Centre de coûts" :items="centres" v-model="selectedCenters" multiple/>
+                    </v-flex>
+
+
                 </v-layout>
-                                <v-layout>
-                       <v-flex xs4>
-                            <v-subheader>Domaines</v-subheader>
-                        </v-flex>
-                        <v-flex xs4>
-  <v-select label="Domaine" :items="domaines" v-model="domaine" multiple/>
-                        </v-flex>
-                
-                
+                <v-layout>
+                    <v-flex xs4>
+                        <v-subheader>Département</v-subheader>
+                    </v-flex>
+                    <v-flex xs4>
+                        <v-select label="Département" :items="départements" v-model="newMandant.département" />
+                    </v-flex>
+
+
                 </v-layout>
-              
+
             </v-card-text>
             <v-card-row actions>
                 <v-spacer></v-spacer>
@@ -48,6 +51,42 @@
         </v-card>
     </v-flex>
     <v-flex xs6>
+
+        <v-tabs id="mobile-tabs-1" grow scroll-bars v-model="activeTab" light @input="rebind">
+            <v-tabs-bar slot="activators" class="indigo">
+                <v-tabs-item v-for="centre in centres" :key="centre" :href="'#' + centre" ripple>
+                    {{ centre }}
+                </v-tabs-item>
+                <v-tabs-slider></v-tabs-slider>
+            </v-tabs-bar>
+            <v-tabs-content v-for="centre in centres" :key="centre" :id="centre">
+
+                <v-card flat>
+                    
+                      <v-list two-line subheader>
+
+          <v-list-item v-for="mandant in groupe" :key="mandant.Kürzel">
+            <v-list-tile>
+              <v-list-tile-content>
+                <v-list-tile-title>  {{mandant.text}} <small>({{mandant.Kürzel}})</small></v-list-tile-title>
+                <v-list-tile-sub-title>{{ mandant.département }}</v-list-tile-sub-title>
+              </v-list-tile-content>
+              <v-list-tile-action>
+                <v-btn icon ripple @click.native="deleteMandant(mandant.Kürzel)">
+                  <v-icon class="red--text">close</v-icon>
+                </v-btn>
+              </v-list-tile-action>
+            </v-list-tile>
+          </v-list-item>
+          <v-divider></v-divider>
+
+   
+        </v-list>
+         
+                </v-card>
+            </v-tabs-content>
+        </v-tabs>
+
     </v-flex>
 </v-layout>
 </template>
@@ -60,24 +99,36 @@
     export default {
         data() {
             return {
-                domaines: ['Ausbildung', 'Brandschutz', 'ESP', 'Finanzen', 'Rechtsdienst', 'Kommunikation'],
+                activeTab: 'VKF',
+                départements: ['Ausbildung', 'Brandschutz', 'ESP', 'Finanzen', 'Rechtsdienst', 'Kommunikation'],
                 centres: ['VKF', 'IRV', 'VKG'],
-                centre: [],
-                domaine: [],
+                selectedCenters: [],
                 newMandant: {
                     Kürzel: '',
-                    prénom: '',
-                    nom: ''
+                    text: '',
+                    département: ''
                 }
             };
         },
         firebase: {
-            mandants: db.ref('mandants'),
-            //domaines: db.ref('domaines')
+            VKF: db.ref('mandantsListe/VKF')
+        },
+        created() {
+            this.$bindAsArray('groupe', db.ref('mandantsListe/VKF'));
         },
         methods: {
             addMitarbeiter() {
-                this.$firebaseRefs.mandants.child(this.newMandant.Kürzel).set(this.newMandant);
+                this.selectedCenters.forEach((el) => {
+                    db.ref('mandantsListe').child(el).child(this.newMandant.Kürzel).set(this.newMandant);
+                });
+
+            },
+            deleteMandant(key) {
+                this.$firebaseRefs.groupe.child(key).remove();
+            },
+            rebind() {
+                this.$unbind('groupe');
+                this.$bindAsArray('groupe', db.ref('mandantsListe/' + this.activeTab));
             }
         }
     };
