@@ -62,31 +62,30 @@
             <v-tabs-content v-for="centre in centres" :key="centre" :id="centre">
 
                 <v-card flat>
-                    
-                      <v-list two-line subheader>
 
-          <v-list-item v-for="mandant in groupe" :key="mandant.Kürzel">
-            <v-list-tile>
-              <v-list-tile-content>
-                <v-list-tile-title>  {{mandant.text}} <small>({{mandant.Kürzel}})</small></v-list-tile-title>
-                <v-list-tile-sub-title>{{ mandant.département }}</v-list-tile-sub-title>
-              </v-list-tile-content>
-              <v-list-tile-action>
-                <v-btn icon ripple @click.native="deleteMandant(mandant.Kürzel)">
-                  <v-icon class="red--text">close</v-icon>
-                </v-btn>
-              </v-list-tile-action>
-            </v-list-tile>
-          </v-list-item>
-          <v-divider></v-divider>
+                    <v-list two-line subheader>
 
-   
-        </v-list>
-         
+                        <v-list-item v-for="mandant in groupe" :key="mandant.Kürzel">
+                            <v-list-tile>
+                                <v-list-tile-content>
+                                    <v-list-tile-title> {{mandant.text}} <small>({{mandant.Kürzel}})</small></v-list-tile-title>
+                                    <v-list-tile-sub-title>{{ mandant.département }}</v-list-tile-sub-title>
+                                </v-list-tile-content>
+                                <v-list-tile-action>
+                                    <v-btn icon ripple @click.native="deleteMandant(mandant.Kürzel)">
+                                        <v-icon class="red--text">close</v-icon>
+                                    </v-btn>
+                                </v-list-tile-action>
+                            </v-list-tile>
+                        </v-list-item>
+                        <v-divider></v-divider>
+
+
+                    </v-list>
+
                 </v-card>
             </v-tabs-content>
         </v-tabs>
-
     </v-flex>
 </v-layout>
 </template>

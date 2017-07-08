@@ -80,6 +80,7 @@
                     heure: '00:00',
                     priorité: 'Ordinaire',
                     mandant: '',
+                    département: '',
                     public_cible: 'ECA',
                     centre_coûts: 'VKF',
                     remarque: '',

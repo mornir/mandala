@@ -25,7 +25,12 @@
 
               if (newStatut === "Liquidé") {
 
-                  //TO DO: CREATE TIME STAMP
+                  mandat.fichiers = mandat.fichiers.reduce((result, item) => {
+                      if (item.nombre < 1) {
+                          return result;
+                      }
+                      return result.concat(item.nombre, ' ', item.fichier, ', ');
+                  }, '').slice(0, -2);
 
                   // create complete year for archiving
                   const year = "20" + mandat.code.substring(0, 2);

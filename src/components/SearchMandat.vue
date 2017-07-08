@@ -7,7 +7,6 @@
             </v-card-title>
             <v-card-text>
                 <v-select :items="years" v-model="selectedYear" label="Année" @input="rebind"></v-select>
-                <v-btn click.native="update">update</v-btn>
                 <vue-fuse :keys="keys" :list="mandats" :defaultAll="false" eventName="queryChanged" placeholder="Entrer nom du mandat">
                 </vue-fuse>
                 <v-list>
@@ -71,7 +70,7 @@
                 this.years.push(i);
             }
 
-            this.$bindAsArray('mandats', db.ref('mandatsLiquidés/' + this.$moment().year()));
+            this.$bindAsArray('mandats', db.ref('mandatsLiquidés/' + this.$moment().year()).orderByChild('mandant').equalTo('Jolanda Moser'));
 
         },
         components: {

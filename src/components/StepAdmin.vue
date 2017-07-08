@@ -25,8 +25,7 @@
                         </v-flex>
 
                         <v-flex xs4>
-<!--                            <v-text-field name="mandant" v-model.trim="mandat.mandant" label="Mandant"></v-text-field>-->
-                            <v-select :items="mandants" v-model="mandant" @input="saveMandant" single-line/>
+                            <v-select :items="mandants" v-model="mandant" @input="saveMandant" single-line :hint="mandant.département" persistent-hint/>
                         </v-flex>
                     </v-layout>
                     <v-layout>
@@ -86,6 +85,7 @@
             },
             saveMandant() {
                 this.mandat.mandant = this.mandant.text;
+                this.mandat.département = this.mandant.département;
             }
         }
     };
