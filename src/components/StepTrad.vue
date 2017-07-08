@@ -7,7 +7,7 @@
                         <v-subheader>Public-cible</v-subheader>
                     </v-flex>
                     <v-flex xs8>
-                        <v-text-field name="public_cible" v-model.trim="mandat.public_cible" label="Public-cible"></v-text-field>
+                        <v-text-field name="public_cible" v-model.lazy.trim="mandat.public_cible" label="Public-cible"></v-text-field>
                     </v-flex>
                 </v-layout>
                 <v-layout>

@@ -39,7 +39,6 @@
     import {
         db
     } from '../firebase';
-
     export default {
         data() {
             return {
@@ -58,20 +57,15 @@
                 this.$unbind('mandats');
                 this.$bindAsArray('mandats', db.ref('mandatsLiquidés/' + this.selectedYear));
             }
-
         },
-
         created() {
             this.$on('queryChanged', results => {
                 this.results = results;
             });
-
             for (let i = this.$moment().year(); i >= 2017; i--) {
                 this.years.push(i);
             }
-
             this.$bindAsArray('mandats', db.ref('mandatsLiquidés/' + this.$moment().year()).orderByChild('mandant').equalTo('Jolanda Moser'));
-
         },
         components: {
             mandatDetails: MandatDetails
