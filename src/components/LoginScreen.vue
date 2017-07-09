@@ -5,7 +5,9 @@
     </v-card-title>
     <v-card-text>
         <v-select :items="users" v-model="selectedUser" label="Traducteur" auto></v-select>
-        <v-text-field name="password" label="Mot de passe" v-model="password" hide-details></v-text-field>
+        <v-text-field name="password" label="Mot de passe" v-model="password" hide-details type="password"    :append-icon="e1 ? 'visibility' : 'visibility_off'"
+              :append-icon-cb="() => (e1 = !e1)"
+              :type="e1 ? 'password' : 'text'"></v-text-field>
         <span v-if="errorMessage" style="color:red">{{errorMessage}}</span>
     </v-card-text>
     <v-divider></v-divider>
@@ -42,7 +44,8 @@
                     email: 'carine@test.com'
                 },
                 password: '',
-                errorMessage: ''
+                errorMessage: '',
+                e1: true
             };
         },
         methods: {
