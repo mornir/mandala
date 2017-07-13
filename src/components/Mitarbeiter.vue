@@ -99,7 +99,7 @@
         data() {
             return {
                 activeTab: 'VKF',
-                départements: ['Ausbildung', 'Brandschutz', 'ESP', 'Finanzen', 'Rechtsdienst', 'Kommunikation'],
+                départements: ["Human Resources", "Sekretariat", "Generalsekretariat", "Public Relations", "Rechtsdienst", "VKF ZIP AG", "Brandschutz", "Elementarschaden-Prävention", "Ausbildung", "Finanzen", "Informatik", "Rückversicherung", "Liegenschaftsdienst"],
                 centres: ['VKF', 'IRV', 'VKG'],
                 selectedCenters: [],
                 newMandant: {
