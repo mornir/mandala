@@ -146,7 +146,6 @@
                                         <td>${this.mandat.cible}</td>
                                         <td>${this.mandat.traducteur}</td>
                                         <td>${this.mandat.réviseur}</td>
-                                        <td>${this.mandat.remarque}</td>
                                         <td>${this.mandat.délai}</td>
                                         <td>${this.mandat.priorité}</td>
                                         <td>${this.mandat.mandant}</td>
