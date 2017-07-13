@@ -6,6 +6,10 @@
       db
   } from '../../firebase';
 
+  import {
+      create
+  } from '../../elasticsearch';
+
   import Mandat from "../Mandat.vue";
   import LoginScreen from "../LoginScreen.vue";
 
@@ -38,6 +42,9 @@
                   // make a copy and delete .key property, otherwise can't store in Firebase
                   const archivedMandat = mandat;
                   delete archivedMandat['.key'];
+
+                  create(key, archivedMandat);
+
                   db.ref("mandatsLiquidés/" + year).child(key).set(archivedMandat);
 
                   //Quickfix for overlay, will be fixed Vuetify 0.13

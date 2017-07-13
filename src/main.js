@@ -1,3 +1,5 @@
+//import './elasticsearch';
+
 import Vue from 'vue';
 import VueFire from 'vuefire';
 import VueRouter from 'vue-router';

@@ -1,8 +1,10 @@
 .DS_Store
 .yarn-error.log
+.firebaserc
 node_modules/
 dist/
 npm-debug.log
 src/firebase.js
+src/elasticsearch.js
 src/assets/
 stats.json
