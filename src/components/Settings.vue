@@ -1,7 +1,9 @@
 <template>
 <v-layout justify-center>
     <v-card>
-        <v-card-title class="primary white--text">Mon profil</v-card-title>
+        <v-toolbar class="indigo" light>
+            <v-toolbar-title>Mon profil</v-toolbar-title>
+        </v-toolbar>
         <v-card-text>
             <v-card-row>
                 <div class="subheading">

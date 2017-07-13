@@ -1,8 +1,8 @@
 <template>
 <v-card>
-    <v-card-title class="primary white--text">
-        <span>Se connecter</span>
-    </v-card-title>
+    <v-toolbar class="indigo" light>
+        <v-toolbar-title>Se connecter</v-toolbar-title>
+    </v-toolbar>
     <v-card-text>
         <v-select :items="users" v-model="selectedUser" label="Traducteur" auto></v-select>
         <v-text-field name="password" label="Mot de passe" v-model="password" hide-details type="password"    :append-icon="e1 ? 'visibility' : 'visibility_off'"
