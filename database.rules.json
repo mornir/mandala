@@ -4,11 +4,6 @@
         ".write": "auth != null",
         "mandatsEnCours": {
             ".indexOn": "timeStamp"
-        },
-        "mandatsLiquidés": {
-            "$year": {
-                ".indexOn": "mandant"
-            }
         }
     }
 }

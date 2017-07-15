@@ -11,7 +11,8 @@ const db = admin.database();
 // https://howtofirebase.com/firebase-cloud-functions-753935e80323
 const FUNCTIONS_CLIENT_ID = functions.config().googleapi.client_id;
 const FUNCTIONS_SECRET_KEY = functions.config().googleapi.client_secret;
-const FUNCTIONS_REDIRECT = 'https://us-central1-transhub-24008.cloudfunctions.net/OauthCallback';
+//const FUNCTIONS_REDIRECT = 'https://us-central1-transhub-24008.cloudfunctions.net/OauthCallback';
+const FUNCTIONS_REDIRECT = functions.config().googleapi.redirect_url;
 
 const OAuth2 = google.auth.OAuth2;
 
@@ -79,7 +80,7 @@ function appendPromise(requestWithoutAuth) {
     });
 }
 
-const SHEET_ID = '1gZLi7dKThTR3mfsJ3CPnZck1mmsK2WT_osrUse53EW8'; // (long string in middle of Sheet URL)
+const SHEET_ID = functions.config().googleapi.sheet_id; // (long string in middle of Sheet URL)
 const DATA_PATH = '/mandatsEnCours';
 
 // trigger function to write to Sheet when new data comes in on DATA_PATH
@@ -106,6 +107,7 @@ exports.appendRecordToSpreadsheet = functions.database
             // https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/append
             // but I still leave the return object since it was in the orginal example and
             // it seems recommended to return a promise https://firebase.googleblog.com/2017/06/keep-your-promises-when-using-cloud.html
+            // because if an error occurs, we return it!!
             return appendPromise({
                 spreadsheetId: SHEET_ID,
                 range: 'A:P',
