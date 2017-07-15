@@ -36,18 +36,14 @@
                       return result.concat(item.nombre, ' ', item.fichier, ', ');
                   }, '').slice(0, -2);
 
-                  // create complete year for archiving
-                  const year = "20" + mandat.code.substring(0, 2);
-
-                  // make a copy and delete .key property, otherwise can't store in Firebase
+                  // make a copy and delete .key property, otherwise can't store in Elasticsearch
                   const archivedMandat = mandat;
                   delete archivedMandat['.key'];
 
+                  //saving to elasticseach
                   create(key, archivedMandat);
 
-                  db.ref("mandatsLiquidés/" + year).child(key).set(archivedMandat);
-
-                  //Quickfix for overlay, will be fixed Vuetify 0.13
+                  //Quickfix for overlay, will be fixed in Vuetify 0.13
                   setTimeout(() => {
                       this.$firebaseRefs.mandats.child(key).remove();
                   }, 500);

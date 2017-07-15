@@ -120,7 +120,7 @@
 
             },
             getCounterValue() {
-                return db.ref('compteurs').child(this.$moment().format('YYYY')).transaction((currentValue) => {
+                return db.ref('compteurs').child(this.$moment().format('YYYY')).child(this.$moment().format("MM")).transaction((currentValue) => {
                     return (currentValue || 0) + 1;
                 });
             }

@@ -80,35 +80,32 @@ function appendPromise(requestWithoutAuth) {
 }
 
 const SHEET_ID = '1gZLi7dKThTR3mfsJ3CPnZck1mmsK2WT_osrUse53EW8'; // (long string in middle of Sheet URL)
-const DATA_PATH = '/mandatsLiquidés/2017';
+const DATA_PATH = '/mandatsEnCours';
 
 // trigger function to write to Sheet when new data comes in on DATA_PATH
 // {item} is a variable containing the key name, accessible through event.params.VARIABLE
 //.ref(`${DATA_PATH}/{ITEM}`) do I need this?
 exports.appendRecordToSpreadsheet = functions.database
     .ref(`${DATA_PATH}/{ITEM}`)
-    .onWrite(
+    .onDelete(
         (event) => {
 
-            // Only edit data when it is first created.
-            //            if (event.data.previous.exists()) {
-            //                return;
-            //            }
-            // Exit when the data is deleted.
-            //      if (!event.data.exists()) {
-            //        return;
-            //      }
+            const newRecord = event.data.previous.val();
 
-            const newRecord = event.data.current.val();
-            console.log(event.params.ITEM);
+            const fichiers = newRecord.fichiers.reduce((result, item) => {
+                if (item.nombre < 1) {
+                    return result;
+                }
+                return result.concat(item.nombre, ' ', item.fichier, ', ');
+            }, '').slice(0, -2);
+
+            const newRow = [newRecord.code, newRecord.arrivée, newRecord.nom, newRecord.type, fichiers, newRecord.activité, newRecord.TAO, newRecord.source, newRecord.cible, newRecord.traducteur, newRecord.réviseur, newRecord.délai, newRecord.priorité, newRecord.mandant, newRecord.public_cible, newRecord.centre_coûts];
+
             // return a promise containing the updated speadsheet data (ID, range, new data, etc.)
             // here we actually don't process the `response` object
             // https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/append
             // but I still leave the return object since it was in the orginal example and
             // it seems recommended to return a promise https://firebase.googleblog.com/2017/06/keep-your-promises-when-using-cloud.html
-
-            const newRow = [newRecord.code, newRecord.arrivée, newRecord.nom, newRecord.type, newRecord.fichiers, newRecord.activité, newRecord.TAO, newRecord.source, newRecord.cible, newRecord.traducteur, newRecord.réviseur, newRecord.délai, newRecord.priorité, newRecord.mandant, newRecord.public_cible, newRecord.centre_coûts];
-
             return appendPromise({
                 spreadsheetId: SHEET_ID,
                 range: 'A:P',

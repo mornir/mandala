@@ -5,10 +5,10 @@
                 <v-container>
                     <v-layout>
                         <v-flex xs3>
-                            <v-subheader>Nom du projet</v-subheader>
+                            <v-subheader>Nom du mandat</v-subheader>
                         </v-flex>
                         <v-flex xs8>
-                            <v-text-field name="nom" v-model.lazy.trim="mandat.nom" label="Nom du projet"></v-text-field>
+                            <v-text-field name="nom" v-model.trim="mandat.nom" label="Nom du mandat"></v-text-field>
                         </v-flex>
                     </v-layout>
                     <v-layout> 

@@ -59,8 +59,11 @@
                     <div>Activité</div><strong>{{mandat.activité}}</strong>
                 </v-flex>
                 
-                <v-flex xs5 sm4 md3 lg2>
+                <v-flex xs5 sm4 md3 lg2 v-if="Array.isArray(mandat.fichiers)">
                     <div>Fichiers</div><strong><ul><li v-for="file in mandat.fichiers" v-if="file.nombre">{{file.nombre}} {{file.fichier}}</li></ul></strong>
+                </v-flex>
+                   <v-flex xs5 sm4 md3 lg2 v-else>
+                    <div>Fichiers</div><strong>{{mandat.fichiers}}</strong>
                 </v-flex>
                 
                 <v-flex xs5 sm4 md3 lg2 v-if="mandat.remarque">

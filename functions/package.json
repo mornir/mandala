@@ -2,8 +2,8 @@
   "name": "functions",
   "description": "Cloud Functions for Firebase",
   "dependencies": {
-    "firebase-admin": "^5.0.0",
-    "firebase-functions": "^0.5.7",
+    "firebase-admin": "^5.0.1",
+    "firebase-functions": "^0.5.9",
     "googleapis": "^19.0.0"
   },
   "private": true
