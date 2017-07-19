@@ -18,7 +18,7 @@
                         <v-subheader>Nom</v-subheader>
                     </v-flex>
                     <v-flex xs4>
-                        <v-text-field label="Nom" v-model="newMandant.text"></v-text-field>
+                        <v-text-field label="Prénom + Nom" v-model="newMandant.text"></v-text-field>
                     </v-flex>
                 </v-layout>
                 <v-layout>
