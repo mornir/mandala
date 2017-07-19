@@ -71,7 +71,7 @@
         props: ['etape', 'mandat'],
         data() {
             return {
-                centres: ['VKF', 'IRV', 'VKG'],
+                centres: ["VKF", "IRV", "Pool", "VKG", "PRAEVENT", "VKF ZIP AG"],
                 mandant: {}
             };
         },
