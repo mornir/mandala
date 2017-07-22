@@ -36,6 +36,8 @@
                       return result.concat(item.nombre, ' ', item.fichier, ', ');
                   }, '').slice(0, -2);
 
+                  mandat.renvoi = this.$moment().unix();
+
                   // make a copy and delete .key property, otherwise can't store in Elasticsearch
                   const archivedMandat = mandat;
                   delete archivedMandat['.key'];

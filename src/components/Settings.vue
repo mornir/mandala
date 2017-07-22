@@ -2,7 +2,7 @@
 <v-layout justify-center>
     <v-card>
         <v-toolbar class="indigo" light>
-            <v-toolbar-title>Mon profil</v-toolbar-title>
+            <v-toolbar-title>Profil de {{currentUser.displayName}}</v-toolbar-title>
         </v-toolbar>
         <v-card-text>
             <v-card-row>
@@ -12,6 +12,8 @@
                     <v-btn @click.native="updateNumero">Mettre à jour le numéro</v-btn>
                 </div>
                 </v-card-row>
+            
+<!--
                 <v-card-row>
                 <div class="subheading">
                     <span>Mon prénom : </span>
@@ -21,7 +23,8 @@
 
             <v-text-field name="displayName" label="Nouveau prénom" v-model="displayName" hide-details></v-text-field>
             <v-btn @click.native="update">Mettre à jour le prénom</v-btn>
-
+-->
+            
             <v-btn error @click.native="logout">Se déconnecter</v-btn>
             
             

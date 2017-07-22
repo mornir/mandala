@@ -18,7 +18,7 @@
                     </div>
                     <div v-if="mandat.heure !== '00:00' || mandat.priorité === 'Prioritaire'">
                         <div>
-                            <v-icon>warning</v-icon>
+                            <v-icon class="amber--text text--accent-3">warning</v-icon>
                             <strong v-if="mandat.priorité === 'Prioritaire'">{{mandat.priorité}}</strong>
                             <strong v-if="mandat.heure !== '00:00'">{{mandat.heure}}</strong>
                         </div>
@@ -187,22 +187,20 @@
         },
         computed: {
             currentStatut() {
-                if (this.mandat.statut === 'Traduction') {
-                    return 'amber lighten-2 black--text';
-                } else if (this.mandat.statut === 'Premier jet') {
+                if (this.mandat.statut === 'Premier jet') {
                     return 'blue lighten-4 black--text';
                 } else if (this.mandat.statut === 'Questions') {
-                    return 'red lighten-1 black--text';
+                    return 'red lighten-2 black--text';
                 } else if (this.mandat.statut === 'À réviser') {
                     //send notification
                     return 'purple lighten-2 black--text';
                 } else if (this.mandat.statut === 'Révision finie') {
                     //send notification
-                    return 'light-blue lighten-1 black--text';
+                    return 'light-blue lighten-2 black--text';
                 } else if (this.mandat.statut === 'Liquidé') {
-                    return 'light-green accent-4 black--text';
+                    return 'green lighten-2 black--text';
                 } else {
-                    console.error('Erreur: statut de mandat inconnu');
+                    return 'grey lighten-3 black--text';
                 }
             }
         },

@@ -101,7 +101,7 @@
                 if (this.mandat.priorité === 'Prioritaire') {
                     this.mandat.timeStamp = 0;
                 } else {
-                    this.mandat.timeStamp = this.$moment(this.mandat.délai, "DD/MM/YYYY").format('x');
+                    this.mandat.timeStamp = this.$moment(this.mandat.délai, "DD/MM/YYYY").unix();
                 }
 
                 const year = this.$moment().format("YY");
