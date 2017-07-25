@@ -48,7 +48,7 @@
             },
             revisions() {
                 return this.mandats.filter((mandat) => {
-                    return mandat.réviseur === this.currentUser.displayName && mandat.statut === "À réviser";
+                    return mandat.réviseur === this.currentUser.displayName && mandat.statut !== "Révision finie";
                 });
             }
         }
