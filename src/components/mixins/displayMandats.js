@@ -26,10 +26,7 @@
 
               const key = mandat['.key'];
 
-              //Quickfix for overlay, will be fixed in Vuetify 0.13
-              setTimeout(() => {
-                  this.$firebaseRefs.mandats.child(key).child('statut').set(newStatut);
-              }, 100);
+              this.$firebaseRefs.mandats.child(key).child('statut').set(newStatut);
 
               if (newStatut === "Liquidé") {
 
