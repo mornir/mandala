@@ -3,11 +3,7 @@
     <m-toolbar></m-toolbar>
     <main>
       <v-container fluid>
-        <v-layout row wrap>
-          <v-flex xs4="false" xs6="true">
-            <mandat></mandat>
-          </v-flex>
-        </v-layout>
+        <smart-vue></smart-vue>
       </v-container>
     </main>
   </v-app>
@@ -15,7 +11,8 @@
 
 <script>
 import Toolbar from '@/components/Toolbar'
-import Mandat from '@/components/Mandat'
+import SmartVue from '@/components/SmartVue'
+
 export default {
   data() {
     return {
@@ -24,7 +21,7 @@ export default {
   },
   components: {
     mToolbar: Toolbar,
-    Mandat: Mandat
+    smartVue: SmartVue
   }
 }
 </script>
