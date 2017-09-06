@@ -1,11 +1,21 @@
-# MandaLa
-Application web pour la gestion de mandats de traduction
+# mandala2
 
-## Détails
+> Webapp for managing translation orders
 
-* Saisie simplifiée
-* Génération automatique du code ÜD
-* Realtime database (accès simultané à l’application et changements immédiatement visibles)
-* Affichage uniquement des mandats en cours ; mandats liquidés seront masqués, mais retrouvables facilement.
-* Fonction de recherche des anciens mandats, recherche avancée par mots-clés
-* Données hébergées sur un serveur sécurisé et encrypté de Google (gratuit < 1 GO)
+## Build Setup
+
+``` bash
+# install dependencies
+npm install
+
+# serve with hot reload at localhost:8080
+npm run dev
+
+# build for production with minification
+npm run build
+
+# build for production and view the bundle analyzer report
+npm run build --report
+```
+
+For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).

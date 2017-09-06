@@ -1,65 +1,116 @@
 <template>
-<v-app>
-    <v-toolbar light>
-        <router-link tag="v-toolbar-logo" to="/mesmandats" id="logo">MandaLa<small class="body-1">[ beta ]</small></router-link>
-        <v-toolbar-items>
-            <template v-if="currentUser">
-                <v-toolbar-item ripple :router=true href="/mesmandats">
-                    <v-icon>person</v-icon><span class="hidden-sm-and-down">Mes mandats</span></v-toolbar-item>
-                <v-toolbar-item ripple :router=true href="/touslesmandats">
-                    <v-icon>import_export</v-icon><span class="hidden-sm-and-down">Mandats</span></v-toolbar-item>
-
-                <v-toolbar-item ripple :router=true href="/nouveau">
-                    <v-icon>add</v-icon><span class="hidden-sm-and-down">Nouveau</span></v-toolbar-item>
-                <v-toolbar-item ripple :router=true href="/rechercher">
-                    <v-icon>search</v-icon><span class="hidden-sm-and-down">Rechercher</span></v-toolbar-item>
-
-                <v-toolbar-item ripple :router=true href="mitarbeiter">
-                    <v-icon light>people</v-icon>
-                </v-toolbar-item>
-                <v-toolbar-item ripple :router=true href="parametres">
-                    <v-icon light>settings</v-icon>
-                </v-toolbar-item>
-              
-            </template>
-</v-toolbar-items>
-</v-toolbar>
-<main id="mainContainer">
-    <v-container>
-        <transition name="fade" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in" :duration="300">
-            <router-view></router-view>
-        </transition>
-    </v-container>
-</main>
-</v-app>
+  <v-app light>
+    <v-navigation-drawer
+      persistent
+      :mini-variant="miniVariant"
+      :clipped="clipped"
+      v-model="drawer"
+      enable-resize-watcher
+    >
+      <v-list>
+        <v-list-tile
+          value="true"
+          v-for="(item, i) in items"
+          :key="i"
+        >
+          <v-list-tile-action>
+            <v-icon light v-html="item.icon"></v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title v-text="item.title"></v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+    </v-navigation-drawer>
+    <v-toolbar fixed>
+      <v-toolbar-side-icon @click.stop="drawer = !drawer" light></v-toolbar-side-icon>
+      <v-btn
+        icon
+        light
+        @click.stop="miniVariant = !miniVariant"
+      >
+        <v-icon v-html="miniVariant ? 'chevron_right' : 'chevron_left'"></v-icon>
+      </v-btn>
+      <v-btn
+        icon
+        light
+        @click.stop="clipped = !clipped"
+      >
+        <v-icon>web</v-icon>
+      </v-btn>
+      <v-btn
+        icon
+        light
+        @click.stop="fixed = !fixed"
+      >
+        <v-icon>remove</v-icon>
+      </v-btn>
+      <v-toolbar-title v-text="title"></v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn
+        icon
+        light
+        @click.stop="rightDrawer = !rightDrawer"
+      >
+        <v-icon>menu</v-icon>
+      </v-btn>
+    </v-toolbar>
+    <main>
+      <v-container fluid>
+        <v-slide-y-transition mode="out-in">
+          <v-layout column align-center>
+            <img src="/static/v.png" alt="Vuetify.js" class="mb-5">
+            <blockquote>
+              &#8220;First, solve the problem. Then, write the code.&#8221;
+              <footer>
+                <small>
+                  <em>&mdash;John Johnson</em>
+                </small>
+              </footer>
+            </blockquote>
+          </v-layout>
+        </v-slide-y-transition>
+      </v-container>
+    </main>
+    <v-navigation-drawer
+      temporary
+      :right="right"
+      v-model="rightDrawer"
+    >
+      <v-list>
+        <v-list-tile @click="right = !right">
+          <v-list-tile-action>
+            <v-icon light>compare_arrows</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-title>Switch drawer (click me)</v-list-tile-title>
+        </v-list-tile>
+      </v-list>
+    </v-navigation-drawer>
+    <v-footer :fixed="fixed">
+      <span>&copy; 2017</span>
+    </v-footer>
+  </v-app>
 </template>
 
 <script>
-    import {
-        auth
-    } from './firebase';
-    export default {
-        data() {
-            return {
-                currentUser: {}
-            };
-        },
-        beforeCreate() {
-            auth.onAuthStateChanged((user) => {
-                if (user) {
-                    // User is signed in.
-                    this.currentUser = user;
-                } else {
-                    // User is signed out.
-                    this.currentUser = null;
-                }
-            });
-        },
-    };
-
+  export default {
+    data () {
+      return {
+        clipped: false,
+        drawer: true,
+        fixed: false,
+        items: [
+          { icon: 'bubble_chart', title: 'Inspire' }
+        ],
+        miniVariant: false,
+        right: true,
+        rightDrawer: false,
+        title: 'Vuetify.js'
+      }
+    }
+  }
 </script>
 
 <style lang="stylus">
-    @import '../node_modules/vuetify/src/stylus/main' @import '../node_modules/animate.css/animate.min.css' @import './css/main.css'
-
+  @import './stylus/main'
 </style>
