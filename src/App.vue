@@ -3,7 +3,7 @@
     <m-toolbar></m-toolbar>
     <main>
       <v-container fluid>
-        <smart-vue></smart-vue>
+        <router-view></router-view>
       </v-container>
     </main>
   </v-app>
@@ -11,7 +11,7 @@
 
 <script>
 import Toolbar from '@/components/Toolbar'
-import SmartVue from '@/components/SmartVue'
+import SmartView from '@/components/SmartView'
 
 export default {
   data() {
@@ -21,7 +21,7 @@ export default {
   },
   components: {
     mToolbar: Toolbar,
-    smartVue: SmartVue
+    smartView: SmartView
   }
 }
 </script>
