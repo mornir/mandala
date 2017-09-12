@@ -4099,9 +4099,9 @@ vue@^2.4.2:
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.4.2.tgz#a9855261f191c978cc0dc1150531b8d08149b58c"
 
-vuetify@^0.15.1:
-  version "0.15.2"
-  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-0.15.2.tgz#f4978524ca85ada4cc1228fd40e1239f185ae7f2"
+vuetify@^0.15.5:
+  version "0.15.5"
+  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-0.15.5.tgz#3a93ed8592994c46dbd21749b57f733e04e28562"
 
 watchpack@^1.3.1:
   version "1.4.0"

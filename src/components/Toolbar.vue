@@ -11,10 +11,10 @@
         </v-toolbar-title>
 
         <v-spacer></v-spacer>
-        <v-btn flat>SmartView &trade;</v-btn>
+        <v-btn flat to="/">SmartView &trade;</v-btn>
         <v-btn flat>Tous les mandats</v-btn>
         <v-btn flat>En révision</v-btn>
-        <v-btn flat>En attente de réponses</v-btn>
+        <v-btn flat to="/new">Nouveau</v-btn>
         <v-btn icon>
             <v-icon>search</v-icon>
         </v-btn>
