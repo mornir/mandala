@@ -15,8 +15,8 @@ export default {
     data: () => ({
         cards: [
             { title: 'Pre-fab homes', src: '../../../static/house.jpg', flex: 4 },
-            { title: 'Favorite road trips', src: '../../../static/road.jpg', flex: 4 },
-            { title: 'Best airlines', src: '../../../static/plane.jpg', flex: 6 },
+            { title: 'Favorite road trips', src: '../../../static/road.jpg', flex: 6 },
+            { title: 'Best airlines', src: '../../../static/plane.jpg', flex: 8 },
             { title: 'Best airlines', src: '../../../static/plane.jpg', flex: 12 }
         ]
     }),
