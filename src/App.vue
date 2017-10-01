@@ -2,7 +2,7 @@
   <v-app light toolbar>
     <m-toolbar></m-toolbar>
     <main>
-      <v-container fluid>
+      <v-container fluid class="softbg">
         <router-view></router-view>
       </v-container>
     </main>
@@ -28,4 +28,14 @@ export default {
 
 <style lang="stylus">
   @import './stylus/main'
+  .softbg {
+    background-color: #f5f5f5
+  }
+
+  .stepCard {
+    margin-bottom: 20px;
+    border: 2px solid grey;
+    padding: 5px;
+    border-radius: 10px;
+}
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <v-toolbar>
+    <v-toolbar flat>
         <v-toolbar-title id="logo" class="display-2">
             <span class="hvr-buzz">m</span>
             <span class="hvr-buzz">a</span>
@@ -11,17 +11,20 @@
         </v-toolbar-title>
 
         <v-spacer></v-spacer>
-        <v-btn flat to="/">SmartView &trade;</v-btn>
-        <v-btn flat>Tous les mandats</v-btn>
-        <v-btn flat>En révision</v-btn>
-        <v-btn flat to="/new">Nouveau</v-btn>
-        <v-btn icon>
-            <v-icon>search</v-icon>
-        </v-btn>
-        <v-btn icon>
-            <v-icon>person</v-icon>
-        </v-btn>
-
+        <v-toolbar-items class="hidden-sm-and-down">
+            <v-layout row align-center>
+                <router-link to="/smartview" class="my-nav-link">SmartView &trade;</router-link>
+                <router-link to="/new" class="my-nav-link">Tous les mandats</router-link>
+                <router-link to="/new" class="my-nav-link">En révision</router-link>
+                <router-link to="/new" class="my-nav-link">Nouveau</router-link>
+            </v-layout>
+            <v-btn icon>
+                <v-icon>search</v-icon>
+            </v-btn>
+            <v-btn icon>
+                <v-icon>person</v-icon>
+            </v-btn>
+        </v-toolbar-items>
     </v-toolbar>
 </template>
 
@@ -31,7 +34,35 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.btn--active,
+.btn:hover,
+.btn:focus {
+    color: red !important;
+    background-color: transparent !important;
+}
+
+.my-nav-link {
+    color: black;
+    font-size: 18px;
+    padding-right: 2rem;
+    text-decoration: none;
+}
+
+.my-nav-link:hover {
+    color: red
+}
+
+.router-link-active {
+    color: red !important;
+}
+
+
+
+.btn {
+    background-color: transparent !important;
+}
+
 #logo {
     font-family: 'Hanalei', cursive;
     color: red;

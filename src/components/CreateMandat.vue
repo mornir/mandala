@@ -5,6 +5,8 @@
                 <v-stepper-step step="1" :complete="stepCount > 1" editable editIcon="check">
                     Mandant
                 </v-stepper-step>
+
+                <!-- MANDANT -->
                 <v-stepper-content step="1">
                     <div class="stepCard">
                         <v-layout row wrap justify-center>
@@ -23,10 +25,11 @@
                     <v-btn primary @click="stepCount = 2">Suivant</v-btn>
                 </v-stepper-content>
                 <v-stepper-step step="2" editable :complete="stepCount > 2" editIcon="check">Fichiers</v-stepper-step>
+
+                <!-- Fichiers -->
                 <v-stepper-content step="2">
                     <div class="stepCard">
                         <v-layout row justify-center>
-
                             <v-flex xs2>
                                 <img src="../assets/Word.png" alt="Word" width="50px">
                             </v-flex>
@@ -37,7 +40,7 @@
                                 <img src="../assets/PPT.png" alt="PPT" width="50px">
                             </v-flex>
                             <v-flex xs2>
-                                <img src="../assets/PDF.png" alt="PDF" width="57px">
+                                <img src="../assets/PDF.png" alt="PDF" width="50px">
                             </v-flex>
                         </v-layout>
                         <v-layout class="mb-2" justify-center>
@@ -50,14 +53,16 @@
                     <v-btn flat @click="stepCount -= 1">Retour</v-btn>
                 </v-stepper-content>
                 <v-stepper-step step="3" editable editIcon="check" :complete="stepCount > 3">Date d'arrivée et délai</v-stepper-step>
+
+                <!-- Date d'arrivée et délai -->
                 <v-stepper-content step="3">
                     <div class="stepCard">
                         <v-layout row class="ml-3">
                             <v-flex xs6>
-                                <v-date-picker v-model="e2" actions locale="fr-FR" first-day-of-week="1"></v-date-picker>
+                                <v-date-picker v-model="arrivée" actions locale="fr-FR" first-day-of-week="1"></v-date-picker>
                             </v-flex>
                             <v-flex xs6>
-                                <v-date-picker v-model="e2" actions locale="fr-FR" first-day-of-week="1" dark></v-date-picker>
+                                <v-date-picker v-model="délai" actions locale="fr-FR" first-day-of-week="1" dark></v-date-picker>
                             </v-flex>
 
                         </v-layout>
@@ -66,19 +71,21 @@
                     <v-btn flat @click="stepCount -= 1">Retour</v-btn>
                 </v-stepper-content>
                 <v-stepper-step step="4" editable editIcon="check" :complete="stepCount > 4">Heure et priorité</v-stepper-step>
+
+                <!-- Heure et priorité -->
                 <v-stepper-content step="4">
                     <div class="stepCard">
                         <v-layout row align-center>
                             <v-flex xs12>
-                                <v-time-picker v-model="e7" format="24hr"></v-time-picker>
+                                <v-time-picker v-model="mandat.heure" format="24hr"></v-time-picker>
                             </v-flex>
                             <v-flex xs7>
 
-                                <v-checkbox label="Mandat prioritaire" v-model="ex5" :value="true" color="red" :error="ex5">
+                                <v-checkbox label="Mandat prioritaire" v-model="mandat.priorité" color="red" :error="mandat.priorité">
                                 </v-checkbox>
                             </v-flex>
                             <v-flex xs5>
-                                <span v-if="ex5" style="font-size:28px">⏳</span>
+                                <span v-if="mandat.priorité" style="font-size:28px">⏳</span>
                             </v-flex>
                         </v-layout>
                     </div>
@@ -86,32 +93,29 @@
                     <v-btn flat @click="stepCount -= 1">Retour</v-btn>
                 </v-stepper-content>
                 <v-stepper-step step="5" editable :complete="stepCount > 5" editIcon="check">Situation de communication</v-stepper-step>
+
+                <!-- Situation de communication -->
                 <v-stepper-content step="5">
+                    <div class="stepCard">
+                        <v-layout row wrap justify-center>
+                            <v-flex xs8>
+                                <v-text-field box v-model="mandat.public_cible" label="Public cible"></v-text-field>
+                            </v-flex>
+                            <v-flex xs4 class="mr-2">
+                                <v-select :items="textTypes" v-model="mandat.type" label="Type de texte"></v-select>
+                            </v-flex>
+                            <v-flex xs4 class="mr-2">
+                                <v-select :items="activities" v-model="mandat.activité" label="Activité"></v-select>
+                            </v-flex>
 
-                    <v-layout row>
-                        <v-flex xs6>
-                            <v-text-field box v-model="mandat.public_cible" label="Public cible"></v-text-field>
-                        </v-flex>
-                    </v-layout>
-                    <v-layout row>
-
-                        <v-flex xs6>
-                            <v-select :items="activities" v-model="mandat.activité" label="Thème"></v-select>
-                        </v-flex>
-                    </v-layout>
-                    <v-layout row>
-                        <v-flex xs3 class="mr-2">
-                            <v-select :items="textTypes" v-model="mandat.type" label="Type de texte"></v-select>
-                        </v-flex>
-                        <v-flex xs3 class="mr-2">
-                            <v-select :items="activities" v-model="mandat.activité" label="Activité"></v-select>
-                        </v-flex>
-
-                    </v-layout>
+                        </v-layout>
+                    </div>
                     <v-btn primary @click="stepCount = 6">Suivant</v-btn>
                     <v-btn flat @click="stepCount -= 1">Retour</v-btn>
                 </v-stepper-content>
                 <v-stepper-step step="6" editable editIcon="check" :complete="stepCount > 6">Traduction</v-stepper-step>
+
+                <!-- Traduction -->
                 <v-stepper-content step="6">
                     <div class="stepCard">
                         <v-layout row wrap justify-center>
@@ -128,13 +132,16 @@
                             </v-flex>
                             <v-flex xs9>
                                 <label class="subheading">Charge de travail :
-                                    <span class="subheading">{{pageNumber}}</span>
-                                    <v-slider v-model="sliderValue" step="25" snap :min="25"></v-slider>
+                                    <span class="subheading">
+                                        <b>{{pageNumber}}</b>
+                                    </span>
+                                    <v-slider v-model="mandat.chargeTravail" step="25" snap :min="25"></v-slider>
                                 </label>
                             </v-flex>
                             <v-flex xs9>
-                                <label class="subheading">Révision par {{mandat.révision}}
-                                    <v-radio-group v-model="mandat.révision" row>
+                                <label class="subheading">Révision par
+                                    <b>{{mandat.révision}}</b>
+                                    <v-radio-group v-model="mandat.réviseur" row>
                                         <v-radio label="Carine" value="Carine"></v-radio>
                                         <v-radio label="Sarah" value="Sarah"></v-radio>
                                         <v-radio label="Autre" value="Autre"></v-radio>
@@ -147,12 +154,13 @@
                     <v-btn primary @click="stepCount = 7">Suivant</v-btn>
                     <v-btn flat @click="stepCount -= 1">Retour</v-btn>
                 </v-stepper-content>
-                <v-stepper-step step="7" :complete="stepCount > 7">Remarque</v-stepper-step>
+                <v-stepper-step step="7" editable editIcon="check" :complete="stepCount > 7">Remarque</v-stepper-step>
                 <v-stepper-content step="7">
                     <v-flex xs12>
                         <v-text-field name="remarque" label="Remarque" textarea v-model="mandat.remarque"></v-text-field>
                     </v-flex>
                     <v-btn success @click="createMandat">Créer le mandat</v-btn>
+                    <v-btn flat @click="stepCount -= 1">Retour</v-btn>
                 </v-stepper-content>
 
             </v-stepper>
@@ -161,56 +169,33 @@
 </template>
 
 <script>
+import Mandat from '@/js/newMandat'
 export default {
     data() {
         return {
             stepCount: 1,
+            arrivée: new Date(),
+            délai: new Date(),
             centres: ["VKF", "IRV", "Pool", "VKG", "PRAEVENT", "VKF ZIP AG"],
-            e2: null,
-            e7: null,
-            ex5: false,
-            ex4: false,
-            sliderValue: 25,
             arrowDirection: 'arrow_forward',
             textTypes: ['Rédactionnel', 'Technique', 'Juridique', 'Financier'],
             activities: ['Traduction', 'Adaptation', 'Correction', 'Rédaction', 'Révision'],
-            mandat: {
-                remarque: '',
-                activité: '',
-                centre_coûts: 'VKF',
-                nom: '',
-                public_cible: '',
-                type: '',
-                TAO: 'Oui',
-                source: 'DE',
-                révision: 'Carine',
-                fichiers: [{
-                    nombre: 1,
-                    fichier: 'Word'
-
-                },
-                {
-                    nombre: 0,
-                    fichier: 'Excel'
-
-                },
-                {
-                    nombre: 0,
-                    fichier: 'PPT'
-
-                },
-                {
-                    nombre: 0,
-                    fichier: 'PDF'
-
-                }
-                ]
-            }
+            mandat: Mandat
         }
     },
     methods: {
         createMandat() {
-            console.log(this.mandat)
+
+            //Format date into JJ/MM/AAAA
+            this.mandat.arrivée = new Date(this.arrivée).toLocaleString('fr-FR').substr(0, 10)
+            this.mandat.délai = new Date(this.délai).toLocaleString('fr-FR').substr(0, 10)
+
+
+            //this.mandat.traducteur = auth.currentUser.displayName;
+
+
+
+
         },
         toggleDirection() {
             if (this.mandat.source === 'DE') {
@@ -226,13 +211,13 @@ export default {
     },
     computed: {
         pageNumber() {
-            if (this.sliderValue === 25) {
+            if (this.mandat.chargeTravail === 25) {
                 return 'faible 😁'
-            } else if (this.sliderValue === 50) {
+            } else if (this.mandat.chargeTravail === 50) {
                 return 'moyenne 😐'
-            } else if (this.sliderValue === 75) {
+            } else if (this.mandat.chargeTravail === 75) {
                 return 'grande 😥'
-            } else if (this.sliderValue === 100) {
+            } else if (this.mandat.chargeTravail === 100) {
                 return 'énorme 😵'
             } else {
                 return '...'
@@ -244,9 +229,5 @@ export default {
 </script>
 
 <style>
-.stepCard {
-    margin-bottom: 20px;
-    border: 2px solid grey;
-    padding: 5px;
-}
+
 </style>
