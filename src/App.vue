@@ -1,10 +1,14 @@
 <template>
-  <v-app light toolbar>
+  <v-app light>
     <m-toolbar></m-toolbar>
+
     <main>
-      <v-container fluid class="softbg">
-        <router-view></router-view>
-      </v-container>
+      <v-content>
+        <v-divider></v-divider>
+        <v-container fluid class="softbg">
+          <router-view></router-view>
+        </v-container>
+      </v-content>
     </main>
   </v-app>
 </template>

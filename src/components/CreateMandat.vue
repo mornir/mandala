@@ -2,178 +2,184 @@
     <v-layout row justify-center>
         <v-flex xs7>
             <v-stepper v-model="stepCount" vertical>
-                <v-stepper-step step="1" :complete="stepCount > 1" editable editIcon="check">
-                    Mandant
-                </v-stepper-step>
+                <v-stepper-items>
+                    <v-stepper-step step="1" :complete="stepCount > 1" editable editIcon="check">
+                        Mandant
+                    </v-stepper-step>
 
-                <!-- MANDANT -->
-                <v-stepper-content step="1">
-                    <div class="stepCard">
-                        <v-layout row wrap justify-center>
+                    <!-- MANDANT -->
+                    <v-stepper-content step="1">
+                        <div class="stepCard">
+                            <v-layout row wrap justify-center>
 
-                            <v-flex xs4 class="mr-2">
-                                <v-select :items="centres" v-model="mandat.centre_coûts" label="Centre de coûts"></v-select>
-                            </v-flex>
-                            <v-flex xs5>
-                                <v-select :items="centres" v-model="mandat.centre_coûts" label="Mandant"></v-select>
-                            </v-flex>
-                            <v-flex xs9>
-                                <v-text-field v-model="mandat.nom" box label="Nom du mandat"></v-text-field>
-                            </v-flex>
-                        </v-layout>
-                    </div>
-                    <v-btn primary @click="stepCount = 2">Suivant</v-btn>
-                </v-stepper-content>
-                <v-stepper-step step="2" editable :complete="stepCount > 2" editIcon="check">Fichiers</v-stepper-step>
+                                <v-flex xs4 class="mr-2">
+                                    <v-select :items="centres" v-model="mandat.centre_coûts" label="Centre de coûts"></v-select>
+                                </v-flex>
+                                <v-flex xs5>
+                                    <v-select :items="centres" v-model="mandat.centre_coûts" label="Mandant"></v-select>
+                                </v-flex>
+                                <v-flex xs9>
+                                    <v-text-field v-model="mandat.nom" box label="Nom du mandat"></v-text-field>
+                                </v-flex>
+                            </v-layout>
+                        </div>
+                        <v-btn color="primary" @click="stepCount = 2">Suivant</v-btn>
+                    </v-stepper-content>
+                    <v-stepper-step step="2" editable :complete="stepCount > 2" editIcon="check">Fichiers</v-stepper-step>
 
-                <!-- Fichiers -->
-                <v-stepper-content step="2">
-                    <div class="stepCard">
-                        <v-layout row justify-center>
-                            <v-flex xs2>
-                                <img src="../assets/Word.png" alt="Word" width="50px">
-                            </v-flex>
-                            <v-flex xs2>
-                                <img src="../assets/Excel.png" alt="Excel" width="50px">
-                            </v-flex>
-                            <v-flex xs2>
-                                <img src="../assets/PPT.png" alt="PPT" width="50px">
-                            </v-flex>
-                            <v-flex xs2>
-                                <img src="../assets/PDF.png" alt="PDF" width="50px">
-                            </v-flex>
-                        </v-layout>
-                        <v-layout class="mb-2" justify-center>
-                            <v-flex xs2 v-for="(file, index) in mandat.fichiers" :key="file.fichier">
-                                <input name="file.fichier" v-model.number="file.nombre" type="number" min="0" style="width: 50px;">
-                            </v-flex>
-                        </v-layout>
-                    </div>
-                    <v-btn primary @click="stepCount = 3">Suivant</v-btn>
-                    <v-btn flat @click="stepCount -= 1">Retour</v-btn>
-                </v-stepper-content>
-                <v-stepper-step step="3" editable editIcon="check" :complete="stepCount > 3">Date d'arrivée et délai</v-stepper-step>
+                    <!-- Fichiers -->
+                    <v-stepper-content step="2">
+                        <div class="stepCard">
+                            <v-layout row justify-center>
+                                <v-flex xs2>
+                                    <img src="../assets/Word.png" alt="Word" width="50px">
+                                </v-flex>
+                                <v-flex xs2>
+                                    <img src="../assets/Excel.png" alt="Excel" width="50px">
+                                </v-flex>
+                                <v-flex xs2>
+                                    <img src="../assets/PPT.png" alt="PPT" width="50px">
+                                </v-flex>
+                                <v-flex xs2>
+                                    <img src="../assets/PDF.png" alt="PDF" width="50px">
+                                </v-flex>
+                            </v-layout>
+                            <v-layout class="mb-2" justify-center>
+                                <v-flex xs2 v-for="(file, index) in mandat.fichiers" :key="file.fichier">
+                                    <input name="file.fichier" v-model.number="file.nombre" type="number" min="0" style="width: 50px;">
+                                </v-flex>
+                            </v-layout>
+                        </div>
+                        <v-btn color="primary" @click="stepCount = 3">Suivant</v-btn>
+                        <v-btn flat @click="stepCount -= 1">Retour</v-btn>
+                    </v-stepper-content>
+                    <v-stepper-step step="3" editable editIcon="check" :complete="stepCount > 3">Date d'arrivée et délai</v-stepper-step>
 
-                <!-- Date d'arrivée et délai -->
-                <v-stepper-content step="3">
-                    <div class="stepCard">
-                        <v-layout row class="ml-3">
-                            <v-flex xs6>
-                                <v-date-picker v-model="arrivée" actions locale="fr-FR" first-day-of-week="1"></v-date-picker>
-                            </v-flex>
-                            <v-flex xs6>
-                                <v-date-picker v-model="délai" actions locale="fr-FR" first-day-of-week="1" dark></v-date-picker>
-                            </v-flex>
+                    <!-- Date d'arrivée et délai -->
+                    <v-stepper-content step="3">
+                        <div class="stepCard">
+                            <v-layout row class="ml-3">
+                                <v-flex xs6>
+                                    <v-date-picker v-model="arrivée" actions locale="fr-FR" first-day-of-week="1"></v-date-picker>
+                                </v-flex>
+                                <v-flex xs6>
+                                    <v-date-picker v-model="délai" actions locale="fr-FR" first-day-of-week="1" dark></v-date-picker>
+                                </v-flex>
 
-                        </v-layout>
-                    </div>
-                    <v-btn primary @click.native="stepCount = 4">Suivant</v-btn>
-                    <v-btn flat @click="stepCount -= 1">Retour</v-btn>
-                </v-stepper-content>
-                <v-stepper-step step="4" editable editIcon="check" :complete="stepCount > 4">Heure et priorité</v-stepper-step>
+                            </v-layout>
+                        </div>
+                        <v-btn color="primary" @click.native="stepCount = 4">Suivant</v-btn>
+                        <v-btn flat @click="stepCount -= 1">Retour</v-btn>
+                    </v-stepper-content>
+                    <v-stepper-step step="4" editable editIcon="check" :complete="stepCount > 4">Heure et priorité</v-stepper-step>
 
-                <!-- Heure et priorité -->
-                <v-stepper-content step="4">
-                    <div class="stepCard">
-                        <v-layout row align-center>
-                            <v-flex xs12>
-                                <v-time-picker v-model="mandat.heure" format="24hr"></v-time-picker>
-                            </v-flex>
-                            <v-flex xs7>
+                    <!-- Heure et priorité -->
+                    <v-stepper-content step="4">
+                        <div class="stepCard">
+                            <v-layout row align-center>
+                                <v-flex xs12>
+                                    <v-time-picker v-model="mandat.heure" format="24hr"></v-time-picker>
+                                </v-flex>
+                                <v-flex xs7>
 
-                                <v-checkbox label="Mandat prioritaire" v-model="mandat.priorité" color="red" :error="mandat.priorité">
-                                </v-checkbox>
-                            </v-flex>
-                            <v-flex xs5>
-                                <span v-if="mandat.priorité" style="font-size:28px">⏳</span>
-                            </v-flex>
-                        </v-layout>
-                    </div>
-                    <v-btn primary @click.native="stepCount = 5">Suivant</v-btn>
-                    <v-btn flat @click="stepCount -= 1">Retour</v-btn>
-                </v-stepper-content>
-                <v-stepper-step step="5" editable :complete="stepCount > 5" editIcon="check">Situation de communication</v-stepper-step>
+                                    <v-checkbox label="Mandat prioritaire" v-model="mandat.priorité" color="red" :error="mandat.priorité">
+                                    </v-checkbox>
+                                </v-flex>
+                                <v-flex xs5>
+                                    <span v-if="mandat.priorité" style="font-size:28px">⏳</span>
+                                </v-flex>
+                            </v-layout>
+                        </div>
+                        <v-btn color="primary" @click.native="stepCount = 5">Suivant</v-btn>
+                        <v-btn flat @click="stepCount -= 1">Retour</v-btn>
+                    </v-stepper-content>
+                    <v-stepper-step step="5" editable :complete="stepCount > 5" editIcon="check">Situation de communication</v-stepper-step>
 
-                <!-- Situation de communication -->
-                <v-stepper-content step="5">
-                    <div class="stepCard">
-                        <v-layout row wrap justify-center>
-                            <v-flex xs8>
-                                <v-text-field box v-model="mandat.public_cible" label="Public cible"></v-text-field>
-                            </v-flex>
-                            <v-flex xs4 class="mr-2">
-                                <v-select :items="textTypes" v-model="mandat.type" label="Type de texte"></v-select>
-                            </v-flex>
-                            <v-flex xs4 class="mr-2">
-                                <v-select :items="activities" v-model="mandat.activité" label="Activité"></v-select>
-                            </v-flex>
+                    <!-- Situation de communication -->
+                    <v-stepper-content step="5">
+                        <div class="stepCard">
+                            <v-layout row wrap justify-center>
+                                <v-flex xs8>
+                                    <v-text-field box v-model="mandat.public_cible" label="Public cible"></v-text-field>
+                                </v-flex>
+                                <v-flex xs4 class="mr-2">
+                                    <v-select :items="textTypes" v-model="mandat.type" label="Type de texte"></v-select>
+                                </v-flex>
+                                <v-flex xs4 class="mr-2">
+                                    <v-select :items="activities" v-model="mandat.activité" label="Activité"></v-select>
+                                </v-flex>
 
-                        </v-layout>
-                    </div>
-                    <v-btn primary @click="stepCount = 6">Suivant</v-btn>
-                    <v-btn flat @click="stepCount -= 1">Retour</v-btn>
-                </v-stepper-content>
-                <v-stepper-step step="6" editable editIcon="check" :complete="stepCount > 6">Traduction</v-stepper-step>
+                            </v-layout>
+                        </div>
+                        <v-btn color="primary" @click="stepCount = 6">Suivant</v-btn>
+                        <v-btn flat @click="stepCount -= 1">Retour</v-btn>
+                    </v-stepper-content>
+                    <v-stepper-step step="6" editable editIcon="check" :complete="stepCount > 6">Traduction</v-stepper-step>
 
-                <!-- Traduction -->
-                <v-stepper-content step="6">
-                    <div class="stepCard">
-                        <v-layout row wrap justify-center>
+                    <!-- Traduction -->
+                    <v-stepper-content step="6">
+                        <div class="stepCard">
+                            <v-layout row wrap justify-center>
 
-                            <v-flex xs7>
-                                <img src="../assets/germany.svg" alt="German" width="40px" height="40px">
-                                <v-btn icon class="black--text  mb-5" @click.native="toggleDirection">
-                                    <v-icon>{{arrowDirection}}</v-icon>
-                                </v-btn>
-                                <img src="../assets/france.svg" alt="French" width="40px" height="40px">
-                            </v-flex>
-                            <v-flex xs2>
-                                <v-checkbox label="Trados" info hide-details v-model="mandat.TAO" true-value="Oui" false-value="Non" />
-                            </v-flex>
-                            <v-flex xs9>
-                                <label class="subheading">Charge de travail :
-                                    <span class="subheading">
-                                        <b>{{pageNumber}}</b>
-                                    </span>
-                                    <v-slider v-model="mandat.chargeTravail" step="25" snap :min="25"></v-slider>
-                                </label>
-                            </v-flex>
-                            <v-flex xs9>
-                                <label class="subheading">Révision par
-                                    <b>{{mandat.révision}}</b>
-                                    <v-radio-group v-model="mandat.réviseur" row>
-                                        <v-radio label="Carine" value="Carine"></v-radio>
-                                        <v-radio label="Sarah" value="Sarah"></v-radio>
-                                        <v-radio label="Autre" value="Autre"></v-radio>
-                                    </v-radio-group>
-                                </label>
-                            </v-flex>
-                        </v-layout>
-                    </div>
+                                <v-flex xs7>
+                                    <img src="../assets/germany.svg" alt="German" width="40px" height="40px">
+                                    <v-btn icon class="black--text  mb-5" @click.native="toggleDirection">
+                                        <v-icon>{{arrowDirection}}</v-icon>
+                                    </v-btn>
+                                    <img src="../assets/france.svg" alt="French" width="40px" height="40px">
+                                </v-flex>
+                                <v-flex xs2>
+                                    <v-checkbox label="Trados" info hide-details v-model="mandat.TAO" true-value="Oui" false-value="Non" />
+                                </v-flex>
+                                <v-flex xs9>
+                                    <label class="subheading">Charge de travail :
+                                        <span class="subheading">
+                                            <b>{{pageNumber}}</b>
+                                        </span>
+                                        <v-slider v-model="mandat.chargeTravail" step="25" snap :min="25"></v-slider>
+                                    </label>
+                                </v-flex>
+                                <v-flex xs9>
+                                    <label class="subheading">Révision par
+                                        <b>{{mandat.révision}}</b>
+                                        <v-radio-group v-model="mandat.réviseur" row>
+                                            <v-radio label="Carine" value="Carine"></v-radio>
+                                            <v-radio label="Sarah" value="Sarah"></v-radio>
+                                            <v-radio label="Autre" value="Autre"></v-radio>
+                                        </v-radio-group>
+                                    </label>
+                                </v-flex>
+                            </v-layout>
+                        </div>
 
-                    <v-btn primary @click="stepCount = 7">Suivant</v-btn>
-                    <v-btn flat @click="stepCount -= 1">Retour</v-btn>
-                </v-stepper-content>
-                <v-stepper-step step="7" editable editIcon="check" :complete="stepCount > 7">Remarque</v-stepper-step>
-                <v-stepper-content step="7">
-                    <v-flex xs12>
-                        <v-text-field name="remarque" label="Remarque" textarea v-model="mandat.remarque"></v-text-field>
-                    </v-flex>
-                    <v-btn success @click="createMandat">Créer le mandat</v-btn>
-                    <v-btn flat @click="stepCount -= 1">Retour</v-btn>
-                </v-stepper-content>
-
+                        <v-btn color="primary" @click="stepCount = 7">Suivant</v-btn>
+                        <v-btn flat @click="stepCount -= 1">Retour</v-btn>
+                    </v-stepper-content>
+                    <v-stepper-step step="7" editable editIcon="check" :complete="stepCount > 7">Remarque</v-stepper-step>
+                    <v-stepper-content step="7">
+                        <v-flex xs12>
+                            <v-text-field name="remarque" label="Remarque" textarea v-model="mandat.remarque"></v-text-field>
+                        </v-flex>
+                        <v-btn color="success" @click="createMandat" :loading="loading">Créer le mandat</v-btn>
+                        <v-btn flat @click="stepCount -= 1">Retour</v-btn>
+                    </v-stepper-content>
+                </v-stepper-items>
             </v-stepper>
         </v-flex>
     </v-layout>
 </template>
 
 <script>
+import { db } from '../firebase'
 import Mandat from '@/js/newMandat'
+import { mandatFirebase } from '@/js/mandatFirebase'
+import bus from '@/js/bus'
+
 export default {
     data() {
         return {
             stepCount: 1,
+            loading: false,
             arrivée: new Date(),
             délai: new Date(),
             centres: ["VKF", "IRV", "Pool", "VKG", "PRAEVENT", "VKF ZIP AG"],
@@ -186,6 +192,8 @@ export default {
     methods: {
         createMandat() {
 
+            this.loading = true
+
             //Format date into JJ/MM/AAAA
             this.mandat.arrivée = new Date(this.arrivée).toLocaleString('fr-FR').substr(0, 10)
             this.mandat.délai = new Date(this.délai).toLocaleString('fr-FR').substr(0, 10)
@@ -193,7 +201,15 @@ export default {
 
             //this.mandat.traducteur = auth.currentUser.displayName;
 
+            mandatFirebase().then(() => {
+                this.loading = false
+                this.$router.push("/smartview")
+                bus.showSnack = true
 
+            }).catch(error => {
+                this.loading = false
+                console.log('an error', error)
+            })
 
 
         },

@@ -15,7 +15,7 @@ export default new Router({
       component: SmartView
     },
     {
-      path: '/new',
+      path: '/nouveau',
       name: 'CreateMandat',
       component: CreateMandat
     },
