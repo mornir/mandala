@@ -1,8 +1,8 @@
 <template>
-    <v-container fluid grid-list-md class="grey lighten-4">
+    <v-container fluid grid-list-md>
         <v-snackbar top v-model="showSnack">Bonne traduction ! 😃</v-snackbar>
         <v-layout row wrap>
-            <v-flex v-bind="{ [`xs${card.flex}`]: true }" v-for="card in cards" :key="card.title" @click="showSnack = true">
+            <v-flex v-bind="{ [`xs${card.flex}`]: true }" v-for="card in cards" :key="card.title">
                 <mandat :card="card"></mandat>
             </v-flex>
         </v-layout>

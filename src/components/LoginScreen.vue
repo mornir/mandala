@@ -9,9 +9,9 @@
                     <span v-if="errorMessage" style="color:red">{{errorMessage}}</span>
                 </v-card-text>
                 <v-card-actions>
-                    <div class="text-xs-center mt-4">
-                        <v-btn flat success @click="login">Se connecter</v-btn>
-                    </div>
+                    <v-layout class="mt-4" justify-center>
+                        <v-btn flat color="success" @click="login">Se connecter</v-btn>
+                    </v-layout>
                 </v-card-actions>
             </v-card>
         </v-flex>

@@ -1,12 +1,14 @@
 <template>
     <v-card hover>
         <v-card-actions>
-            <span class="subheading pl-1">17.03.005</span>
+            <span class="subheading pl-1">
+                <strong>17.03.005</strong>
+            </span>
             <v-spacer></v-spacer>
             <v-menu offset-y>
-                <v-btn flat round small :ripple="false" slot="activator">à traduire</v-btn>
+                <v-btn flat round small :ripple="false" slot="activator">{{currentStatut}}</v-btn>
                 <v-list>
-                    <v-list-tile v-for="statut in statuts_trad" :key="statut.title" @click="">
+                    <v-list-tile v-for="statut in statuts_trad" :key="statut.title" @click="currentStatut = statut.title">
                         <v-list-tile-title>{{ statut.title }}</v-list-tile-title>
                     </v-list-tile>
                 </v-list>
@@ -46,6 +48,7 @@ export default {
     props: ['card'],
     data() {
         return {
+            currentStatut: 'À traduire',
             statuts_trad: [
                 {
                     title: 'À traduire'
@@ -67,8 +70,26 @@ export default {
                 {
                     title: 'Révision finie'
                 }
-            ],
-            dropdown_font: ['Arial', 'Calibri', 'Courier', 'Verdana']
+            ]
+        }
+    },
+    computed: {
+        currentStatutColor() {
+            if (this.mandat.statut === 'Premier jet') {
+                return 'blue lighten-4'
+            } else if (this.mandat.statut === 'Questions') {
+                return 'red lighten-2';
+            } else if (this.mandat.statut === 'À réviser') {
+                //send notification
+                return 'purple lighten-2'
+            } else if (this.mandat.statut === 'Révision finie') {
+                //send notification
+                return 'light-blue lighten-2'
+            } else if (this.mandat.statut === 'Liquidé') {
+                return 'green lighten-2'
+            } else {
+                return 'grey lighten-3'
+            }
         }
     }
 

@@ -1,5 +1,5 @@
 <template>
-  <v-app light>
+  <v-app :light="!theme" :dark="theme">
     <m-toolbar></m-toolbar>
 
     <main>
@@ -16,13 +16,19 @@
 <script>
 import Toolbar from '@/components/Toolbar'
 import SmartView from '@/components/SmartView'
+import bus from '@/js/bus'
 
 export default {
   data() {
     return {
-
     }
   },
+  computed: {
+    theme() {
+      return bus.darkTheme
+    }
+  },
+
   components: {
     mToolbar: Toolbar,
     smartView: SmartView
@@ -32,9 +38,6 @@ export default {
 
 <style lang="stylus">
   @import './stylus/main'
-  .softbg {
-    background-color: #f5f5f5
-  }
 
   .stepCard {
     margin-bottom: 20px;

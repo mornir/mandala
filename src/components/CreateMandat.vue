@@ -198,7 +198,6 @@ export default {
             this.mandat.arrivée = new Date(this.arrivée).toLocaleString('fr-FR').substr(0, 10)
             this.mandat.délai = new Date(this.délai).toLocaleString('fr-FR').substr(0, 10)
 
-
             //this.mandat.traducteur = auth.currentUser.displayName;
 
             mandatFirebase().then(() => {

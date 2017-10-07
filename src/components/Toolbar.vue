@@ -15,17 +15,18 @@
         <v-spacer></v-spacer>
         <v-toolbar-items class="hidden-sm-and-down">
             <v-layout row align-center>
-                <router-link to="/smartview" class="my-nav-link">SmartView&trade;</router-link>
-
-                <router-link to="/nouveau" class="my-nav-link">Nouveau</router-link>
-                <router-link to="/recherche" class="my-nav-link">Recherche</router-link>
-
+                <router-link to="/smartview" class="my-nav-link" tag="span">SmartView&trade;</router-link>
+                <router-link to="/nouveau" class="my-nav-link" tag="span">Nouveau</router-link>
+                <router-link to="/recherche" class="my-nav-link" tag="span">Recherche</router-link>
                 <v-flex xs2>
                     <v-menu bottom left>
                         <v-icon slot="activator" class="excel-link">more_vert</v-icon>
                         <v-list>
                             <v-list-tile v-for="navLink in navLinks" :key="navLink.title" :to="navLink.link">
                                 <v-list-tile-title>{{ navLink.title }}</v-list-tile-title>
+                            </v-list-tile>
+                            <v-list-tile @click="switchTheme">
+                                <v-list-tile-title class="text-xs-center">{{lightDark}}</v-list-tile-title>
                             </v-list-tile>
                         </v-list>
                     </v-menu>
@@ -37,6 +38,7 @@
 </template>
 
 <script>
+import bus from '@/js/bus'
 export default {
     data() {
         return {
@@ -55,20 +57,36 @@ export default {
                 }
             ]
         }
-    }
+    },
+    methods: {
+        switchTheme() {
+            if (bus.darkTheme) {
+                localStorage.setItem('theme', '')
+            } else {
+                localStorage.setItem('theme', '1')
+            }
+            bus.darkTheme = !bus.darkTheme
+        }
+    },
+    computed: {
+        lightDark() {
+            if (bus.darkTheme) {
+                return '💡'
+            } else {
+                return '🌙'
+            }
+
+        }
+    },
 }
 </script>
 
 <style scoped>
 .my-nav-link {
-    color: black;
     font-size: 18px;
     margin-right: 2rem;
     text-decoration: none;
-}
-
-.excel-link {
-    color: black;
+    cursor: pointer;
 }
 
 .excel-link:hover {
@@ -80,7 +98,7 @@ export default {
 }
 
 .router-link-active {
-    color: Crimson !important;
+    color: Crimson;
 }
 
 #logo {
