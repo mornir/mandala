@@ -198,17 +198,19 @@ export default {
             this.mandat.arrivée = new Date(this.arrivée).toLocaleString('fr-FR').substr(0, 10)
             this.mandat.délai = new Date(this.délai).toLocaleString('fr-FR').substr(0, 10)
 
-            //this.mandat.traducteur = auth.currentUser.displayName;
+            this.mandat.traducteur = auth.currentUser.displayName
 
-            mandatFirebase().then(() => {
-                this.loading = false
-                this.$router.push("/smartview")
-                bus.showSnack = true
+            console.log(this.mandat)
 
-            }).catch(error => {
-                this.loading = false
-                console.log('an error', error)
-            })
+            /*       mandatFirebase().then(() => {
+                      this.loading = false
+                      this.$router.push("/smartview")
+                      bus.showSnack = true
+      
+                  }).catch(error => {
+                      this.loading = false
+                      console.log('an error', error)
+                  }) */
 
 
         },
