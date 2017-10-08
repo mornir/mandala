@@ -132,7 +132,7 @@
                                     <v-checkbox label="Trados" info hide-details v-model="mandat.TAO" true-value="Oui" false-value="Non" />
                                 </v-flex>
                                 <v-flex xs9>
-                                    <label class="subheading">Charge de travail :
+                                    <label class="subheading">Charge de travail estimée :
                                         <span class="subheading">
                                             <b>{{pageNumber}}</b>
                                         </span>
@@ -141,13 +141,16 @@
                                 </v-flex>
                                 <v-flex xs9>
                                     <label class="subheading">Révision par
-                                        <b>{{mandat.révision}}</b>
+                                        <b>{{mandat.réviseur}}</b>
                                         <v-radio-group v-model="mandat.réviseur" row>
                                             <v-radio label="Carine" value="Carine"></v-radio>
                                             <v-radio label="Sarah" value="Sarah"></v-radio>
                                             <v-radio label="Autre" value="Autre"></v-radio>
                                         </v-radio-group>
                                     </label>
+                                </v-flex>
+                                <v-flex xs9>
+                                    <v-text-field box v-if="mandat.réviseur === 'Autre'" label="Autre réviseur" v-model="autreRéviseur"></v-text-field>
                                 </v-flex>
                             </v-layout>
                         </div>
@@ -180,6 +183,7 @@ export default {
         return {
             stepCount: 1,
             loading: false,
+            autreRéviseur: null,
             arrivée: new Date(),
             délai: new Date(),
             centres: ["VKF", "IRV", "Pool", "VKG", "PRAEVENT", "VKF ZIP AG"],
@@ -199,6 +203,12 @@ export default {
             this.mandat.délai = new Date(this.délai).toLocaleString('fr-FR').substr(0, 10)
 
             this.mandat.traducteur = auth.currentUser.displayName
+
+            if (!this.autreRéviseur) {
+                this.mandat.réviseur = this.autreRéviseur
+            }
+
+
 
             console.log(this.mandat)
 

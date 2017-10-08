@@ -10,6 +10,10 @@
 </template>
 
 <script>
+import {
+    db
+} from '../firebase';
+
 import Mandat from '@/components/Mandat'
 import bus from '@/js/bus'
 
@@ -23,11 +27,19 @@ export default {
             { title: 'Best airlines', src: '../../../static/plane.jpg', flex: 12 }
         ]
     }),
+    firebase: {
+        mandats: db.ref('mandatsEnCours')
+    },
+    computed: {
+        mesTraductions() {
+            return this.mandats.filter(trad => trad.statut !== 'À réviser')
+        }
+    },
     created() {
         this.showSnack = bus.showSnack
     },
     components: {
-        Mandat: Mandat,
+        Mandat: Mandat
     }
 }
 </script>
