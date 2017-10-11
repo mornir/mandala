@@ -99,23 +99,23 @@ export default {
         addMitarbeiter() {
 
             this.selectedCenters.forEach((el) => {
-                db.ref('mandantsListe').child(el).child(this.newMandant.Kürzel).set(this.newMandant);
-            });
+                db.ref('mandantsListe').child(el).child(this.newMandant.Kürzel).set(this.newMandant)
+            })
 
             this.$refs.form.reset()
 
         },
         deleteMandant(key) {
-            this.$firebaseRefs.groupe.child(key).remove();
+            this.$firebaseRefs.groupe.child(key).remove()
         }
     },
     created() {
-        this.$bindAsArray('groupe', db.ref('mandantsListe/VKF'));
+        this.$bindAsArray('groupe', db.ref('mandantsListe/VKF'))
     },
     watch: {
         activeTab(newValue, oldValue) {
             this.$unbind('groupe');
-            this.$bindAsArray('groupe', db.ref('mandantsListe/' + newValue));
+            this.$bindAsArray('groupe', db.ref('mandantsListe/' + newValue))
         }
     },
 };

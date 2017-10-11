@@ -1,11 +1,19 @@
 <template>
     <v-container fluid grid-list-md>
         <v-snackbar top v-model="showSnack">Bonne traduction ! 😃</v-snackbar>
-        <v-layout row wrap>
+        <v-layout justify-center v-if="isLoading">
+            <v-progress-circular indeterminate color="primary" id="progress-circular" :width="7" :size="70" class="mt-5"></v-progress-circular>
+        </v-layout>
+
+        <v-layout row wrap v-else>
+            <v-flex xs6 v-if="!mandats.length">
+                <blockquote>This is quote from Humbold</blockquote>
+            </v-flex v-else>
             <v-flex v-bind="{ [`xs${card.flex}`]: true }" v-for="card in cards" :key="card.title">
                 <mandat :card="card"></mandat>
             </v-flex>
         </v-layout>
+
     </v-container>
 </template>
 
@@ -25,7 +33,8 @@ export default {
             { title: 'Favorite road trips', src: '../../../static/road.jpg', flex: 6 },
             { title: 'Best airlines', src: '../../../static/plane.jpg', flex: 8 },
             { title: 'Best airlines', src: '../../../static/plane.jpg', flex: 12 }
-        ]
+        ],
+        isLoading: true
     }),
     firebase: {
         mandats: db.ref('mandatsEnCours')
@@ -37,6 +46,9 @@ export default {
     },
     created() {
         this.showSnack = bus.showSnack
+        this.$bindAsArray('mandats', db.ref('mandatsEnCours').orderByChild('timeStamp'), null, () => {
+            this.isLoading = false;
+        });
     },
     components: {
         Mandat: Mandat

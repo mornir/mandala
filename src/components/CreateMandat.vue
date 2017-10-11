@@ -16,7 +16,7 @@
                                     <v-select :items="centres" v-model="mandat.centre_coûts" label="Centre de coûts"></v-select>
                                 </v-flex>
                                 <v-flex xs5>
-                                    <v-select :items="centres" v-model="mandat.centre_coûts" label="Mandant"></v-select>
+                                    <v-select :items="mandants" v-model="mandant" @input="saveMandant" :hint="mandant.département" persistent-hint label="Mandant"></v-select>
                                 </v-flex>
                                 <v-flex xs9>
                                     <v-text-field v-model="mandat.nom" box label="Nom du mandat"></v-text-field>
@@ -173,7 +173,7 @@
 </template>
 
 <script>
-import { db } from '../firebase'
+import { db, auth } from '../firebase'
 import Mandat from '@/js/newMandat'
 import { mandatFirebase } from '@/js/mandatFirebase'
 import bus from '@/js/bus'
@@ -190,7 +190,8 @@ export default {
             arrowDirection: 'arrow_forward',
             textTypes: ['Rédactionnel', 'Technique', 'Juridique', 'Financier'],
             activities: ['Traduction', 'Adaptation', 'Correction', 'Rédaction', 'Révision'],
-            mandat: Mandat
+            mandat: Mandat,
+            mandant: {}
         }
     },
     methods: {
@@ -234,6 +235,14 @@ export default {
                 this.mandat.cible = 'FR';
                 this.arrowDirection = 'arrow_forward';
             }
+        },
+        rebind() {
+            this.$unbind('mandants');
+            this.$bindAsArray('mandants', db.ref('mandantsListe/' + this.mandat.centre_coûts));
+        },
+        saveMandant() {
+            this.mandat.mandant = this.mandant.text;
+            this.mandat.département = this.mandant.département;
         }
     },
     computed: {
@@ -251,6 +260,9 @@ export default {
             }
 
         }
+    },
+    created() {
+        this.$bindAsArray('mandants', db.ref('mandantsListe/' + this.mandat.centre_coûts));
     }
 }
 </script>
