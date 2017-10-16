@@ -136,7 +136,7 @@
                                         <span class="subheading">
                                             <b>{{pageNumber}}</b>
                                         </span>
-                                        <v-slider v-model="mandat.chargeTravail" step="25" snap :min="25"></v-slider>
+                                        <v-slider v-model="chargeTravail" step="25" snap :min="25"></v-slider>
                                     </label>
                                 </v-flex>
                                 <v-flex xs9>
@@ -163,7 +163,7 @@
                         <v-flex xs12>
                             <v-text-field name="remarque" label="Remarque" textarea v-model="mandat.remarque"></v-text-field>
                         </v-flex>
-                        <v-btn color="success" @click="createMandat" :loading="loading">Créer le mandat</v-btn>
+                        <v-btn color="info" @click="createMandat" :loading="loading">Créer le mandat</v-btn>
                         <v-btn flat @click="stepCount -= 1">Retour</v-btn>
                     </v-stepper-content>
                 </v-stepper-items>
@@ -183,12 +183,13 @@ export default {
         return {
             stepCount: 1,
             loading: false,
+            chargeTravail: 25,
             autreRéviseur: null,
             arrivée: new Date(),
             délai: new Date(),
             centres: ["VKF", "IRV", "Pool", "VKG", "PRAEVENT", "VKF ZIP AG"],
             arrowDirection: 'arrow_forward',
-            textTypes: ['Rédactionnel', 'Technique', 'Juridique', 'Financier'],
+            textTypes: [{ text: 'Rédactionnel', value: 'REDAC' }, { text: 'Technique', value: 'TEC' }, { text: 'Juridique', value: 'JUR' }, { text: 'Financier', value: 'FINANC' }],
             activities: ['Traduction', 'Adaptation', 'Correction', 'Rédaction', 'Révision'],
             mandat: Mandat,
             mandant: {}
@@ -205,23 +206,29 @@ export default {
 
             this.mandat.traducteur = auth.currentUser.displayName
 
-            if (!this.autreRéviseur) {
+            if (this.mandat.réviseur === 'Autre') {
                 this.mandat.réviseur = this.autreRéviseur
             }
 
+            if (this.chargeTravail === 100) {
+                this.mandat.chargeTravail = 12
+            } else if (this.chargeTravail === 75) {
+                this.mandat.chargeTravail = 8
+            } else if (this.chargeTravail === 50) {
+                this.mandat.chargeTravail = 6
+            } else {
+                this.mandat.chargeTravail = 4
+            }
 
+            mandatFirebase(this.mandat).then(() => {
+                this.loading = false
+                this.$router.push("/smartview")
+                bus.showSnack = true
 
-            console.log(this.mandat)
-
-            /*       mandatFirebase().then(() => {
-                      this.loading = false
-                      this.$router.push("/smartview")
-                      bus.showSnack = true
-      
-                  }).catch(error => {
-                      this.loading = false
-                      console.log('an error', error)
-                  }) */
+            }).catch(error => {
+                this.loading = false
+                console.log('an error', error)
+            })
 
 
         },
@@ -247,13 +254,13 @@ export default {
     },
     computed: {
         pageNumber() {
-            if (this.mandat.chargeTravail === 25) {
+            if (this.chargeTravail === 25) {
                 return 'faible 😁'
-            } else if (this.mandat.chargeTravail === 50) {
+            } else if (this.chargeTravail === 50) {
                 return 'moyenne 😐'
-            } else if (this.mandat.chargeTravail === 75) {
+            } else if (this.chargeTravail === 75) {
                 return 'grande 😥'
-            } else if (this.mandat.chargeTravail === 100) {
+            } else if (this.chargeTravail === 100) {
                 return 'énorme 😵'
             } else {
                 return '...'

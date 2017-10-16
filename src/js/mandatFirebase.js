@@ -1,14 +1,15 @@
 import { db } from '../firebase'
 
-const mandatFirebase = async () => {
-  const year = new Date().getFullYear()
-  const shortYear = year.toString().substr(2, 2)
-  const month = new Date().getMonth() + 1
-  let mandat = {}
+import format from 'date-fns/format'
+
+const mandatFirebase = async mandat => {
+  const fullYear = format(new Date(), 'YYYY')
+  const shortYear = format(new Date(), 'YY')
+  const month = format(new Date(), 'MM')
 
   const result = await db
     .ref('compteurs')
-    .child(year)
+    .child(fullYear)
     .child(month)
     .transaction(currentValue => {
       return (currentValue || 0) + 1

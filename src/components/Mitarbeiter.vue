@@ -1,5 +1,5 @@
 <template>
-    <v-layout justify-center>
+    <v-layout justify-center row wrap>
         <v-flex xs5>
             <v-card flat class="stepCard">
 

@@ -3,7 +3,7 @@ export default {
   nom: '',
   arrivée: '',
   délai: '',
-  chargeTravail: 25,
+  chargeTravail: 4,
   fichiers: [
     {
       nombre: 1,
@@ -23,7 +23,7 @@ export default {
     }
   ],
   type: 'REDAC',
-  activité: 'Traduction',
+  activité: 'À traduire',
   TAO: 'Oui',
   source: 'DE',
   cible: 'FR',
@@ -37,5 +37,6 @@ export default {
   centre_coûts: 'VKF',
   remarque: '',
   statut: 'Traduction',
-  timeStamp: 0
+  timeStamp: 0,
+  révisé: false
 }

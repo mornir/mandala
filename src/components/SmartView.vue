@@ -5,13 +5,21 @@
             <v-progress-circular indeterminate color="primary" id="progress-circular" :width="7" :size="70" class="mt-5"></v-progress-circular>
         </v-layout>
 
-        <v-layout row wrap v-else>
-            <v-flex xs6 v-if="!mandats.length">
-                <blockquote>This is quote from Humbold</blockquote>
+        <v-layout row wrap v-else justify-center>
+            <v-flex xs10 v-if="!mandats.length">
+                <blockquote>Man kann sogar behaupten, dass eine Übersetzung um so abweichender wird, je mühsamer sie nach Treue strebt.
+                    <footer>
+                        <small>
+                            <em>&mdash; Wilhelm von Humboldt</em>
+                        </small>
+                    </footer>
+                </blockquote>
             </v-flex v-else>
-            <v-flex v-bind="{ [`xs${card.flex}`]: true }" v-for="card in cards" :key="card.title">
-                <mandat :card="card"></mandat>
-            </v-flex>
+            <transition-group name="roll" enter-active-class="animated rollIn" leave-active-class="animated rollOut" tag="v-layout">
+
+                <mandat :mandat="mandat" @revised="updateRevised($event, mandat)" @setStatut="setStatut($event, mandat)" v-for="mandat in mesMandats" :key="mandat.code"></mandat>
+
+            </transition-group>
         </v-layout>
 
     </v-container>
@@ -19,7 +27,7 @@
 
 <script>
 import {
-    db
+    db, auth
 } from '../firebase';
 
 import Mandat from '@/components/Mandat'
@@ -28,24 +36,30 @@ import bus from '@/js/bus'
 export default {
     data: () => ({
         showSnack: false,
-        cards: [
-            { title: 'Pre-fab homes', src: '../../../static/house.jpg', flex: 4 },
-            { title: 'Favorite road trips', src: '../../../static/road.jpg', flex: 6 },
-            { title: 'Best airlines', src: '../../../static/plane.jpg', flex: 8 },
-            { title: 'Best airlines', src: '../../../static/plane.jpg', flex: 12 }
-        ],
         isLoading: true
     }),
-    firebase: {
-        mandats: db.ref('mandatsEnCours')
-    },
     computed: {
-        mesTraductions() {
-            return this.mandats.filter(trad => trad.statut !== 'À réviser')
+        mesMandats() {
+            return this.mandats.filter(trad => trad.statut !== 'À réviser' || trad.révisé === true && trad.réviseur === auth.currentUser.displayName)
+        }
+    },
+    methods: {
+        updateRevised(newBool, mandat) {
+            const key = mandat['.key']
+            this.$firebaseRefs.mandats.child(`${key}/révisé`).set(newBool)
+        },
+        setStatut(newStatut, mandat) {
+            const key = mandat['.key']
+
+            if (newStatut === '') {
+
+            }
+            this.$firebaseRefs.mandats.child(`${key}/statut`).set(newStatut)
         }
     },
     created() {
         this.showSnack = bus.showSnack
+        bus.showSnack = false
         this.$bindAsArray('mandats', db.ref('mandatsEnCours').orderByChild('timeStamp'), null, () => {
             this.isLoading = false;
         });
