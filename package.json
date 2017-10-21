@@ -10,7 +10,6 @@
     "build": "node build/build.js"
   },
   "dependencies": {
-    "animate.css": "^3.5.2",
     "date-fns": "^1.29.0",
     "firebase": "^4.5.0",
     "vue": "^2.4.4",

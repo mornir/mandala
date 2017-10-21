@@ -5,7 +5,7 @@
     <main>
       <v-content>
         <v-divider></v-divider>
-        <v-container fluid class="softbg">
+        <v-container fluid>
           <router-view></router-view>
         </v-container>
       </v-content>
@@ -20,8 +20,7 @@ import bus from '@/js/bus'
 
 export default {
   data() {
-    return {
-    }
+    return {}
   },
   computed: {
     theme() {
@@ -37,12 +36,15 @@ export default {
 </script>
 
 <style lang="stylus">
-  @import './stylus/main'
+@import './stylus/main';
 
-  .stepCard {
-    margin-bottom: 20px;
-    border: 2px solid grey;
-    padding: 5px;
-    border-radius: 10px;
+.stepper__wrapper .stepCard {
+  margin-bottom: 20px;
+}
+
+.stepCard {
+  border: 2px solid grey;
+  padding: 5px;
+  border-radius: 10px;
 }
 </style>

@@ -29,6 +29,10 @@ export default new Router({
       path: '/mandants',
       name: 'Mitarbeiter',
       component: Mitarbeiter
+    },
+    {
+      path: '*',
+      redirect: 'smartview'
     }
   ]
 })

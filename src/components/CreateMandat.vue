@@ -1,7 +1,7 @@
 <template>
     <v-layout row justify-center>
         <v-flex xs7>
-            <v-stepper v-model="stepCount" vertical>
+            <v-stepper v-model="stepCount" vertical class="grey darken-3">
                 <v-stepper-items>
                     <v-stepper-step step="1" :complete="stepCount > 1" editable editIcon="check">
                         Mandant
@@ -163,7 +163,7 @@
                         <v-flex xs12>
                             <v-text-field name="remarque" label="Remarque" textarea v-model="mandat.remarque"></v-text-field>
                         </v-flex>
-                        <v-btn color="info" @click="createMandat" :loading="loading">Créer le mandat</v-btn>
+                        <v-btn flat color="success" @click="createMandat" :loading="loading">Créer le mandat</v-btn>
                         <v-btn flat @click="stepCount -= 1">Retour</v-btn>
                     </v-stepper-content>
                 </v-stepper-items>
@@ -179,98 +179,116 @@ import { mandatFirebase } from '@/js/mandatFirebase'
 import bus from '@/js/bus'
 
 export default {
-    data() {
-        return {
-            stepCount: 1,
-            loading: false,
-            chargeTravail: 25,
-            autreRéviseur: null,
-            arrivée: new Date(),
-            délai: new Date(),
-            centres: ["VKF", "IRV", "Pool", "VKG", "PRAEVENT", "VKF ZIP AG"],
-            arrowDirection: 'arrow_forward',
-            textTypes: [{ text: 'Rédactionnel', value: 'REDAC' }, { text: 'Technique', value: 'TEC' }, { text: 'Juridique', value: 'JUR' }, { text: 'Financier', value: 'FINANC' }],
-            activities: ['Traduction', 'Adaptation', 'Correction', 'Rédaction', 'Révision'],
-            mandat: Mandat,
-            mandant: {}
-        }
-    },
-    methods: {
-        createMandat() {
-
-            this.loading = true
-
-            //Format date into JJ/MM/AAAA
-            this.mandat.arrivée = new Date(this.arrivée).toLocaleString('fr-FR').substr(0, 10)
-            this.mandat.délai = new Date(this.délai).toLocaleString('fr-FR').substr(0, 10)
-
-            this.mandat.traducteur = auth.currentUser.displayName
-
-            if (this.mandat.réviseur === 'Autre') {
-                this.mandat.réviseur = this.autreRéviseur
-            }
-
-            if (this.chargeTravail === 100) {
-                this.mandat.chargeTravail = 12
-            } else if (this.chargeTravail === 75) {
-                this.mandat.chargeTravail = 8
-            } else if (this.chargeTravail === 50) {
-                this.mandat.chargeTravail = 6
-            } else {
-                this.mandat.chargeTravail = 4
-            }
-
-            mandatFirebase(this.mandat).then(() => {
-                this.loading = false
-                this.$router.push("/smartview")
-                bus.showSnack = true
-
-            }).catch(error => {
-                this.loading = false
-                console.log('an error', error)
-            })
-
-
-        },
-        toggleDirection() {
-            if (this.mandat.source === 'DE') {
-                this.mandat.source = 'FR';
-                this.mandat.cible = 'DE';
-                this.arrowDirection = 'arrow_back';
-            } else {
-                this.mandat.source = 'DE';
-                this.mandat.cible = 'FR';
-                this.arrowDirection = 'arrow_forward';
-            }
-        },
-        rebind() {
-            this.$unbind('mandants');
-            this.$bindAsArray('mandants', db.ref('mandantsListe/' + this.mandat.centre_coûts));
-        },
-        saveMandant() {
-            this.mandat.mandant = this.mandant.text;
-            this.mandat.département = this.mandant.département;
-        }
-    },
-    computed: {
-        pageNumber() {
-            if (this.chargeTravail === 25) {
-                return 'faible 😁'
-            } else if (this.chargeTravail === 50) {
-                return 'moyenne 😐'
-            } else if (this.chargeTravail === 75) {
-                return 'grande 😥'
-            } else if (this.chargeTravail === 100) {
-                return 'énorme 😵'
-            } else {
-                return '...'
-            }
-
-        }
-    },
-    created() {
-        this.$bindAsArray('mandants', db.ref('mandantsListe/' + this.mandat.centre_coûts));
+  data() {
+    return {
+      stepCount: 1,
+      loading: false,
+      chargeTravail: 25,
+      autreRéviseur: null,
+      arrivée: new Date(),
+      délai: new Date(),
+      centres: ['VKF', 'IRV', 'Pool', 'VKG', 'PRAEVENT', 'VKF ZIP AG'],
+      arrowDirection: 'arrow_forward',
+      textTypes: [
+        { text: 'Rédactionnel', value: 'REDAC' },
+        { text: 'Technique', value: 'TEC' },
+        { text: 'Juridique', value: 'JUR' },
+        { text: 'Financier', value: 'FINANC' }
+      ],
+      activities: [
+        'Traduction',
+        'Adaptation',
+        'Correction',
+        'Rédaction',
+        'Révision'
+      ],
+      mandat: Mandat,
+      mandant: {}
     }
+  },
+  methods: {
+    createMandat() {
+      this.loading = true
+
+      //Format date into JJ/MM/AAAA
+      this.mandat.arrivée = new Date(this.arrivée)
+        .toLocaleString('fr-FR')
+        .substr(0, 10)
+      this.mandat.délai = new Date(this.délai)
+        .toLocaleString('fr-FR')
+        .substr(0, 10)
+
+      this.mandat.traducteur = auth.currentUser.displayName
+
+      if (this.mandat.réviseur === 'Autre') {
+        this.mandat.réviseur = this.autreRéviseur
+      }
+
+      if (this.chargeTravail === 100) {
+        this.mandat.chargeTravail = 12
+      } else if (this.chargeTravail === 75) {
+        this.mandat.chargeTravail = 8
+      } else if (this.chargeTravail === 50) {
+        this.mandat.chargeTravail = 6
+      } else {
+        this.mandat.chargeTravail = 4
+      }
+
+      mandatFirebase(this.mandat)
+        .then(() => {
+          this.loading = false
+          this.$router.push('/smartview')
+          bus.showSnack = true
+        })
+        .catch(error => {
+          this.loading = false
+          console.log('an error', error)
+        })
+    },
+    toggleDirection() {
+      if (this.mandat.source === 'DE') {
+        this.mandat.source = 'FR'
+        this.mandat.cible = 'DE'
+        this.arrowDirection = 'arrow_back'
+      } else {
+        this.mandat.source = 'DE'
+        this.mandat.cible = 'FR'
+        this.arrowDirection = 'arrow_forward'
+      }
+    },
+    rebind() {
+      this.$unbind('mandants')
+      this.$bindAsArray(
+        'mandants',
+        db.ref('mandantsListe/' + this.mandat.centre_coûts)
+      )
+    },
+    saveMandant() {
+      this.mandat.mandant = this.mandant.text
+      this.mandat.département = this.mandant.département
+    }
+  },
+  computed: {
+    pageNumber() {
+      if (this.chargeTravail === 25) {
+        return 'faible 😁'
+      } else if (this.chargeTravail === 50) {
+        return 'moyenne 😐'
+      } else if (this.chargeTravail === 75) {
+        return 'grande 😥'
+      } else if (this.chargeTravail === 100) {
+        return 'énorme 😵'
+      } else {
+        return '...'
+      }
+    }
+  },
+  created() {
+    this.$bindAsArray(
+      'mandants',
+      db.ref('mandantsListe/' + this.mandat.centre_coûts)
+    )
+  }
 }
 </script>
 
