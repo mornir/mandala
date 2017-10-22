@@ -40,97 +40,94 @@
 <script>
 import bus from '@/js/bus'
 export default {
-    data() {
-        return {
-            navLinks: [
-                {
-                    title: 'Mandants',
-                    link: '/mandants'
-                },
-                {
-                    title: 'Mots-clés',
-                    link: '/tags'
-                },
-                {
-                    title: 'Liste Excel',
-                    link: '/tags'
-                }
-            ]
+  data() {
+    return {
+      navLinks: [
+        {
+          title: 'Mandants',
+          link: '/mandants'
+        },
+        {
+          title: 'Liste Excel',
+          link: '/tags'
+        },
+        {
+          title: 'Statistiques',
+          link: '/kibana'
         }
-    },
-    methods: {
-        switchTheme() {
-            if (bus.darkTheme) {
-                localStorage.setItem('theme', '')
-            } else {
-                localStorage.setItem('theme', '1')
-            }
-            bus.darkTheme = !bus.darkTheme
-        }
-    },
-    computed: {
-        lightDark() {
-            if (bus.darkTheme) {
-                return '💡'
-            } else {
-                return '🌙'
-            }
-
-        }
-    },
+      ]
+    }
+  },
+  methods: {
+    switchTheme() {
+      if (bus.darkTheme) {
+        localStorage.setItem('theme', '')
+      } else {
+        localStorage.setItem('theme', '1')
+      }
+      bus.darkTheme = !bus.darkTheme
+    }
+  },
+  computed: {
+    lightDark() {
+      if (bus.darkTheme) {
+        return '💡'
+      } else {
+        return '🌙'
+      }
+    }
+  }
 }
 </script>
 
 <style scoped>
 .my-nav-link {
-    font-size: 18px;
-    margin-right: 2rem;
-    text-decoration: none;
-    cursor: pointer;
+  font-size: 18px;
+  margin-right: 2rem;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 .excel-link:hover {
-    color: Crimson;
+  color: Crimson;
 }
 
 .my-nav-link:hover {
-    color: Crimson;
+  color: Crimson;
 }
 
 .router-link-active {
-    color: Crimson;
+  color: Crimson;
 }
 
 #logo {
-    font-family: 'Hanalei', cursive;
-    color: red;
-    cursor: default;
+  font-family: 'Hanalei', cursive;
+  color: red;
+  cursor: default;
 }
 
-
-
 @keyframes hvr-buzz {
-    50% {
-        transform: translateX(3px) rotate(2deg);
-    }
-    100% {
-        transform: translateX(-3px) rotate(-2deg);
-    }
+  50% {
+    transform: translateX(3px) rotate(2deg);
+  }
+  100% {
+    transform: translateX(-3px) rotate(-2deg);
+  }
 }
 
 .hvr-buzz {
-    display: inline-block;
-    vertical-align: middle;
-    transform: perspective(1px) translateZ(0);
-    box-shadow: 0 0 1px transparent;
+  display: inline-block;
+  vertical-align: middle;
+  transform: perspective(1px) translateZ(0);
+  box-shadow: 0 0 1px transparent;
 }
 
 .hvr-buzz:hover,
 .hvr-buzz:focus,
 .hvr-buzz:active {
-    animation-name: hvr-buzz;
-    animation-duration: 0.15s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
+  animation-name: hvr-buzz;
+  animation-duration: 0.15s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
 }
 </style>
