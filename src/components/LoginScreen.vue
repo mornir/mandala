@@ -10,7 +10,7 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-layout class="mt-4" justify-center>
-                        <v-btn flat color="success" @click="login">Se connecter</v-btn>
+                        <v-btn flat color="info" @click="login">Se connecter</v-btn>
                     </v-layout>
                 </v-card-actions>
             </v-card>

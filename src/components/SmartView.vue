@@ -12,7 +12,7 @@
 
         </v-card-title>
             <v-card-actions>
-                <v-btn flat color="success" @click="liquideMandat">Oui, l'expédier illico dans les archives</v-btn>
+                <v-btn flat color="info" @click="liquideMandat">Oui, l'expédier illico dans les archives</v-btn>
           <v-btn flat @click="liquideMandatDialog = false">Non, pas encore</v-btn>
             </v-card-actions>
           </v-card>
@@ -36,7 +36,7 @@
             </v-flex v-else>
             <transition-group name="roll" tag="v-layout" class="smartView">
 
-                <mandat :mandat="mandat" @revised="updateRevised($event, mandat)" @setStatut="setStatut($event, mandat)" v-for="mandat in mesMandats" :key="mandat.code"></mandat>
+                <mandat :mandat="mandat" @questions="updateQuestions($event, mandat)" @setStatut="setStatut($event, mandat)" v-for="mandat in mesMandats" :key="mandat.code"></mandat>
 
             </transition-group>
         </v-layout>
@@ -54,22 +54,22 @@ export default {
   data: () => ({
     showSnack: false,
     isLoading: true,
-    liquideMandatDialog: false
+    liquideMandatDialog: false,
+    me: auth.currentUser.displayName
   }),
   computed: {
     mesMandats() {
       return this.mandats.filter(
         trad =>
-          trad.statut !== 'À réviser' ||
-          (trad.révisé === true &&
-            trad.réviseur === auth.currentUser.displayName)
+          (trad.traducteur === this.me && trad.statut !== 'À réviser') ||
+          (trad.réviseur === this.me && trad.statut === 'À réviser')
       )
     }
   },
   methods: {
-    updateRevised(newBool, mandat) {
+    updateQuestions(newBool, mandat) {
       const key = mandat['.key']
-      this.$firebaseRefs.mandats.child(`${key}/révisé`).set(newBool)
+      this.$firebaseRefs.mandats.child(`${key}/questions`).set(newBool)
     },
     setStatut(newStatut, mandat) {
       const key = mandat['.key']

@@ -15,14 +15,11 @@
                     </v-list>
                 </v-menu>
                 <v-spacer></v-spacer>
-                <span>
-                    <v-btn icon :color="mandat.révisé ? 'success' : ''" @click="toggleRevised">
-                        <v-icon>spellcheck</v-icon>
-                    </v-btn>
-                    <v-btn icon color="info">
+          
+                    <v-btn icon :color="mandat.remarque ? 'info' : ''">
                         <v-icon>chat</v-icon>
                     </v-btn>
-                </span>
+
             </v-card-actions>
             <v-card-text>
                 <div class="title text-xs-center pb-2">{{mandat.nom}}</div>
@@ -32,9 +29,13 @@
                         Délai :
                         <strong>{{mandat.délai}}</strong>
                     </div>
-                    <div>
-                        Révision :
+                    <div v-if="mandat.statut !== 'À réviser'">
+                        Révision par
                         <strong>{{mandat.réviseur}}</strong>
+                    </div>
+                    <div v-else>
+                    Traduit par
+                        <strong>{{mandat.traducteur}}</strong>
                     </div>
                 </div>
             </v-card-text>
@@ -46,57 +47,57 @@
 <script>
 import bus from '@/js/bus'
 export default {
-    props: ['mandat'],
-    data() {
-        return {
-            révisé: false,
-            statuts_trad: [
-                {
-                    title: 'À traduire'
-                },
-                {
-                    title: 'Premier jet fini'
-                },
-                {
-                    title: 'Questions'
-                },
-                {
-                    title: 'À réviser'
-                },
-                {
-                    title: 'Liquider le mandat'
-                }
-            ]
-        }
-    },
-    computed: {
-        currentStatutColor() {
-            if (this.mandat.statut === 'Premier jet fini') {
-                return bus.darkTheme ? 'cyan darken-1' : 'blue lighten-4'
-            } else if (this.mandat.statut === 'Questions') {
-                return bus.darkTheme ? 'red accent-2' : 'red lighten-2'
-            } else if (this.mandat.statut === 'À réviser') {
-                //send notification
-                return bus.darkTheme ? 'purple darken-2' : 'purple lighten-2'
-            } else if (this.mandat.statut === 'Révision finie') {
-                //send notification
-                return 'light-blue lighten-2'
-            } else if (this.mandat.statut === 'Liquider le mandat') {
-                return 'green lighten-2'
-            } else {
-                return ''
-            }
-        }
-    },
-    methods: {
-        toggleRevised() {
-            this.$emit('revised', !this.mandat.révisé)
+  props: ['mandat'],
+  data() {
+    return {
+      révisé: false,
+      statuts_trad: [
+        {
+          title: 'À traduire'
         },
-        setStatut(newStatut) {
-            this.$emit('setStatut', newStatut)
+        {
+          title: 'Premier jet fini'
+        },
+        {
+          title: 'Questions'
+        },
+        {
+          title: 'À réviser'
+        },
+        {
+          title: 'Révision finie'
+        },
+        {
+          title: 'Liquider le mandat'
         }
+      ]
+    }
+  },
+  computed: {
+    currentStatutColor() {
+      if (this.mandat.statut === 'Premier jet fini') {
+        return bus.darkTheme ? 'cyan darken-1' : 'blue lighten-4'
+      } else if (this.mandat.statut === 'Questions') {
+        return bus.darkTheme ? 'red accent-2' : 'red lighten-2'
+      } else if (this.mandat.statut === 'À réviser') {
+        return bus.darkTheme ? 'purple darken-2' : 'purple lighten-2'
+      } else if (this.mandat.statut === 'Révision finie') {
+        return bus.darkTheme ? 'indigo darken-3' : 'light-blue lighten-2'
+      } else if (this.mandat.statut === 'Liquider le mandat') {
+        return 'green lighten-2'
+      } else {
+        return ''
+      }
+    }
+  },
+  methods: {
+    toggleQuestions() {
+      this.$emit('questions', !this.mandat.questions)
     },
-
+    setStatut(newStatut) {
+      this.$emit('setStatut', newStatut)
+    }
+  }
 }
 </script>
 

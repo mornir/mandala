@@ -4,6 +4,8 @@ import SmartView from '@/components/SmartView'
 import CreateMandat from '@/components/CreateMandat'
 import LoginScreen from '@/components/LoginScreen'
 import Mitarbeiter from '@/components/Mitarbeiter'
+import Admin from '@/components/Admin'
+import AuthGuard from './auth-guard'
 
 Vue.use(Router)
 
@@ -13,12 +15,14 @@ export default new Router({
     {
       path: '/smartview',
       name: 'SmartView',
-      component: SmartView
+      component: SmartView,
+      beforeEnter: AuthGuard
     },
     {
       path: '/nouveau',
       name: 'CreateMandat',
-      component: CreateMandat
+      component: CreateMandat,
+      beforeEnter: AuthGuard
     },
     {
       path: '/login',
@@ -28,7 +32,14 @@ export default new Router({
     {
       path: '/mandants',
       name: 'Mitarbeiter',
-      component: Mitarbeiter
+      component: Mitarbeiter,
+      beforeEnter: AuthGuard
+    },
+    {
+      path: '/admin',
+      name: 'Admin',
+      component: Admin,
+      beforeEnter: AuthGuard
     },
     {
       path: '*',

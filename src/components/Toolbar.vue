@@ -54,6 +54,10 @@ export default {
         {
           title: 'Statistiques',
           link: '/kibana'
+        },
+        {
+          title: 'Administration',
+          link: '/admin'
         }
       ]
     }

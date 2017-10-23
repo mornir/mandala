@@ -163,7 +163,7 @@
                         <v-flex xs12>
                             <v-text-field name="remarque" label="Remarque" textarea v-model="mandat.remarque"></v-text-field>
                         </v-flex>
-                        <v-btn flat color="success" @click="createMandat" :loading="loading">Créer le mandat</v-btn>
+                        <v-btn flat color="info" @click="createMandat" :loading="loading">Créer le mandat</v-btn>
                         <v-btn flat @click="stepCount -= 1">Retour</v-btn>
                     </v-stepper-content>
                 </v-stepper-items>
