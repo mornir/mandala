@@ -10,13 +10,13 @@
                     <!-- MANDANT -->
                     <v-stepper-content step="1">
                         <div class="stepCard">
-                            <v-layout row wrap justify-center>
+                                 <v-layout row wrap justify-center>
 
                                 <v-flex xs4 class="mr-2">
                                     <v-select :items="centres" v-model="mandat.centre_coûts" label="Centre de coûts" @input="rebind"></v-select>
                                 </v-flex>
                                 <v-flex xs5>
-                                    <v-select :items="mandants" v-model="mandat.mandant"  :hint="mandat.mandant.département" persistent-hint label="Mandant"></v-select>
+                                    <v-select :items="mandants" v-model="mandat.mandant"  :hint="mandat.mandant.département" persistent-hint label="Mandant" item-value="text"></v-select>
                                 </v-flex>
                                 <v-flex xs9>
                                     <v-text-field v-model="mandat.nom" box label="Nom du mandat"></v-text-field>
@@ -55,6 +55,7 @@
                     </v-stepper-content>
                     <v-stepper-step step="3" editable editIcon="check" :complete="stepCount > 3">Date d'arrivée et délai</v-stepper-step>
 
+                 
                     <!-- Date d'arrivée et délai -->
                     <v-stepper-content step="3">
                         <div class="stepCard">
@@ -136,7 +137,7 @@
                                         <span class="subheading">
                                             <b>{{pageNumber}}</b>
                                         </span>
-                                        <v-slider v-model="mandat.chargeTravail" step="2" snap :min="4" :max="10"></v-slider>
+                                               <v-slider v-model="mandat.chargeTravail" step="2" snap :min="4" :max="10"></v-slider>
                                     </label>
                                 </v-flex>
                                 <v-flex xs9>
@@ -174,17 +175,27 @@
 
 <script>
 import { db, auth } from '../firebase'
-import Mandat from '@/js/newMandat'
 import { mandatFirebase } from '@/js/mandatFirebase'
 import bus from '@/js/bus'
 
 export default {
+  props: ['code'],
+  firebase() {
+    return {
+      mandat: {
+        source: db.ref('mandatsEnCours/' + this.code),
+        asObject: true
+      }
+    }
+  },
   data() {
     return {
       stepCount: 1,
       loading: false,
-      chargeTravail: 4,
+      chargeTravail: 25,
       autreRéviseur: null,
+      arrivée: new Date(),
+      délai: new Date(),
       centres: ['VKF', 'IRV', 'Pool', 'VKG', 'PRAEVENT', 'VKF ZIP AG'],
       arrowDirection: 'arrow_forward',
       textTypes: [
@@ -199,8 +210,7 @@ export default {
         'Correction',
         'Rédaction',
         'Révision'
-      ],
-      mandat: Mandat
+      ]
     }
   },
   methods: {
@@ -209,11 +219,12 @@ export default {
 
       delete this.mandat.mandant['.key']
 
-      this.mandat.traducteur = auth.currentUser.displayName
+      //this.mandat.traducteur = auth.currentUser.displayName
 
       if (this.mandat.réviseur === 'Autre') {
         this.mandat.réviseur = this.autreRéviseur
       }
+
       if (this.mandat.chargeTravail === 10) {
         this.mandat.chargeTravail += 2
       }
@@ -250,13 +261,13 @@ export default {
   },
   computed: {
     pageNumber() {
-      if (this.chargeTravail < 5) {
+      if (this.chargeTravail === 25) {
         return 'faible 😁'
-      } else if (this.chargeTravail < 5 && this.chargeTravail > 5) {
+      } else if (this.chargeTravail === 50) {
         return 'moyenne 😐'
       } else if (this.chargeTravail === 75) {
         return 'grande 😥'
-      } else if (this.chargeTravail > 9) {
+      } else if (this.chargeTravail === 100) {
         return 'énorme 😵'
       } else {
         return '...'
@@ -275,3 +286,4 @@ export default {
 <style>
 
 </style>
+

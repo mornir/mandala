@@ -5,6 +5,7 @@ import CreateMandat from '@/components/CreateMandat'
 import LoginScreen from '@/components/LoginScreen'
 import Mitarbeiter from '@/components/Mitarbeiter'
 import Admin from '@/components/Admin'
+import DetailsMandat from '@/components/DetailsMandat'
 import AuthGuard from './auth-guard'
 
 Vue.use(Router)
@@ -39,6 +40,13 @@ export default new Router({
       path: '/admin',
       name: 'Admin',
       component: Admin,
+      beforeEnter: AuthGuard
+    },
+    {
+      path: '/edit/:code',
+      name: 'DetailsMandat',
+      component: DetailsMandat,
+      props: true,
       beforeEnter: AuthGuard
     },
     {

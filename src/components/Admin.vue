@@ -1,7 +1,7 @@
 <template>
 <v-layout justify-center>
     <v-card class="stepCard">
-        <v-toolbar>
+        <v-toolbar flat>
             <v-toolbar-title>Profil de {{currentUser.displayName}}</v-toolbar-title>
         </v-toolbar>
         <v-card-text>

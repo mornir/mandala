@@ -1,10 +1,10 @@
 <template>
     <v-flex v-bind="{ [`xs${mandat.chargeTravail}`]: true }">
-        <v-card hover :color="currentStatutColor">
+        <v-card  :color="currentStatutColor" :id="mandat.questions ? 'borderQuestion' : ''">
             <v-card-actions>
-                <span>
+                <router-link :to="'edit/' + mandat['.key']" tag="span">
                     <strong>{{mandat.code}}</strong>
-                </span>
+                </router-link>
                 <v-spacer></v-spacer>
                 <v-menu offset-y>
                     <v-btn flat round small :ripple="false" slot="activator">{{mandat.statut}}</v-btn>
@@ -15,14 +15,17 @@
                     </v-list>
                 </v-menu>
                 <v-spacer></v-spacer>
-          
+          <span>
+                <v-btn icon :color="mandat.questions ? 'error' : ''" @click="toggleQuestions">
+                        <v-icon>question_answer</v-icon>
+                    </v-btn>
                     <v-btn icon :color="mandat.remarque ? 'info' : ''">
                         <v-icon>chat</v-icon>
                     </v-btn>
-
+          </span>
             </v-card-actions>
             <v-card-text>
-                <div class="title text-xs-center pb-2">{{mandat.nom}}</div>
+                <div class="title text-xs-center pb-2" ><span v-clipboard:copy="copyRefArchives" style="cursor:pointer">{{mandat.nom}}</span></div>
                 <div class="line"></div>
                 <div class="subheading text-xs-center pt-2">
                     <div>
@@ -51,15 +54,13 @@ export default {
   data() {
     return {
       révisé: false,
+      copyRefArchives: `${this.mandat.code} ${this.mandat.nom}`,
       statuts_trad: [
         {
           title: 'À traduire'
         },
         {
           title: 'Premier jet fini'
-        },
-        {
-          title: 'Questions'
         },
         {
           title: 'À réviser'
@@ -77,8 +78,6 @@ export default {
     currentStatutColor() {
       if (this.mandat.statut === 'Premier jet fini') {
         return bus.darkTheme ? 'cyan darken-1' : 'blue lighten-4'
-      } else if (this.mandat.statut === 'Questions') {
-        return bus.darkTheme ? 'red accent-2' : 'red lighten-2'
       } else if (this.mandat.statut === 'À réviser') {
         return bus.darkTheme ? 'purple darken-2' : 'purple lighten-2'
       } else if (this.mandat.statut === 'Révision finie') {
@@ -102,5 +101,7 @@ export default {
 </script>
 
 <style>
-
+#borderQuestion {
+  border: 5px solid #ff5252 !important;
+}
 </style>

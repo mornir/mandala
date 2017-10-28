@@ -1,8 +1,8 @@
 export default {
   code: '',
   nom: '',
-  arrivée: '',
-  délai: '',
+  arrivée: new Date().toISOString().substr(0, 10),
+  délai: new Date().toISOString().substr(0, 10),
   chargeTravail: 4,
   fichiers: [
     {
@@ -23,7 +23,7 @@ export default {
     }
   ],
   type: 'REDAC',
-  activité: 'À traduire',
+  activité: 'Traduction',
   TAO: 'Oui',
   source: 'DE',
   cible: 'FR',
@@ -31,12 +31,12 @@ export default {
   réviseur: 'Carine',
   heure: '00:00',
   priorité: false,
-  mandant: '',
+  mandant: {},
   département: '',
   public_cible: '',
   centre_coûts: 'VKF',
   remarque: '',
   statut: 'Traduction',
   timeStamp: 0,
-  révisé: false
+  questions: false
 }
