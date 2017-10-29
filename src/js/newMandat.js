@@ -28,7 +28,7 @@ export default {
   source: 'DE',
   cible: 'FR',
   traducteur: '',
-  réviseur: 'Carine',
+  réviseur: 'Jérôme',
   heure: '00:00',
   priorité: false,
   mandant: {},

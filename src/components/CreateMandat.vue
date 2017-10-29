@@ -16,14 +16,14 @@
                                     <v-select :items="centres" v-model="mandat.centre_coûts" label="Centre de coûts" @input="rebind"></v-select>
                                 </v-flex>
                                 <v-flex xs5>
-                                    <v-select :items="mandants" v-model="mandat.mandant"  :hint="mandat.mandant.département" persistent-hint label="Mandant"></v-select>
+                                    <v-select :items="mandants" v-model="mandat.mandant"  :hint="mandat.mandant.département" persistent-hint label="Mandant" item-value="text"></v-select>
                                 </v-flex>
                                 <v-flex xs9>
                                     <v-text-field v-model="mandat.nom" box label="Nom du mandat"></v-text-field>
                                 </v-flex>
                             </v-layout>
                         </div>
-                        <v-btn color="primary" @click="stepCount = 2">Suivant</v-btn>
+                        <v-btn color="primary" @click="stepCount = 2" >Suivant</v-btn>
                     </v-stepper-content>
                     <v-stepper-step step="2" editable :complete="stepCount > 2" editIcon="check">Fichiers</v-stepper-step>
 
@@ -143,14 +143,15 @@
                                     <label class="subheading">Révision par
                                         <b>{{mandat.réviseur}}</b>
                                         <v-radio-group v-model="mandat.réviseur" row>
-                                            <v-radio label="Carine" value="Carine"></v-radio>
-                                            <v-radio label="Sarah" value="Sarah"></v-radio>
+                                            <v-radio label="Carine" value="Carine" v-if="currentUser !== 'Carine'"></v-radio>
+                                                <v-radio label="Jérôme" value="Jérôme" v-if="currentUser !== 'Jérôme'"></v-radio>
+                                            <v-radio label="Sarah" value="Sarah" v-if="currentUser !== 'Sarah'"></v-radio>
                                             <v-radio label="Autre" value="Autre"></v-radio>
                                         </v-radio-group>
                                     </label>
                                 </v-flex>
                                 <v-flex xs9>
-                                    <v-text-field box v-if="mandat.réviseur === 'Autre'" label="Autre réviseur" v-model="autreRéviseur"></v-text-field>
+                                    <v-text-field box v-if="mandat.réviseur === 'Autre'" label="Autre réviseur" v-model="autreRéviseur" hide-details></v-text-field>
                                 </v-flex>
                             </v-layout>
                         </div>
@@ -163,7 +164,8 @@
                         <v-flex xs12>
                             <v-text-field name="remarque" label="Remarque" textarea v-model="mandat.remarque"></v-text-field>
                         </v-flex>
-                        <v-btn flat color="info" @click="createMandat" :loading="loading">Créer le mandat</v-btn>
+                        <v-btn v-if="editing" color="info" @click="editMandat" :loading="loading">Enregistrer les modifications</v-btn>
+                        <v-btn v-else color="info" @click="createMandat" :loading="loading">Créer le mandat</v-btn>
                         <v-btn flat @click="stepCount -= 1">Retour</v-btn>
                     </v-stepper-content>
                 </v-stepper-items>
@@ -179,11 +181,17 @@ import { mandatFirebase } from '@/js/mandatFirebase'
 import bus from '@/js/bus'
 
 export default {
+  props: {
+    code: {
+      type: String,
+      default: ''
+    }
+  },
   data() {
     return {
       stepCount: 1,
       loading: false,
-      chargeTravail: 4,
+      editing: false,
       autreRéviseur: null,
       centres: ['VKF', 'IRV', 'Pool', 'VKG', 'PRAEVENT', 'VKF ZIP AG'],
       arrowDirection: 'arrow_forward',
@@ -200,29 +208,51 @@ export default {
         'Rédaction',
         'Révision'
       ],
-      mandat: Mandat
+      mandat: {}
     }
   },
   methods: {
-    createMandat() {
+    prepareForFirebase() {
       this.loading = true
-
-      delete this.mandat.mandant['.key']
-
-      this.mandat.traducteur = auth.currentUser.displayName
-
       if (this.mandat.réviseur === 'Autre') {
         this.mandat.réviseur = this.autreRéviseur
       }
       if (this.mandat.chargeTravail === 10) {
         this.mandat.chargeTravail += 2
       }
+    },
+    createMandat() {
+      this.prepareForFirebase()
+
+      this.mandat.traducteur = this.currentUser
 
       mandatFirebase(this.mandat)
         .then(() => {
           this.loading = false
           this.$router.push('/smartview')
-          bus.showSnack = true
+          bus.snackbar.showSnack = true
+          if (this.mandat.chargeTravail > 6) {
+            bus.snackbar.message = 'Bon courage ! 💪'
+          } else {
+            bus.snackbar.message = 'Bonne traduction ! 😃'
+          }
+        })
+        .catch(error => {
+          this.loading = false
+          console.log('an error', error)
+        })
+    },
+    editMandat() {
+      delete this.mandat['.key']
+
+      db
+        .ref('mandatsEnCours/' + this.code)
+        .set(this.mandat)
+        .then(() => {
+          this.loading = false
+          this.$router.push('/smartview')
+          bus.snackbar.showSnack = true
+          bus.snackbar.message = 'Mandat édité ! 👍'
         })
         .catch(error => {
           this.loading = false
@@ -250,24 +280,40 @@ export default {
   },
   computed: {
     pageNumber() {
-      if (this.chargeTravail < 5) {
+      if (this.mandat.chargeTravail < 5) {
         return 'faible 😁'
-      } else if (this.chargeTravail < 5 && this.chargeTravail > 5) {
+      } else if (this.mandat.chargeTravail === 6) {
         return 'moyenne 😐'
-      } else if (this.chargeTravail === 75) {
+      } else if (this.mandat.chargeTravail === 8) {
         return 'grande 😥'
-      } else if (this.chargeTravail > 9) {
+      } else if (this.mandat.chargeTravail > 9) {
         return 'énorme 😵'
       } else {
         return '...'
       }
+    },
+    currentUser() {
+      return auth.currentUser.displayName || null
     }
   },
   created() {
-    this.$bindAsArray(
-      'mandants',
-      db.ref('mandantsListe/' + this.mandat.centre_coûts)
-    )
+    if (this.code) {
+      this.editing = true
+      this.$bindAsObject(
+        'mandat',
+        db.ref('mandatsEnCours/' + this.code),
+        null,
+        () => {
+          this.$bindAsArray(
+            'mandants',
+            db.ref('mandantsListe/' + this.mandat.centre_coûts)
+          )
+        }
+      )
+    } else {
+      this.mandat = Mandat
+      this.$bindAsArray('mandants', db.ref('mandantsListe/VKF'))
+    }
   }
 }
 </script>

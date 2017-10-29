@@ -2,7 +2,10 @@ import Vue from 'vue'
 
 export default new Vue({
   data: {
-    showSnack: false,
+    snackbar: {
+      showSnack: false,
+      message: ''
+    },
     darkTheme: Boolean(localStorage.getItem('theme'))
   }
 })

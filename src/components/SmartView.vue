@@ -1,6 +1,6 @@
 <template>
     <v-container fluid grid-list-md>
-        <v-snackbar top v-model="showSnack">Bonne traduction ! 😃</v-snackbar>
+        <v-snackbar top v-model="snackbar.showSnack"><span class="title">{{snackbar.message}}</span></v-snackbar>
 
         <v-dialog v-model="liquideMandatDialog" max-width="500px">
 
@@ -52,7 +52,7 @@ import bus from '@/js/bus'
 
 export default {
   data: () => ({
-    showSnack: false,
+    snackbar: {},
     isLoading: true,
     liquideMandatDialog: false,
     me: auth.currentUser.displayName
@@ -82,8 +82,10 @@ export default {
     liquideMandat() {}
   },
   created() {
-    this.showSnack = bus.showSnack
-    bus.showSnack = false
+    this.snackbar.showSnack = bus.snackbar.showSnack
+    this.snackbar.message = bus.snackbar.message
+
+    bus.snackbar.showSnack = false
     this.$bindAsArray(
       'mandats',
       db.ref('mandatsEnCours').orderByChild('timeStamp'),
