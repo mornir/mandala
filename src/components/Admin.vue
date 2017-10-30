@@ -1,6 +1,6 @@
 <template>
 <v-layout justify-center>
-    <v-card class="stepCard">
+    <v-card flat class="stepCard">
         <v-toolbar flat>
             <v-toolbar-title>Profil de {{currentUser.displayName}}</v-toolbar-title>
         </v-toolbar>
@@ -8,7 +8,7 @@
         
                 <div class="subheading">
                 <span>Numéro du dernier mandat créé du mois :</span>
-                    <v-text-field label="Numéro du mandat" name="numéro" v-model.number="compteur"></v-text-field>
+                    <v-text-field label="Numéro du mandat" name="numéro" v-model.number="compteur" box></v-text-field>
                     <v-btn @click="updateNumero" color="info" flat>Mettre à jour le numéro</v-btn>
                 </div>
          

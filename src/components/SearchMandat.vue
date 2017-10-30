@@ -1,36 +1,36 @@
 <template>
 <v-layout justify-center>
     <v-flex xs4>
-        <v-card>
-            <v-card-title class="indigo white--text">
-                <span>Rechercher un mandat</span>
-            </v-card-title>
+        <v-card flat class="stepCard">
+         
+            <v-toolbar flat>
+                <v-toolbar-title>Rechercher un mandat</v-toolbar-title>
+            </v-toolbar>
             <v-card-text>
-<!--<v-select :items="years" v-model="selectedYear" label="Année" @input="rebind"></v-select>-->
                 
-                <v-text-field name="search" v-model.lazy="searchText" label="Nom du mandat"></v-text-field>
+                <v-text-field name="search" v-model.lazy="searchText" label="Nom du mandat" box></v-text-field>
                 
-                <v-btn @click.native="elasticSearch">Search</v-btn>
+                <v-btn @click="elasticSearch" color="primary">Search</v-btn>
                 <span v-if="searchLaunched">Résultats: {{results.length}}</span>
                 <v-list>
+                <template v-for="(result, index) in results" >
 
-                    <v-list-item v-for="(result, index) in results" key="result._source.code">
-                        <v-list-tile ripple @click.native="mandat = result._source">
+                        <v-list-tile ripple @click="mandat = result._source" :key="result._source.code">
                             <v-list-tile-content>
                                 <v-list-tile-title v-text="result._source.nom"></v-list-tile-title>
                             </v-list-tile-content>
                         </v-list-tile>
-                        <v-divider v-if="index + 1 < results.length"></v-divider>
-                    </v-list-item>
-
+                        <v-divider v-if="index + 1 < results.length" :key="result._source.code"></v-divider>
+         
+                </template>
                 </v-list>
 
             </v-card-text>
 
         </v-card>
     </v-flex>
-    <v-flex xs8>
-        <v-card v-if="mandat.nom">
+    <v-flex xs7 offset-xs1>
+        <v-card flat class="stepCard" v-if="mandat.nom">
             <mandat-details :mandat="mandat"></mandat-details>
         </v-card>
     </v-flex>
@@ -38,49 +38,60 @@
 </template>
 
 <script>
-    import MandatDetails from './MandatDetails.vue';
-    import {
-        search
-    } from '../elasticsearch';
+import axios from 'axios'
 
-    export default {
-        data() {
-            return {
-                results: [],
-                searchText: '',
-                searchLaunched: false,
-                mandat: {}
-            };
-        },
-        methods: {
-            elasticSearch() {
-                search(this.searchText).then(resp => this.results = resp.hits.hits, err => console.trace(err.message));
-                this.searchLaunched = true;
-            }
-        },
-        created() {
+import MandatDetails from './MandatDetails.vue'
 
-            //            for (let i = this.$moment().year(); i >= 2017; i--) {
-            //                this.years.push(i);
-            //            }
-
-        },
-        components: {
-            mandatDetails: MandatDetails
+export default {
+  data() {
+    return {
+      results: [],
+      searchText: '',
+      searchLaunched: false,
+      mandat: {}
+    }
+  },
+  methods: {
+    elasticSearch() {
+      const query = {
+        query: {
+          match: {
+            nom: this.searchText
+          }
         }
-    };
+      }
 
+      axios
+        .get(
+          'https://first-cluster-2026533573.eu-central-1.bonsaisearch.net/_search',
+          {
+            params: {
+              source: JSON.stringify(query),
+              source_content_type: 'application/json'
+            },
+            auth: {
+              username: 'sl729fctsq',
+              password: 'tslh5y1zel'
+            }
+          }
+        )
+        .then(res => {
+          this.results = res.data.hits.hits
+          console.log(res.data.hits.hits)
+        })
+    }
+  },
+  created() {
+    //            for (let i = this.$moment().year(); i >= 2017; i--) {
+    //                this.years.push(i);
+    //            }
+  },
+  components: {
+    mandatDetails: MandatDetails
+  }
+}
 </script>
 
 <style>
-    input[type=search] {
-        width: 100%;
-        padding: 12px 20px;
-        margin: 8px 0;
-        display: inline-block;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-sizing: border-box;
-    }
 
 </style>

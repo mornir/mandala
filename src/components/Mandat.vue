@@ -2,7 +2,7 @@
     <v-flex v-bind="{ [`xs${mandat.chargeTravail}`]: true }">
         <v-card  :color="currentStatutColor" :id="mandat.questions ? 'borderQuestion' : ''">
             <v-card-actions>
-                <router-link :to="'edit/' + mandat['.key']" tag="span">
+                <router-link :to="'edit/' + mandat['.key']" tag="span" style="cursor:pointer">
                     <strong>{{mandat.code}}</strong>
                 </router-link>
                 <v-spacer></v-spacer>

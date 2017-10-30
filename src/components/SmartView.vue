@@ -50,6 +50,8 @@ import { db, auth } from '../firebase'
 import Mandat from '@/components/Mandat'
 import bus from '@/js/bus'
 
+import axios from 'axios'
+
 export default {
   data: () => ({
     snackbar: {},
@@ -76,10 +78,37 @@ export default {
 
       if (newStatut === 'Liquider le mandat') {
         this.liquideMandatDialog = true
+        return
       }
       this.$firebaseRefs.mandats.child(`${key}/statut`).set(newStatut)
     },
-    liquideMandat() {}
+    liquideMandat() {
+      const query = {
+        query: {
+          match: {
+            nom: 'power'
+          }
+        }
+      }
+
+      axios
+        .get(
+          'https://first-cluster-2026533573.eu-central-1.bonsaisearch.net/_search',
+          {
+            params: {
+              source: JSON.stringify(query),
+              source_content_type: 'application/json'
+            },
+            auth: {
+              username: 'sl729fctsq',
+              password: 'tslh5y1zel'
+            }
+          }
+        )
+        .then(res => {
+          console.log(res.data.hits.hits)
+        })
+    }
   },
   created() {
     this.snackbar.showSnack = bus.snackbar.showSnack

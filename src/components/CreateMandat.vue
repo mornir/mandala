@@ -129,7 +129,7 @@
                                     <img src="../assets/france.svg" alt="French" width="40px" height="40px">
                                 </v-flex>
                                 <v-flex xs2>
-                                    <v-checkbox label="Trados" info hide-details v-model="mandat.TAO" true-value="Oui" false-value="Non" />
+                                    <v-checkbox label="Trados" info hide-details v-model="mandat.TAO" true-value="Oui" false-value="Non" color="primary"/>
                                 </v-flex>
                                 <v-flex xs9>
                                     <label class="subheading">Charge de travail estimée :
@@ -143,10 +143,20 @@
                                     <label class="subheading">Révision par
                                         <b>{{mandat.réviseur}}</b>
                                         <v-radio-group v-model="mandat.réviseur" row>
-                                            <v-radio label="Carine" value="Carine" v-if="currentUser !== 'Carine'"></v-radio>
-                                                <v-radio label="Jérôme" value="Jérôme" v-if="currentUser !== 'Jérôme'"></v-radio>
-                                            <v-radio label="Sarah" value="Sarah" v-if="currentUser !== 'Sarah'"></v-radio>
-                                            <v-radio label="Autre" value="Autre"></v-radio>
+                                            <v-radio label="Carine" value="Carine" v-if="currentUser !== 'Carine'" color="primary"></v-radio>
+                                                <v-radio label="Jérôme" value="Jérôme" v-if="currentUser !== 'Jérôme'" color="primary"></v-radio>
+                                            <v-radio label="Sarah" value="Sarah" v-if="currentUser !== 'Sarah'" color="primary"></v-radio>
+                                            <v-radio label="Autre" value="Autre" color="primary"></v-radio>
+                                        </v-radio-group>
+                                    </label>
+                                </v-flex>
+                                <v-flex xs9 v-if="editing">
+                                    <label class="subheading">Traduction par
+                                        <b>{{mandat.traducteur}}</b>
+                                        <v-radio-group v-model="mandat.traducteur" row>
+                                            <v-radio label="Carine" value="Carine" color="primary"></v-radio>
+                                                <v-radio label="Jérôme" value="Jérôme" color="primary"></v-radio>
+                                            <v-radio label="Sarah" value="Sarah" color="primary"></v-radio>
                                         </v-radio-group>
                                     </label>
                                 </v-flex>

@@ -28,7 +28,7 @@
                 <v-card-actions>
 
                     <v-layout justify-center>
-                        <v-btn flat color="success" @click.native="addMitarbeiter">Ajouter un mandant</v-btn>
+                        <v-btn flat color="success" @click="addMitarbeiter">Ajouter un mandant</v-btn>
                     </v-layout>
                 </v-card-actions>
             </v-card>
@@ -56,7 +56,7 @@
                                         <v-list-tile-sub-title>{{ mandant.département }}</v-list-tile-sub-title>
                                     </v-list-tile-content>
                                     <v-list-tile-action>
-                                        <v-btn icon ripple @click.native="deleteMandant(mandant.Kürzel)">
+                                        <v-btn icon ripple @click="deleteMandant(mandant.Kürzel)">
                                             <v-icon class="red--text">close</v-icon>
                                         </v-btn>
                                     </v-list-tile-action>
@@ -74,52 +74,65 @@
 </template>
 
 <script>
-import {
-    db
-} from '../firebase';
+import { db } from '../firebase'
 
 export default {
-    data() {
-        return {
-            activeTab: 'VKF',
-            validForm: true,
-            départements: ["Human Resources", "Sekretariat", "Generalsekretariat", "Public Relations", "Rechtsdienst", "VKF ZIP AG", "Brandschutz", "Elementarschaden-Prävention", "Ausbildung", "Finanzen", "Informatik", "Rückversicherung", "Liegenschaftsdienst"],
-            centres: ["VKF", "IRV", "Pool", "VKG", "PRAEVENT", "VKF ZIP AG"],
-            selectedCenters: [],
-            newMandant: {
-                Kürzel: '',
-                text: '',
-                département: ''
-            },
-            groupe: []
-        };
+  data() {
+    return {
+      activeTab: 'VKF',
+      validForm: true,
+      départements: [
+        'Human Resources',
+        'Sekretariat',
+        'Generalsekretariat',
+        'Public Relations',
+        'Rechtsdienst',
+        'VKF ZIP AG',
+        'Brandschutz',
+        'Elementarschaden-Prävention',
+        'Ausbildung',
+        'Finanzen',
+        'Informatik',
+        'Rückversicherung',
+        'Liegenschaftsdienst'
+      ],
+      centres: ['VKF', 'IRV', 'Pool', 'VKG', 'PRAEVENT', 'VKF ZIP AG'],
+      selectedCenters: [],
+      newMandant: {
+        Kürzel: '',
+        text: '',
+        département: ''
+      },
+      groupe: []
+    }
+  },
+
+  methods: {
+    addMitarbeiter() {
+      this.selectedCenters.forEach(el => {
+        db
+          .ref('mandantsListe')
+          .child(el)
+          .child(this.newMandant.Kürzel)
+          .set(this.newMandant)
+      })
+
+      this.$refs.form.reset()
     },
-
-    methods: {
-        addMitarbeiter() {
-
-            this.selectedCenters.forEach((el) => {
-                db.ref('mandantsListe').child(el).child(this.newMandant.Kürzel).set(this.newMandant)
-            })
-
-            this.$refs.form.reset()
-
-        },
-        deleteMandant(key) {
-            this.$firebaseRefs.groupe.child(key).remove()
-        }
-    },
-    created() {
-        this.$bindAsArray('groupe', db.ref('mandantsListe/VKF'))
-    },
-    watch: {
-        activeTab(newValue, oldValue) {
-            this.$unbind('groupe');
-            this.$bindAsArray('groupe', db.ref('mandantsListe/' + newValue))
-        }
-    },
-};
-
+    deleteMandant(key) {
+      this.$firebaseRefs.groupe.child(key).remove()
+    }
+  },
+  created() {
+    this.$bindAsArray('groupe', db.ref('mandantsListe/VKF'))
+  },
+  watch: {
+    activeTab(newValue, oldValue) {
+      this.$unbind('groupe')
+      this.$bindAsArray('groupe', db.ref('mandantsListe/' + newValue))
+    }
+  }
+}
 </script>
 
 <style>

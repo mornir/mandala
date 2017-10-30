@@ -5,6 +5,7 @@ import CreateMandat from '@/components/CreateMandat'
 import LoginScreen from '@/components/LoginScreen'
 import Mitarbeiter from '@/components/Mitarbeiter'
 import Admin from '@/components/Admin'
+import SearchMandat from '@/components/SearchMandat'
 import AuthGuard from './auth-guard'
 
 Vue.use(Router)
@@ -22,6 +23,12 @@ export default new Router({
       path: '/nouveau',
       name: 'CreateMandat',
       component: CreateMandat,
+      beforeEnter: AuthGuard
+    },
+    {
+      path: '/recherche',
+      name: 'SearchMandat',
+      component: SearchMandat,
       beforeEnter: AuthGuard
     },
     {
