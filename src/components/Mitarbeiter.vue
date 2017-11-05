@@ -28,7 +28,7 @@
                 <v-card-actions>
 
                     <v-layout justify-center>
-                        <v-btn flat color="success" @click="addMitarbeiter">Ajouter un mandant</v-btn>
+                        <v-btn color="info" @click="addMitarbeiter">Ajouter un mandant</v-btn>
                     </v-layout>
                 </v-card-actions>
             </v-card>

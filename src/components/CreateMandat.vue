@@ -175,7 +175,7 @@
                             <v-text-field name="remarque" label="Remarque" textarea v-model="mandat.remarque"></v-text-field>
                         </v-flex>
                         <v-btn v-if="editing" color="info" @click="editMandat" :loading="loading">Enregistrer les modifications</v-btn>
-                        <v-btn v-else color="info" @click="createMandat" :loading="loading">Créer le mandat</v-btn>
+                        <v-btn v-else color="info" @click.once="createMandat" :loading="loading">Créer le mandat</v-btn>
                         <v-btn flat @click="stepCount -= 1">Retour</v-btn>
                     </v-stepper-content>
                 </v-stepper-items>

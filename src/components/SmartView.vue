@@ -12,7 +12,7 @@
 
         </v-card-title>
             <v-card-actions>
-                <v-btn flat color="info" @click="liquideMandat">Oui, l'expédier illico dans les archives</v-btn>
+            <v-btn flat color="info" @click="liquideMandat">Oui, l'expédier illico dans les archives</v-btn>
           <v-btn flat @click="liquideMandatDialog = false">Non, pas encore</v-btn>
             </v-card-actions>
           </v-card>
@@ -57,7 +57,8 @@ export default {
     snackbar: {},
     isLoading: true,
     liquideMandatDialog: false,
-    me: auth.currentUser.displayName
+    me: auth.currentUser.displayName,
+    activeMandatCode: ''
   }),
   computed: {
     mesMandats() {
@@ -78,35 +79,36 @@ export default {
 
       if (newStatut === 'Liquider le mandat') {
         this.liquideMandatDialog = true
+        this.activeMandat = mandat
         return
       }
       this.$firebaseRefs.mandats.child(`${key}/statut`).set(newStatut)
     },
     liquideMandat() {
-      const query = {
-        query: {
-          match: {
-            nom: 'power'
-          }
-        }
+      const key = this.activeMandat['.key']
+      delete this.activeMandat['.key']
+      console.log(this.activeMandat)
+
+      const postRequest = {
+        body: this.activeMandat
       }
 
-      axios
-        .get(
-          'https://first-cluster-2026533573.eu-central-1.bonsaisearch.net/_search',
-          {
-            params: {
-              source: JSON.stringify(query),
-              source_content_type: 'application/json'
-            },
-            auth: {
-              username: 'sl729fctsq',
-              password: 'tslh5y1zel'
-            }
-          }
-        )
+      axios({
+        method: 'put',
+        url: `https://first-cluster-2026533573.eu-central-1.bonsaisearch.net/mandats/mandat/${key}`,
+        data: {
+          body: this.activeMandat
+        },
+        auth: {
+          username: 'sl729fctsq',
+          password: 'tslh5y1zel'
+        }
+      })
         .then(res => {
-          console.log(res.data.hits.hits)
+          console.log(res)
+        })
+        .catch(err => {
+          console.log(err)
         })
     }
   },
@@ -182,5 +184,36 @@ export default {
 .roll-leave-active {
   animation: rollOut 1s;
   position: absolute;
+}
+
+.fold-leave-active {
+  animation: fold 1s;
+}
+
+.fold-move {
+  transition: transform 1s;
+  /*transition: all 1s;*/
+  transition-delay: 1s;
+}
+
+@keyframes fold {
+  0% {
+    animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform: scale3d(1, 1, 1);
+  }
+  30% {
+    animation-timing-function: cubic-bezier(0.455, 0.03, 0.515, 0.955);
+    transform: scale3d(1, 0.4, 1);
+  }
+  60% {
+    opacity: 1;
+    animation-timing-function: cubic-bezier(0.455, 0.03, 0.515, 0.955);
+    transform: scale3d(0.4, 0.4, 1);
+  }
+  100% {
+    opacity: 0;
+    animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+    transform: scale3d(0.2, 0.2, 0.2);
+  }
 }
 </style>
