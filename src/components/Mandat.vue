@@ -19,7 +19,7 @@
                 <v-btn icon :color="mandat.questions ? 'error' : ''" @click="toggleQuestions">
                         <v-icon>question_answer</v-icon>
                     </v-btn>
-                    <v-btn icon :color="mandat.remarque ? 'info' : ''">
+                    <v-btn icon :color="mandat.remarque ? 'info' : ''" @click.native.once="log">
                         <v-icon>chat</v-icon>
                     </v-btn>
           </span>
@@ -30,7 +30,7 @@
                 <div class="subheading text-xs-center pt-2">
                     <div>
                         Délai :
-                        <strong>{{mandat.délai}}</strong>
+                        <strong>{{mandat.délai | formatDate}}</strong>
                     </div>
                     <div v-if="mandat.statut !== 'À réviser'">
                         Révision par
@@ -90,6 +90,9 @@ export default {
     }
   },
   methods: {
+    log() {
+      console.log('hello')
+    },
     toggleQuestions() {
       this.$emit('questions', !this.mandat.questions)
     },

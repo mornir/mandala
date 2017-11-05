@@ -46,11 +46,10 @@
 
 <script>
 import { db, auth } from '../firebase'
+import { create } from '@/js/axios'
 
 import Mandat from '@/components/Mandat'
 import bus from '@/js/bus'
-
-import axios from 'axios'
 
 export default {
   data: () => ({
@@ -58,7 +57,7 @@ export default {
     isLoading: true,
     liquideMandatDialog: false,
     me: auth.currentUser.displayName,
-    activeMandatCode: ''
+    activeMandat: {}
   }),
   computed: {
     mesMandats() {
@@ -85,31 +84,16 @@ export default {
       this.$firebaseRefs.mandats.child(`${key}/statut`).set(newStatut)
     },
     liquideMandat() {
+      this.liquideMandatDialog = false
+
       const key = this.activeMandat['.key']
       delete this.activeMandat['.key']
-      console.log(this.activeMandat)
 
-      const postRequest = {
-        body: this.activeMandat
-      }
+      create(this.activeMandat, key)
+        .then(res => (this.activeMandat = {}))
+        .catch(err => console.error(err))
 
-      axios({
-        method: 'put',
-        url: `https://first-cluster-2026533573.eu-central-1.bonsaisearch.net/mandats/mandat/${key}`,
-        data: {
-          body: this.activeMandat
-        },
-        auth: {
-          username: 'sl729fctsq',
-          password: 'tslh5y1zel'
-        }
-      })
-        .then(res => {
-          console.log(res)
-        })
-        .catch(err => {
-          console.log(err)
-        })
+      this.$firebaseRefs.mandats.child(key).remove()
     }
   },
   created() {
@@ -140,11 +124,6 @@ export default {
   width: 200px;
   text-align: center;
   margin: 0 auto;
-}
-
-.roll-move {
-  transition: transform 1s;
-  /*transition: all 1s;*/
 }
 
 .smartView {
@@ -184,6 +163,11 @@ export default {
 .roll-leave-active {
   animation: rollOut 1s;
   position: absolute;
+}
+
+.roll-move {
+  transition: transform 1s;
+  /*transition: all 1s;*/
 }
 
 .fold-leave-active {

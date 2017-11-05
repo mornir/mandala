@@ -1,5 +1,5 @@
 export default fichiers => {
-  fichiers
+  return fichiers
     .reduce((result, item) => {
       if (item.nombre < 1) {
         return result

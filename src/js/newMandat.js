@@ -32,7 +32,6 @@ export default {
   heure: '00:00',
   priorité: false,
   mandant: {},
-  département: '',
   public_cible: '',
   centre_coûts: 'VKF',
   remarque: '',

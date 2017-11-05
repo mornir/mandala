@@ -38,8 +38,7 @@
 </template>
 
 <script>
-import axios from 'axios'
-
+import { search } from '@/js/axios'
 import MandatDetails from './MandatDetails.vue'
 
 export default {
@@ -60,31 +59,12 @@ export default {
           }
         }
       }
-
-      axios
-        .get(
-          'https://first-cluster-2026533573.eu-central-1.bonsaisearch.net/_search',
-          {
-            params: {
-              source: JSON.stringify(query),
-              source_content_type: 'application/json'
-            },
-            auth: {
-              username: 'sl729fctsq',
-              password: 'tslh5y1zel'
-            }
-          }
-        )
-        .then(res => {
-          this.results = res.data.hits.hits
-          console.log(res.data.hits.hits)
+      search(query)
+        .then(results => {
+          this.results = results
         })
+        .catch(err => console.error(err))
     }
-  },
-  created() {
-    //            for (let i = this.$moment().year(); i >= 2017; i--) {
-    //                this.years.push(i);
-    //            }
   },
   components: {
     mandatDetails: MandatDetails

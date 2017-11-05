@@ -10,6 +10,10 @@ Vue.use(Vuetify)
 Vue.use(VueClipboard)
 Vue.config.productionTip = false
 
+Vue.filter('formatDate', isoDate =>
+  new Date(isoDate).toLocaleDateString('fr-FR')
+)
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
