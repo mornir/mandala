@@ -36,7 +36,7 @@
             </v-flex v-else>
             <transition-group name="roll" tag="v-layout" class="smartView">
 
-                <mandat :mandat="mandat" @questions="updateQuestions($event, mandat)" @setStatut="setStatut($event, mandat)" v-for="mandat in mesMandats" :key="mandat.code"></mandat>
+                <mandat :mandat="mandat" @questions="updateQuestions($event, mandat)" @setStatut="setStatut($event, mandat)" v-for="mandat in mandats" :key="mandat.code"></mandat>
 
             </transition-group>
         </v-layout>
@@ -87,13 +87,25 @@ export default {
       this.liquideMandatDialog = false
 
       const key = this.activeMandat['.key']
-      delete this.activeMandat['.key']
+      // delete this.activeMandat['.key']
 
-      create(this.activeMandat, key)
-        .then(res => (this.activeMandat = {}))
-        .catch(err => console.error(err))
+      /*       create(this.activeMandat, key)
+        .then(() => (this.activeMandat = {}))
+        .catch(err => console.error(err)) */
 
-      this.$firebaseRefs.mandats.child(key).remove()
+      console.log(key)
+
+      db
+        .ref('mandatsEnCours')
+        .child(this.activeMandat['.key'])
+        .remove()
+    },
+    liquideMandat2() {
+      this.liquideMandatDialog = false
+      const index = this.mesMandats.findIndex(mandat => {
+        return mandat.code === this.activeMandat.code
+      })
+      this.mesMandats.splice(index, 1)
     }
   },
   created() {
@@ -101,14 +113,9 @@ export default {
     this.snackbar.message = bus.snackbar.message
 
     bus.snackbar.showSnack = false
-    this.$bindAsArray(
-      'mandats',
-      db.ref('mandatsEnCours').orderByChild('timeStamp'),
-      null,
-      () => {
-        this.isLoading = false
-      }
-    )
+    this.$bindAsArray('mandats', db.ref('mandatsEnCours'), null, () => {
+      this.isLoading = false
+    })
   },
   components: {
     Mandat: Mandat

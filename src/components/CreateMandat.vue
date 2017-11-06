@@ -16,7 +16,7 @@
                                     <v-select :items="centres" v-model="mandat.centre_coûts" label="Centre de coûts" @input="rebind"></v-select>
                                 </v-flex>
                                 <v-flex xs5>
-                                    <v-select :items="mandants" v-model="mandat.mandant"  :hint="mandat.mandant.département" persistent-hint label="Mandant" item-value="text"></v-select>
+                                    <v-select :items="mandants" v-model="mandat.mandant"  :hint="mandat.mandant.département" persistent-hint label="Mandant" item-value="text" return-object></v-select>
                                 </v-flex>
                                 <v-flex xs9>
                                     <v-text-field v-model="mandat.nom" box label="Nom du mandat"></v-text-field>
@@ -230,6 +230,9 @@ export default {
       if (this.mandat.chargeTravail === 10) {
         this.mandat.chargeTravail += 2
       }
+
+      delete this.mandat.mandant['.key']
+      delete this.mandat.mandant.Kürzel
     },
     createMandat() {
       this.prepareForFirebase()
