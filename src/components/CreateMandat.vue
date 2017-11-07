@@ -84,6 +84,7 @@
 
                                     <v-checkbox label="Mandat prioritaire" v-model="mandat.priorité" color="red" :error="mandat.priorité">
                                     </v-checkbox>
+
                                 </v-flex>
                                 <v-flex xs5>
                                     <span v-if="mandat.priorité" style="font-size:28px">⏳</span>
@@ -199,6 +200,7 @@ export default {
   },
   data() {
     return {
+      clipText: 'test',
       stepCount: 1,
       loading: false,
       editing: false,
@@ -231,6 +233,11 @@ export default {
         this.mandat.chargeTravail += 2
       }
 
+      this.mandat.nom = this.mandat.nom.replace(
+        /[\%\~\#\&\*\{\}\\\:\<\>\?\/\+\|\"]+/g,
+        ''
+      )
+
       delete this.mandat.mandant['.key']
       delete this.mandat.mandant.Kürzel
     },
@@ -256,6 +263,7 @@ export default {
         })
     },
     editMandat() {
+      this.prepareForFirebase()
       delete this.mandat['.key']
 
       db

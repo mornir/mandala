@@ -1,10 +1,11 @@
 <template>
     <v-flex v-bind="{ [`xs${mandat.chargeTravail}`]: true }">
+           <v-snackbar top v-model="snackbar"><span class="title">Titre du mandat copié <v-icon color="info">check_circle</v-icon></span></v-snackbar>
         <v-card  :color="currentStatutColor" :id="mandat.questions ? 'borderQuestion' : ''">
             <v-card-actions>
-                <router-link :to="'edit/' + mandat['.key']" tag="span" style="cursor:pointer">
+                <span v-clipboard:copy="copyRefArchives" class="code-active" v-clipboard:success="onCopy">
                     <strong>{{mandat.code}}</strong>
-                </router-link>
+                </span>
                 <v-spacer></v-spacer>
                 <v-menu offset-y>
                     <v-btn flat round small :ripple="false" slot="activator">{{mandat.statut}}</v-btn>
@@ -19,13 +20,36 @@
                 <v-btn icon :color="mandat.questions ? 'error' : ''" @click="toggleQuestions">
                         <v-icon>question_answer</v-icon>
                     </v-btn>
-                    <v-btn icon :color="mandat.remarque ? 'info' : ''" @click.native.once="log">
-                        <v-icon>chat</v-icon>
-                    </v-btn>
+
+                           <v-dialog v-model="dialogRemarque" persistent>
+                        <v-btn icon slot="activator" :color="mandat.remarque ? 'info' : ''" >
+                           <v-icon>chat</v-icon>
+                        </v-btn>
+                        <v-card class="stepCard">
+                            <v-toolbar flat>
+                                <v-toolbar-title>Laisser un message</v-toolbar-title>
+                            </v-toolbar>
+                            <v-card-text>
+                                <div v-if="!editRemarque">{{mandat.remarque}}</div>
+                                <div v-else>
+                                    <v-text-field name="remarque" v-model.trim="textRemarque" label="Remarque" multi-line></v-text-field>
+                                </div>
+                            </v-card-text>
+                      
+                   <v-card-actions>
+                                <v-btn@click="closeRemarque">Fermer</v-btn>
+                                <v-btn v-if="editRemarque" @click="setRemarque" color="info">enregistrer</v-btn>
+                                <v-btn v-else  @click="editRemarque = true" color="primary">éditer</v-btn>
+                   </v-card-actions>
+                        </v-card>
+                    </v-dialog>
+
           </span>
             </v-card-actions>
             <v-card-text>
-                <div class="title text-xs-center pb-2" ><span v-clipboard:copy="copyRefArchives" style="cursor:pointer">{{mandat.nom}}</span></div>
+              <router-link :to="'edit/' + mandat['.key']" tag="div" class="code-active title text-xs-center pb-2">
+               {{mandat.nom}}
+                </router-link>
                 <div class="line"></div>
                 <div class="subheading text-xs-center pt-2">
                     <div>
@@ -44,6 +68,7 @@
             </v-card-text>
 
         </v-card>
+           
     </v-flex>
 </template>
 
@@ -53,7 +78,10 @@ export default {
   props: ['mandat'],
   data() {
     return {
-      révisé: false,
+      snackbar: false,
+      dialogRemarque: false,
+      editRemarque: false,
+      textRemarque: this.mandat.remarque,
       copyRefArchives: `${this.mandat.code} ${this.mandat.nom}`,
       statuts_trad: [
         {
@@ -90,14 +118,24 @@ export default {
     }
   },
   methods: {
-    log() {
-      console.log('hello')
+    setRemarque() {
+      this.editRemarque = false
+      this.dialogRemarque = false
+      this.$emit('newRemarque', this.textRemarque)
+    },
+    closeRemarque() {
+      this.editRemarque = false
+      this.dialogRemarque = false
+      this.textRemarque = this.mandat.remarque
     },
     toggleQuestions() {
       this.$emit('questions', !this.mandat.questions)
     },
     setStatut(newStatut) {
       this.$emit('setStatut', newStatut)
+    },
+    onCopy() {
+      this.snackbar = true
     }
   }
 }
@@ -106,5 +144,10 @@ export default {
 <style>
 #borderQuestion {
   border: 5px solid #ff5252 !important;
+}
+
+.code-active:hover {
+  cursor: pointer;
+  text-decoration: underline;
 }
 </style>

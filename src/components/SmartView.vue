@@ -36,7 +36,7 @@
             </v-flex v-else>
             <transition-group name="roll" tag="v-layout" class="smartView">
 
-                <mandat :mandat="mandat" @questions="updateQuestions($event, mandat)" @setStatut="setStatut($event, mandat)" v-for="mandat in mandats" :key="mandat.code"></mandat>
+                <mandat :mandat="mandat" @questions="updateQuestions($event, mandat)" @setStatut="setStatut($event, mandat)" @successCopy="snackBarClipboard" @newRemarque="saveRemarque($event, mandat)" v-for="mandat in mandats" :key="mandat.code" ></mandat>
 
             </transition-group>
         </v-layout>
@@ -87,26 +87,22 @@ export default {
       this.liquideMandatDialog = false
 
       const key = this.activeMandat['.key']
-      // delete this.activeMandat['.key']
 
-      /*       create(this.activeMandat, key)
+      create(this.activeMandat, key)
         .then(() => (this.activeMandat = {}))
-        .catch(err => console.error(err)) */
+        .catch(err => console.error(err))
 
-      console.log(key)
-
-      db
-        .ref('mandatsEnCours')
-        .child(this.activeMandat['.key'])
-        .remove()
+      this.$firebaseRefs.mandats.child(key).remove()
     },
-    liquideMandat2() {
-      this.liquideMandatDialog = false
-      const index = this.mesMandats.findIndex(mandat => {
-        return mandat.code === this.activeMandat.code
-      })
-      this.mesMandats.splice(index, 1)
-    }
+    snackBarClipboard() {
+      console.log('test')
+   this.snackbar.message = 'Titre du mandat copié'
+      this.snackbar.showSnack = false
+    },
+      saveRemarque(newRemarque, mandat) {
+              const key = mandat['.key'];
+              this.$firebaseRefs.mandats.child(key).child('remarque').set(newRemarque);
+          }
   },
   created() {
     this.snackbar.showSnack = bus.snackbar.showSnack
