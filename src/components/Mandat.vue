@@ -82,7 +82,10 @@ export default {
       dialogRemarque: false,
       editRemarque: false,
       textRemarque: this.mandat.remarque,
-      copyRefArchives: `${this.mandat.code} ${this.mandat.nom}`,
+      copyRefArchives: `${this.mandat.code} ${this.mandat.nom.replace(
+        /[\%\~\#\&\*\{\}\\\:\<\>\?\/\+\|\"]+/g,
+        ''
+      )}`,
       statuts_trad: [
         {
           title: 'À traduire'

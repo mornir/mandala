@@ -19,7 +19,7 @@
                                     <v-select :items="mandants" v-model="mandat.mandant"  :hint="mandat.mandant.département" persistent-hint label="Mandant" item-value="text" return-object></v-select>
                                 </v-flex>
                                 <v-flex xs9>
-                                    <v-text-field v-model="mandat.nom" box label="Nom du mandat"></v-text-field>
+                                    <v-text-field v-model.trim="mandat.nom" box label="Nom du mandat"></v-text-field>
                                 </v-flex>
                             </v-layout>
                         </div>
@@ -60,10 +60,21 @@
                         <div class="stepCard">
                             <v-layout row class="ml-3">
                                 <v-flex xs6>
-                                    <v-date-picker v-model="mandat.arrivée" actions locale="fr-FR" first-day-of-week="1"></v-date-picker>
+                                    <v-layout column>
+                                        <h4 class="headline">
+                                            Arrivée</h4>
+                                    <v-date-picker v-model="mandat.arrivée" actions
+                                    :allowed-dates="disableWeekends"  locale="fr-FR" first-day-of-week="1"
+                                    no-title></v-date-picker>
+                                    </v-layout>
                                 </v-flex>
                                 <v-flex xs6>
-                                    <v-date-picker v-model="mandat.délai" actions locale="fr-FR" first-day-of-week="1" ></v-date-picker>
+                                       <v-layout column>
+                                              <h4 class="headline">Délai</h4>
+                                    <v-date-picker v-model="mandat.délai" 
+                                    :allowed-dates="disableWeekends" actions locale="fr-FR" first-day-of-week="1"
+                                    no-title ></v-date-picker>
+                                       </v-layout>
                                 </v-flex>
 
                             </v-layout>
@@ -82,12 +93,12 @@
                                 </v-flex>
                                 <v-flex xs7>
 
-                                    <v-checkbox label="Mandat prioritaire" v-model="mandat.priorité" color="red" :error="mandat.priorité">
+                                    <v-checkbox label="Mandat prioritaire" v-model="mandat.priorité" color="red" :error="mandat.priorité === 'Prioritaire'" true-value="Prioritaire" false-value="Ordinaire">
                                     </v-checkbox>
 
                                 </v-flex>
                                 <v-flex xs5>
-                                    <span v-if="mandat.priorité" style="font-size:28px">⏳</span>
+                                    <span v-if="mandat.priorité === 'Prioritaire'" style="font-size:28px">⏳</span>
                                 </v-flex>
                             </v-layout>
                         </div>
@@ -101,7 +112,7 @@
                         <div class="stepCard">
                             <v-layout row wrap justify-center>
                                 <v-flex xs8>
-                                    <v-text-field box v-model="mandat.public_cible" label="Public cible"></v-text-field>
+                                    <v-text-field box v-model.trim="mandat.public_cible" label="Public cible"></v-text-field>
                                 </v-flex>
                                 <v-flex xs4 class="mr-2">
                                     <v-select :items="textTypes" v-model="mandat.type" label="Type de texte"></v-select>
@@ -175,9 +186,15 @@
                         <v-flex xs12>
                             <v-text-field name="remarque" label="Remarque" textarea v-model="mandat.remarque"></v-text-field>
                         </v-flex>
-                        <v-btn v-if="editing" color="info" @click="editMandat" :loading="loading">Enregistrer les modifications</v-btn>
-                        <v-btn v-else color="info" @click.native.once="createMandat" :loading="loading">Créer le mandat</v-btn>
+                            <v-flex xs12>
+                        <v-btn v-if="editing" color="info" @click="editMandat" :loading="loading" :disabled="basicValidation">Enregistrer les modifications</v-btn>
+                        <v-btn v-else color="info" @click.native.once="createMandat" :loading="loading" :disabled="basicValidation">Créer le mandat</v-btn>
                         <v-btn flat @click="stepCount -= 1">Retour</v-btn>
+                   
+                           </v-flex>
+                                  <v-flex xs12>
+                                <span v-if="basicValidation" class="subheading"><v-icon color="error" class="mr-2">warning</v-icon>Assure-toi d'avoir bien rempli les champs "nom", "mandant" et "public cible".</span>
+                                    </v-flex>
                     </v-stepper-content>
                 </v-stepper-items>
             </v-stepper>
@@ -220,6 +237,9 @@ export default {
         'Rédaction',
         'Révision'
       ],
+      disableWeekends: date => {
+        return !(date.getDay() === 0 || date.getDay() === 6)
+      },
       mandat: {}
     }
   },
@@ -233,10 +253,11 @@ export default {
         this.mandat.chargeTravail += 2
       }
 
-      this.mandat.nom = this.mandat.nom.replace(
-        /[\%\~\#\&\*\{\}\\\:\<\>\?\/\+\|\"]+/g,
-        ''
-      )
+      if (this.mandat.priorité === 'Prioritaire') {
+        this.mandat.timeStamp = 0
+      } else {
+        this.mandat.timeStamp = new Date(this.mandat.délai).getTime()
+      }
 
       delete this.mandat.mandant['.key']
       delete this.mandat.mandant.Kürzel
@@ -315,6 +336,13 @@ export default {
     },
     currentUser() {
       return auth.currentUser.displayName || null
+    },
+    basicValidation() {
+      return !(
+        this.mandat.nom &&
+        this.mandat.mandant.text &&
+        this.mandat.public_cible
+      )
     }
   },
   created() {

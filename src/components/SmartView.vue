@@ -95,23 +95,30 @@ export default {
       this.$firebaseRefs.mandats.child(key).remove()
     },
     snackBarClipboard() {
-      console.log('test')
-   this.snackbar.message = 'Titre du mandat copié'
+      this.snackbar.message = 'Titre du mandat copié'
       this.snackbar.showSnack = false
     },
-      saveRemarque(newRemarque, mandat) {
-              const key = mandat['.key'];
-              this.$firebaseRefs.mandats.child(key).child('remarque').set(newRemarque);
-          }
+    saveRemarque(newRemarque, mandat) {
+      const key = mandat['.key']
+      this.$firebaseRefs.mandats
+        .child(key)
+        .child('remarque')
+        .set(newRemarque)
+    }
   },
   created() {
     this.snackbar.showSnack = bus.snackbar.showSnack
     this.snackbar.message = bus.snackbar.message
 
     bus.snackbar.showSnack = false
-    this.$bindAsArray('mandats', db.ref('mandatsEnCours'), null, () => {
-      this.isLoading = false
-    })
+    this.$bindAsArray(
+      'mandats',
+      db.ref('mandatsEnCours').orderByChild('timeStamp'),
+      null,
+      () => {
+        this.isLoading = false
+      }
+    )
   },
   components: {
     Mandat: Mandat

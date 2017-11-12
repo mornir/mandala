@@ -124,9 +124,10 @@ exports.appendRecordToSpreadsheet = functions.database
       newRecord.réviseur,
       newRecord.délai,
       newRecord.priorité,
-      newRecord.mandant,
+      newRecord.mandant.text,
       newRecord.public_cible,
-      newRecord.centre_coûts
+      newRecord.centre_coûts,
+      newRecord.mandant.département
     ]
 
     // return a promise containing the updated speadsheet data (ID, range, new data, etc.)
