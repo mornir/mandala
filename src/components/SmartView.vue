@@ -25,7 +25,8 @@
         </v-layout>
 
         <v-layout row wrap v-else justify-center>
-            <v-flex xs10 v-if="!mandats.length">
+        <transition name="fade">
+            <v-flex xs10 v-if="!mesMandats.length">
                 <blockquote>Man kann sogar behaupten, dass eine Übersetzung um so abweichender wird, je mühsamer sie nach Treue strebt.
                     <footer>
                         <small>
@@ -33,12 +34,16 @@
                         </small>
                     </footer>
                 </blockquote>
-            </v-flex v-else>
+            </v-flex>
+        </transition>
+            <v-flex xs12 v-if="mesMandats.length">
+
             <transition-group :name="animation" tag="v-layout" class="smartView">
 
                 <mandat :mandat="mandat" @questions="updateQuestions($event, mandat)" @setStatut="setStatut($event, mandat)" @successCopy="snackBarClipboard" @newRemarque="saveRemarque($event, mandat)" v-for="mandat in mesMandats" :key="mandat.code" ></mandat>
 
             </transition-group>
+            </v-flex>
         </v-layout>
 
     </v-container>
@@ -132,6 +137,14 @@ export default {
 </script>
 
 <style>
+.fade-enter-active {
+  transition: opacity 0.5s 1s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
 .line {
   background-color: rgba(0, 0, 0, 0.12);
   border: none;

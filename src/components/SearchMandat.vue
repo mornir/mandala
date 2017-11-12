@@ -7,9 +7,11 @@
                 <v-toolbar-title>Rechercher un mandat</v-toolbar-title>
             </v-toolbar>
             <v-card-text>
-                
+                <v-layout row>
+                  <v-flex xs11>
                 <v-text-field name="search" v-model.lazy="searchText" label="Nom du mandat" box></v-text-field>
-                
+                  </v-flex>
+                </v-layout>
                 <v-btn @click="elasticSearch" color="primary">Search</v-btn>
                 <span v-if="searchLaunched">Résultats: {{results.length}}</span>
                 <v-list>

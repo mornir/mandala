@@ -183,7 +183,7 @@
                     </v-stepper-content>
                     <v-stepper-step step="7" editable editIcon="check" :complete="stepCount > 7">Remarque</v-stepper-step>
                     <v-stepper-content step="7">
-                        <v-flex xs12>
+                        <v-flex xs11>
                             <v-text-field name="remarque" label="Remarque" textarea v-model="mandat.remarque"></v-text-field>
                         </v-flex>
                             <v-flex xs12>

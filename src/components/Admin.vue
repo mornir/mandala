@@ -5,13 +5,15 @@
             <v-toolbar-title>Profil de {{currentUser.displayName}}</v-toolbar-title>
         </v-toolbar>
         <v-card-text>
-        
-                <div class="subheading">
-                <span>Numéro du dernier mandat créé du mois :</span>
-                    <v-text-field label="Numéro du mandat" name="numéro" v-model.number="compteur" box></v-text-field>
+
+            
+                <span class="subheading">Numéro du dernier mandat créé du mois :</span>
+
+       
+
+                    <v-text-field label="Numéro du dernier mandat créé" name="numéro" v-model.number="compteur"></v-text-field>
+          
                     <v-btn @click="updateNumero" color="info" flat>Mettre à jour le numéro</v-btn>
-                </div>
-         
             
 
   <!--

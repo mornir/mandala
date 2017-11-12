@@ -1,14 +1,9 @@
 import axios from 'axios'
 import stringifyFichiers from './stringifyFichiers'
 
-const object = {
-  prénom: 'Marie',
-  lastname: 'Jane',
-  address: {
-    street: 'Pestalozzi',
-    number: 5
-  }
-}
+/*https://stackoverflow.com/questions/45291983/sending-requests-to-elasticsearch-with-axios
+https://stackoverflow.com/questions/46215856/tried-to-connect-to-elasticsearch-with-axios
+*/
 
 function create(mandat, key) {
   return axios({
@@ -48,7 +43,7 @@ async function search(query) {
     {
       params: {
         source: query
-        // I found this online:
+        // I found this online, but it doesn't seem necessary in the end:
         /* 
         source: JSON.stringify(query),
         source_content_type: 'application/json'

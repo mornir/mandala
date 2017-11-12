@@ -13,14 +13,16 @@
         </v-toolbar-title>
 
         <v-spacer></v-spacer>
-        <v-toolbar-items class="hidden-sm-and-down">
+        <v-toolbar-items>
             <v-layout row align-center>
+   
                 <router-link to="/smartview" class="my-nav-link" tag="span">SmartView&trade;</router-link>
                 <router-link to="/nouveau" class="my-nav-link" tag="span">Nouveau</router-link>
                 <router-link to="/recherche" class="my-nav-link" tag="span">Recherche</router-link>
-                <v-flex xs2>
+  
+          <span>
                     <v-menu bottom left>
-                        <v-icon slot="activator" class="excel-link">more_vert</v-icon>
+                        <v-icon slot="activator" class="more-link">more_vert</v-icon>
                         <v-list>
                             <v-list-tile v-for="navLink in navLinks" :key="navLink.title" :to="navLink.link">
                                 <v-list-tile-title>{{ navLink.title }}</v-list-tile-title>
@@ -30,7 +32,7 @@
                             </v-list-tile>
                         </v-list>
                     </v-menu>
-                </v-flex>
+          </span>
             </v-layout>
 
         </v-toolbar-items>
@@ -88,7 +90,7 @@ export default {
   cursor: pointer;
 }
 
-.excel-link:hover {
+.more-link:hover {
   color: Crimson;
 }
 
@@ -120,14 +122,14 @@ export default {
   vertical-align: middle;
   transform: perspective(1px) translateZ(0);
   box-shadow: 0 0 1px transparent;
-}
-
-.hvr-buzz:hover,
-.hvr-buzz:focus,
-.hvr-buzz:active {
   animation-name: hvr-buzz;
   animation-duration: 0.15s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
+  animation-play-state: paused;
+}
+
+.hvr-buzz:hover {
+  animation-play-state: running;
 }
 </style>
