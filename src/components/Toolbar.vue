@@ -52,10 +52,6 @@ export default {
           link: '/tags'
         },
         {
-          title: 'Statistiques',
-          link: '/kibana'
-        },
-        {
           title: 'Administration',
           link: '/admin'
         }

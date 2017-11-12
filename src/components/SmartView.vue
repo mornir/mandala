@@ -34,9 +34,9 @@
                     </footer>
                 </blockquote>
             </v-flex v-else>
-            <transition-group name="roll" tag="v-layout" class="smartView">
+            <transition-group :name="animation" tag="v-layout" class="smartView">
 
-                <mandat :mandat="mandat" @questions="updateQuestions($event, mandat)" @setStatut="setStatut($event, mandat)" @successCopy="snackBarClipboard" @newRemarque="saveRemarque($event, mandat)" v-for="mandat in mandats" :key="mandat.code" ></mandat>
+                <mandat :mandat="mandat" @questions="updateQuestions($event, mandat)" @setStatut="setStatut($event, mandat)" @successCopy="snackBarClipboard" @newRemarque="saveRemarque($event, mandat)" v-for="mandat in mesMandats" :key="mandat.code" ></mandat>
 
             </transition-group>
         </v-layout>
@@ -53,6 +53,7 @@ import bus from '@/js/bus'
 
 export default {
   data: () => ({
+    animation: 'roll',
     snackbar: {},
     isLoading: true,
     liquideMandatDialog: false,
@@ -84,6 +85,7 @@ export default {
       this.$firebaseRefs.mandats.child(`${key}/statut`).set(newStatut)
     },
     liquideMandat() {
+      this.animation = 'fold'
       this.liquideMandatDialog = false
 
       const key = this.activeMandat['.key']
@@ -92,7 +94,10 @@ export default {
         .then(() => (this.activeMandat = {}))
         .catch(err => console.error(err))
 
-      this.$firebaseRefs.mandats.child(key).remove()
+      this.$firebaseRefs.mandats
+        .child(key)
+        .remove()
+        .then(() => (this.animation = 'roll'))
     },
     snackBarClipboard() {
       this.snackbar.message = 'Titre du mandat copié'

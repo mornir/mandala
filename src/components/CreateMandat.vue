@@ -1,7 +1,7 @@
 <template>
     <v-layout row justify-center>
         <v-flex xs7>
-            <v-stepper v-model="stepCount" vertical class="grey darken-3">
+            <v-stepper v-model="stepCount" vertical>
                 <v-stepper-items>
                     <v-stepper-step step="1" :complete="stepCount > 1" editable editIcon="check">
                         Mandant
@@ -217,7 +217,6 @@ export default {
   },
   data() {
     return {
-      clipText: 'test',
       stepCount: 1,
       loading: false,
       editing: false,
