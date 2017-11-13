@@ -25,7 +25,7 @@
         </v-layout>
 
         <v-layout row wrap v-else justify-center>
-        <transition name="fade">
+
             <v-flex xs10 v-if="!mesMandats.length">
                 <blockquote>Man kann sogar behaupten, dass eine Übersetzung um so abweichender wird, je mühsamer sie nach Treue strebt.
                     <footer>
@@ -35,8 +35,8 @@
                     </footer>
                 </blockquote>
             </v-flex>
-        </transition>
-            <v-flex xs12 v-if="mesMandats.length">
+
+            <v-flex xs12>
 
             <transition-group :name="animation" tag="v-layout" class="smartView">
 
@@ -44,6 +44,7 @@
 
             </transition-group>
             </v-flex>
+
         </v-layout>
 
     </v-container>
@@ -100,8 +101,11 @@ export default {
         .catch(err => console.error(err))
 
       this.$firebaseRefs.mandats
-        .child(key)
-        .remove()
+        .child(`${key}/statut`)
+        .set('Liquider le mandat')
+        .then(() => {
+          this.$firebaseRefs.mandats.child(key).remove()
+        })
         .then(() => (this.animation = 'roll'))
     },
     snackBarClipboard() {
@@ -137,8 +141,9 @@ export default {
 </script>
 
 <style>
-.fade-enter-active {
-  transition: opacity 0.5s 1s;
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
 }
 .fade-enter,
 .fade-leave-to {

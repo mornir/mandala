@@ -38,7 +38,7 @@
                       
                    <v-card-actions>
                                 <v-btn@click="closeRemarque">Fermer</v-btn>
-                                <v-btn v-if="editRemarque" @click="setRemarque" color="info">enregistrer</v-btn>
+                                <v-btn v-if="editRemarque" @click="setRemarque" color="primary">enregistrer</v-btn>
                                 <v-btn v-else  @click="editRemarque = true" color="primary">éditer</v-btn>
                    </v-card-actions>
                         </v-card>
@@ -54,7 +54,9 @@
                 <div class="subheading text-xs-center pt-2">
                     <div>
                         Délai :
+                        <v-icon color="error">warning</v-icon>
                         <strong>{{mandat.délai | formatDate}}</strong>
+                        <strong v-if="mandat.heure !== '00:00'">{{mandat.heure}}</strong>
                     </div>
                     <div v-if="mandat.statut !== 'À réviser'">
                         Révision par
@@ -114,7 +116,7 @@ export default {
       } else if (this.mandat.statut === 'Révision finie') {
         return bus.darkTheme ? 'indigo darken-3' : 'light-blue lighten-2'
       } else if (this.mandat.statut === 'Liquider le mandat') {
-        return 'green lighten-2'
+        return bus.darkTheme ? 'green darken-2' : 'green lighten-2'
       } else {
         return ''
       }

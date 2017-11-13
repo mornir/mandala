@@ -26,7 +26,7 @@
 -->
             
             <v-divider></v-divider>
-            <v-btn color="error" @click="logout" flat>Se déconnecter</v-btn>
+            <v-btn color="primary" @click="logout" flat>Se déconnecter</v-btn>
             
             
 

@@ -16,7 +16,7 @@
         <v-toolbar-items>
             <v-layout row align-center>
    
-                <router-link to="/smartview" class="my-nav-link" tag="span">SmartView&trade;</router-link>
+                <router-link to="/smartview" class="my-nav-link" tag="span">SmartView</router-link>
                 <router-link to="/nouveau" class="my-nav-link" tag="span">Nouveau</router-link>
                 <router-link to="/recherche" class="my-nav-link" tag="span">Recherche</router-link>
   
