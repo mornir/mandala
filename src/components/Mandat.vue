@@ -110,13 +110,13 @@ export default {
   computed: {
     currentStatutColor() {
       if (this.mandat.statut === 'Premier jet fini') {
-        return bus.darkTheme ? 'cyan darken-1' : 'blue lighten-4'
+        return bus.darkTheme ? 'blue lighten-4' : 'cyan darken-1'
       } else if (this.mandat.statut === 'À réviser') {
-        return bus.darkTheme ? 'purple darken-2' : 'purple lighten-2'
+        return bus.darkTheme ? 'purple lighten-2' : 'purple darken-2'
       } else if (this.mandat.statut === 'Révision finie') {
-        return bus.darkTheme ? 'indigo darken-3' : 'light-blue lighten-2'
+        return bus.darkTheme ? 'light-blue lighten-2' : 'indigo darken-3'
       } else if (this.mandat.statut === 'Liquider le mandat') {
-        return bus.darkTheme ? 'green darken-2' : 'green lighten-2'
+        return bus.darkTheme ? 'green lighten-2' : 'green darken-2'
       } else {
         return ''
       }

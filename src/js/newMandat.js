@@ -35,7 +35,7 @@ export default {
   public_cible: '',
   centre_coûts: 'VKF',
   remarque: '',
-  statut: 'Traduction',
+  statut: 'À traduire',
   timeStamp: 0,
   questions: false
 }

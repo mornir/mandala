@@ -1,5 +1,5 @@
 <template>
-  <v-app :light="!theme" :dark="theme">
+  <v-app :light="theme" :dark="!theme">
     <m-toolbar></m-toolbar>
 
     <main>
