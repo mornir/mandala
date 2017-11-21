@@ -110,9 +110,12 @@ exports.appendRecordToSpreadsheet = functions.database
       }, '')
       .slice(0, -2)
 
+    const arrivée = new Date(newRecord.arrivée).toLocaleDateString('fr-FR')
+    const délai = new Date(newRecord.délai).toLocaleDateString('fr-FR')
+
     const newRow = [
       newRecord.code,
-      newRecord.arrivée,
+      arrivée,
       newRecord.nom,
       newRecord.type,
       fichiers,
@@ -122,7 +125,7 @@ exports.appendRecordToSpreadsheet = functions.database
       newRecord.cible,
       newRecord.traducteur,
       newRecord.réviseur,
-      newRecord.délai,
+      délai,
       newRecord.priorité,
       newRecord.mandant.text,
       newRecord.public_cible,

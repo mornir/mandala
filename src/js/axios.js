@@ -1,11 +1,13 @@
 import axios from 'axios'
 import stringifyFichiers from './stringifyFichiers'
+import { db } from '../firebase'
 
 /*https://stackoverflow.com/questions/45291983/sending-requests-to-elasticsearch-with-axios
 https://stackoverflow.com/questions/46215856/tried-to-connect-to-elasticsearch-with-axios
 */
 
-function create(mandat, key) {
+async function create(mandat, key) {
+  const bonsai = await db.ref('bonsai').once('value')
   return axios({
     method: 'put',
     url: `https://first-cluster-2026533573.eu-central-1.bonsaisearch.net/mandats/mandat/${key}`,
@@ -31,13 +33,14 @@ function create(mandat, key) {
       fichiers: stringifyFichiers(mandat.fichiers)
     },
     auth: {
-      username: 'sl729fctsq',
-      password: 'tslh5y1zel'
+      username: bonsai.val().username,
+      password: bonsai.val().password
     }
   })
 }
 
 async function search(query) {
+  const bonsai = await db.ref('bonsai').once('value')
   const response = await axios.get(
     'https://first-cluster-2026533573.eu-central-1.bonsaisearch.net/_search',
     {
@@ -50,8 +53,8 @@ async function search(query) {
         */
       },
       auth: {
-        username: 'sl729fctsq',
-        password: 'tslh5y1zel'
+        username: bonsai.val().username,
+        password: bonsai.val().password
       }
     }
   )

@@ -30,7 +30,7 @@ export default {
   traducteur: '',
   réviseur: 'Jérôme',
   heure: '00:00',
-  priorité: false,
+  priorité: 'Ordinaire',
   mandant: {},
   public_cible: '',
   centre_coûts: 'VKF',

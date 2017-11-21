@@ -32,9 +32,11 @@
                             <v-card-text>
                                 <div v-if="!editRemarque">{{mandat.remarque}}</div>
                                 <div v-else>
-                                    <v-text-field name="remarque" v-model.trim="textRemarque" label="Remarque" multi-line></v-text-field>
+                                  <v-text-field name="remarque" v-model.trim="textRemarque" label="Remarque" multi-line>
+
+                                   </v-text-field>
                                 </div>
-                            </v-card-text>
+                         </v-card-text>
                       
                    <v-card-actions>
                                 <v-btn@click="closeRemarque">Fermer</v-btn>
@@ -54,7 +56,7 @@
                 <div class="subheading text-xs-center pt-2">
                     <div>
                         Délai :
-                        <v-icon color="error">warning</v-icon>
+                        <v-icon color="error" v-if="mandat.heure !== '00:00' || mandat.prioritaire === 'prioritaire'">warning</v-icon>
                         <strong>{{mandat.délai | formatDate}}</strong>
                         <strong v-if="mandat.heure !== '00:00'">{{mandat.heure}}</strong>
                     </div>
@@ -63,7 +65,7 @@
                         <strong>{{mandat.réviseur}}</strong>
                     </div>
                     <div v-else>
-                    Traduit par
+                        Traduit par
                         <strong>{{mandat.traducteur}}</strong>
                     </div>
                 </div>

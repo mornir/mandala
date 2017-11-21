@@ -73,9 +73,9 @@ export default {
   computed: {
     lightDark() {
       if (bus.darkTheme) {
-        return '💡'
-      } else {
         return '🌙'
+      } else {
+        return '💡'
       }
     }
   }

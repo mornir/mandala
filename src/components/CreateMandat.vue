@@ -79,7 +79,7 @@
 
                             </v-layout>
                         </div>
-                        <v-btn color="primary" @click.native="stepCount = 4">Suivant</v-btn>
+                        <v-btn color="primary" @click="stepCount = 4">Suivant</v-btn>
                         <v-btn flat @click="stepCount -= 1">Retour</v-btn>
                     </v-stepper-content>
                     <v-stepper-step step="4" editable editIcon="check" :complete="stepCount > 4">Heure et priorité</v-stepper-step>
@@ -102,7 +102,7 @@
                                 </v-flex>
                             </v-layout>
                         </div>
-                        <v-btn color="primary" @click.native="stepCount = 5">Suivant</v-btn>
+                        <v-btn color="primary" @click="stepCount = 5">Suivant</v-btn>
                         <v-btn flat @click="stepCount -= 1">Retour</v-btn>
                     </v-stepper-content>
                     <v-stepper-step step="5" editable :complete="stepCount > 5" editIcon="check">Situation de communication</v-stepper-step>
@@ -135,7 +135,7 @@
 
                                 <v-flex xs7>
                                     <img src="../assets/germany.svg" alt="German" width="40px" height="40px">
-                                    <v-btn icon class="black--text  mb-5" @click.native="toggleDirection">
+                                    <v-btn icon class="black--text  mb-5" @click="toggleDirection">
                                         <v-icon>{{arrowDirection}}</v-icon>
                                     </v-btn>
                                     <img src="../assets/france.svg" alt="French" width="40px" height="40px">
