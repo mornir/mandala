@@ -107,7 +107,7 @@ export default {
           this.$firebaseRefs.mandats.child(key).remove()
         })
 
-      setTimeout(() => (this.animation = 'roll'), 1000)
+      setTimeout(() => (this.animation = 'roll'), 2000)
     },
     snackBarClipboard() {
       this.snackbar.message = 'Titre du mandat copié'

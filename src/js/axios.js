@@ -10,7 +10,7 @@ async function create(mandat, key) {
   const bonsai = await db.ref('bonsai').once('value')
   return axios({
     method: 'put',
-    url: `https://first-cluster-2026533573.eu-central-1.bonsaisearch.net/mandats/mandat/${key}`,
+    url: `${bonsai.val().URL}/mandats/mandat/${key}`,
     data: {
       code: mandat.code,
       nom: mandat.nom,
@@ -41,23 +41,20 @@ async function create(mandat, key) {
 
 async function search(query) {
   const bonsai = await db.ref('bonsai').once('value')
-  const response = await axios.get(
-    'https://first-cluster-2026533573.eu-central-1.bonsaisearch.net/_search',
-    {
-      params: {
-        source: query
-        // I found this online, but it doesn't seem necessary in the end:
-        /* 
+  const response = await axios.get(`${bonsai.val().URL}/_search`, {
+    params: {
+      source: query
+      // I found this online, but it doesn't seem necessary in the end:
+      /* 
         source: JSON.stringify(query),
         source_content_type: 'application/json'
         */
-      },
-      auth: {
-        username: bonsai.val().username,
-        password: bonsai.val().password
-      }
+    },
+    auth: {
+      username: bonsai.val().username,
+      password: bonsai.val().password
     }
-  )
+  })
   return response.data.hits.hits
 }
 

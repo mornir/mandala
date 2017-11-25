@@ -22,6 +22,7 @@ const functionsOauthClient = new OAuth2(
   FUNCTIONS_REDIRECT
 )
 
+//https://medium.com/@elon.danziger/fast-flexible-and-free-visualizing-newborn-health-data-with-firebase-nodejs-and-google-sheets-1f73465a18bc
 const SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
 
 exports.authGoogleAPI = functions.https.onRequest((req, res) =>
@@ -80,7 +81,7 @@ function appendPromise(requestWithoutAuth) {
         request.auth = client
         sheets.spreadsheets.values.append(request, (err, response) => {
           if (err) {
-            console.log(`The API returned an error: ${err}`)
+            console.error(`The API returned an error: ${err}`)
             return reject()
           }
           return resolve(response)
@@ -110,12 +111,9 @@ exports.appendRecordToSpreadsheet = functions.database
       }, '')
       .slice(0, -2)
 
-    const arrivée = new Date(newRecord.arrivée).toLocaleDateString('fr-FR')
-    const délai = new Date(newRecord.délai).toLocaleDateString('fr-FR')
-
     const newRow = [
       newRecord.code,
-      arrivée,
+      newRecord.arrivée,
       newRecord.nom,
       newRecord.type,
       fichiers,
@@ -125,7 +123,7 @@ exports.appendRecordToSpreadsheet = functions.database
       newRecord.cible,
       newRecord.traducteur,
       newRecord.réviseur,
-      délai,
+      newRecord.délai,
       newRecord.priorité,
       newRecord.mandant.text,
       newRecord.public_cible,
@@ -141,11 +139,13 @@ exports.appendRecordToSpreadsheet = functions.database
     // because if an error occurs, we return it!!
     return appendPromise({
       spreadsheetId: SHEET_ID,
-      range: 'A:P',
+      range: 'A:Q',
       valueInputOption: 'USER_ENTERED',
       insertDataOption: 'INSERT_ROWS',
       resource: {
         values: [newRow]
       }
+    }).catch(error => {
+      return functions.database.ref('errors').push(newRecord)
     })
   })
