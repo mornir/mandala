@@ -1,5 +1,5 @@
 <template>
-<div>
+<v-card flat class="stepCard">
 <v-toolbar flat>
     <v-toolbar-title>{{mandat.nom}}</v-toolbar-title>
 </v-toolbar>
@@ -24,7 +24,7 @@
                 </v-flex>
                 
                 <v-flex xs5 sm4 md3 lg2>
-                    <div>Mandant</div><strong>{{mandat.mandant}}</strong>
+                    <div>Mandant</div><strong>{{mandat.mandant.text}}</strong>
                 </v-flex>
                 
                 <v-flex xs5 sm4 md3 lg2>
@@ -73,7 +73,7 @@
         </div>
     </v-card-text>
 
-</div>
+     </v-card>
 </template>
 
 <script>

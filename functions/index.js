@@ -146,6 +146,7 @@ exports.appendRecordToSpreadsheet = functions.database
         values: [newRow]
       }
     }).catch(error => {
-      return functions.database.ref('errors').push(newRecord)
+      delete newRecord['.key']
+      return db.ref('errors').push(newRecord)
     })
   })

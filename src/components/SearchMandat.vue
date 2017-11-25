@@ -12,8 +12,8 @@
                 <v-text-field name="search" v-model.lazy="searchText" label="Nom du mandat" box></v-text-field>
                   </v-flex>
                 </v-layout>
-                <v-btn @click="elasticSearch" color="primary">Search</v-btn>
-                <span v-if="searchLaunched">Résultats: {{results.length}}</span>
+                <v-btn @click="elasticSearch" color="primary">Lancer la recherche</v-btn>
+                <span v-if="total">Résultats: {{total}}</span>
                 <v-list>
                 <template v-for="(result, index) in results" >
 
@@ -32,9 +32,9 @@
         </v-card>
     </v-flex>
     <v-flex xs7 offset-xs1>
-        <v-card flat class="stepCard" v-if="mandat.nom">
-            <mandat-details :mandat="mandat"></mandat-details>
-        </v-card>
+        
+            <mandat-details :mandat="mandat" v-if="mandat.nom"></mandat-details>
+   
     </v-flex>
 </v-layout>
 </template>
@@ -47,8 +47,8 @@ export default {
   data() {
     return {
       results: [],
+      total: '',
       searchText: '',
-      searchLaunched: false,
       mandat: {}
     }
   },
@@ -62,8 +62,9 @@ export default {
         }
       }
       search(query)
-        .then(results => {
-          this.results = results
+        .then(response => {
+          this.results = response.results
+          this.total = response.total
         })
         .catch(err => console.error(err))
     }

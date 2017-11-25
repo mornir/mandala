@@ -55,7 +55,7 @@ async function search(query) {
       password: bonsai.val().password
     }
   })
-  return response.data.hits.hits
+  return { total: response.data.hits.total, results: response.data.hits.hits }
 }
 
 export { create, search }

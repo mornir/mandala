@@ -46,6 +46,13 @@
             </v-flex>
 
         </v-layout>
+        <v-layout>
+
+<v-flex xs7 v-for="failedMandat in failedMandats" :key="failedMandat.nom">
+  <h3 class="title">Une erreur est survenue et le mandat {{failedMandat.code}} n'a pu être enregistré dans Google Sheets : </h3>
+      <mandat-details :mandat="failedMandat"></mandat-details>
+</v-flex>
+        </v-layout>
 
     </v-container>
 </template>
@@ -53,9 +60,9 @@
 <script>
 import { db, auth } from '../firebase'
 import { create } from '@/js/axios'
-
-import Mandat from '@/components/Mandat'
 import bus from '@/js/bus'
+import Mandat from '@/components/Mandat'
+import MandatDetails from './MandatDetails.vue'
 
 export default {
   data: () => ({
@@ -66,6 +73,9 @@ export default {
     me: auth.currentUser.displayName,
     activeMandat: {}
   }),
+  firebase: {
+    failedMandats: db.ref('errors')
+  },
   computed: {
     mesMandats() {
       return this.mandats.filter(
@@ -136,7 +146,8 @@ export default {
     )
   },
   components: {
-    Mandat: Mandat
+    Mandat: Mandat,
+    mandatDetails: MandatDetails
   }
 }
 </script>
