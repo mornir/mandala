@@ -6,6 +6,7 @@ yarn-debug.log*
 yarn-error.log*
 src/firebase.js
 src/assets/
+src/firebase.js
 .firebaserc
 
 # Editor directories and files

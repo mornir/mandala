@@ -252,17 +252,17 @@ export default {
         this.mandat.chargeTravail += 2
       }
 
-      if (this.mandat.priorité === 'Prioritaire') {
-        this.mandat.timeStamp = 0
-      } else {
-        this.mandat.timeStamp = new Date(this.mandat.délai).getTime()
-      }
-
       delete this.mandat.mandant['.key']
       delete this.mandat.mandant.Kürzel
     },
     createMandat() {
       this.prepareForFirebase()
+
+      if (this.mandat.priorité === 'Prioritaire') {
+        this.mandat.timeStamp = 0
+      } else {
+        this.mandat.timeStamp = new Date(this.mandat.délai).getTime()
+      }
 
       this.mandat.traducteur = this.currentUser
 
@@ -284,6 +284,9 @@ export default {
     },
     editMandat() {
       this.prepareForFirebase()
+      if (this.mandat.priorité === 'Prioritaire') {
+        this.mandat.timeStamp = 0
+      }
       delete this.mandat['.key']
 
       db
