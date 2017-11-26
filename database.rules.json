@@ -1,0 +1,14 @@
+{
+  "rules": {
+    ".read": "auth != null",
+    ".write": "auth != null",
+    "mandatsEnCours": {
+      ".indexOn": "timeStamp"
+    },
+    "mandatsLiquidés": {
+      "$year": {
+        ".indexOn": "mandant"
+      }
+    }
+  }
+}
