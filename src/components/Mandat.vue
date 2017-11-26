@@ -55,8 +55,9 @@
                 <div class="line"></div>
                 <div class="subheading text-xs-center pt-2">
                     <div>
-                        Délai :
-                        <v-icon color="error" v-if="mandat.heure !== '00:00' || mandat.prioritaire === 'prioritaire'">warning</v-icon>
+                      
+                        À renvoyer à <strong>{{mandat.mandant.text.split(' ')[0]}}</strong>  d'ici au 
+                          <v-icon color="error" v-if="mandat.heure !== '00:00' || mandat.prioritaire === 'prioritaire'">warning</v-icon>
                         <strong>{{mandat.délai | formatDate}}</strong>
                         <strong v-if="mandat.heure !== '00:00'">{{mandat.heure}}</strong>
                     </div>
