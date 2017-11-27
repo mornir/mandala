@@ -27,6 +27,9 @@
                             <v-list-tile v-for="navLink in navLinks" :key="navLink.title" :to="navLink.link">
                                 <v-list-tile-title>{{ navLink.title }}</v-list-tile-title>
                             </v-list-tile>
+                              <v-list-tile href="https://docs.google.com/spreadsheets/d/1MtkuMdasxUspMyY7LhVlY4bh_E--V25sDSCHtfeKTo8" target="_blank">
+                                <v-list-tile-title>Liste Excel <v-icon>open_in_new</v-icon></v-list-tile-title>
+                            </v-list-tile>
                             <v-list-tile @click="switchTheme">
                                 <v-list-tile-title class="text-xs-center">{{lightDark}}</v-list-tile-title>
                             </v-list-tile>
@@ -48,10 +51,6 @@ export default {
         {
           title: 'Mandants',
           link: '/mandants'
-        },
-        {
-          title: 'Liste Excel',
-          link: '/tags'
         },
         {
           title: 'Administration',
