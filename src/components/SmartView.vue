@@ -80,7 +80,7 @@ export default {
     mesMandats() {
       return this.mandats.filter(
         trad =>
-          (trad.traducteur === this.me && trad.statut !== 'À réviser') ||
+          trad.traducteur === this.me ||
           (trad.réviseur === this.me && trad.statut === 'À réviser')
       )
     }

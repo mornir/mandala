@@ -24,7 +24,7 @@
                 </v-flex>
                 
                 <v-flex xs5 sm4 md3 lg2>
-                    <div>Mandant</div><strong>{{mandat.mandant.text}}</strong>
+                    <div>Mandant</div><strong>{{mandat.mandant}}</strong>
                 </v-flex>
                 
                 <v-flex xs5 sm4 md3 lg2>

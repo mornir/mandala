@@ -362,7 +362,7 @@ export default {
         }
       )
     } else {
-      this.mandat = Mandat
+      this.mandat = { ...Mandat }
       this.$bindAsArray('mandants', db.ref('mandantsListe/VKF'))
     }
   }

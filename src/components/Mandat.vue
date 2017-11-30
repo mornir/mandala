@@ -61,13 +61,13 @@
                         <strong>{{mandat.délai | formatDate}}</strong>
                         <strong v-if="mandat.heure !== '00:00'">{{mandat.heure}}</strong>
                     </div>
-                    <div v-if="mandat.statut !== 'À réviser'">
-                        Révision par
-                        <strong>{{mandat.réviseur}}</strong>
+                    <div v-if="mandat.statut === 'À réviser' && mandat.réviseur === me">
+                                            Traduit par
+                        <strong>{{mandat.traducteur}}</strong>
                     </div>
                     <div v-else>
-                        Traduit par
-                        <strong>{{mandat.traducteur}}</strong>
+                       Révision par
+                        <strong>{{mandat.réviseur}}</strong>
                     </div>
                 </div>
             </v-card-text>
@@ -78,11 +78,18 @@
 </template>
 
 <script>
+import { auth } from '../firebase'
 import bus from '@/js/bus'
 export default {
-  props: ['mandat'],
+  props: {
+    mandat: {
+      type: Object,
+      default: {}
+    }
+  },
   data() {
     return {
+      me: auth.currentUser.displayName,
       snackbar: false,
       dialogRemarque: false,
       editRemarque: false,
