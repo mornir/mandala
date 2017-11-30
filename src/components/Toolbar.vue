@@ -2,13 +2,14 @@
     <v-toolbar flat app>
         <v-toolbar-title id="logo" class="display-2">
             <router-link to="/smartview" tag="div">
-                <span class="hvr-buzz">m</span>
+            <span>MandaLa</span>
+    <!--             <span class="hvr-buzz">m</span>
                 <span class="hvr-buzz">a</span>
                 <span class="hvr-buzz">n</span>
                 <span class="hvr-buzz">d</span>
                 <span class="hvr-buzz">a</span>
                 <span class="hvr-buzz">l</span>
-                <span class="hvr-buzz pr-1">a</span>
+                <span class="hvr-buzz pr-1">a</span> -->
             </router-link>
         </v-toolbar-title>
 
@@ -87,6 +88,7 @@ export default {
   margin-right: 2rem;
   text-decoration: none;
   cursor: pointer;
+  font-family: 'Pacifico', cursive;
 }
 
 .more-link:hover {
@@ -102,12 +104,14 @@ export default {
 }
 
 #logo {
-  font-family: 'Hanalei', cursive;
+  /* font-family: 'Hanalei', cursive;*/
+  font-family: 'Pacifico', cursive;
   color: red;
-  cursor: default;
+  /*cursor: default;*/
+  cursor: url('/static/santahand.cur'), auto;
 }
 
-@keyframes hvr-buzz {
+/* @keyframes hvr-buzz {
   50% {
     transform: translateX(3px) rotate(2deg);
   }
@@ -129,6 +133,6 @@ export default {
 }
 
 .hvr-buzz:hover {
-  animation-play-state: running;
-}
+  animation-play-state: running; 
+}*/
 </style>

@@ -5,6 +5,15 @@ import App from './App'
 import router from './router'
 import VueClipboard from 'vue-clipboard2'
 
+if (navigator.userAgent.match(/MSIE 10/i) || navigator.userAgent.match(/Trident\/7\./) || navigator.userAgent.match(/Edge\/12\./)) {
+  document.body.addEventListener("scroll", function () {
+    event.preventDefault();
+    var wd = event.wheelDelta;
+    var csp = window.pageYOffset;
+    window.scrollTo(0, csp - wd);
+  });
+}
+
 Vue.use(VueFire)
 Vue.use(Vuetify)
 Vue.use(VueClipboard)
