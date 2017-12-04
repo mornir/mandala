@@ -62,9 +62,9 @@ export default {
   border-radius: 10px;
 }
 
-@supports (display: grid) {
-  body * {
-    cursor: url('/static/santahand.cur'), auto !important;
-  }
-}
+/* @supports (display: grid) {
+   body * {
+   cursor: url('/static/santahand.cur'), auto !important;
+   }
+   } */
 </style>

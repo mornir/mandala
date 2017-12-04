@@ -145,7 +145,7 @@
                                 </v-flex>
                                 <v-flex xs9>
                                     <label class="subheading">Charge de travail estimée :
-                                        <span class="subheading">
+                                        <span class="title">
                                             <b>{{pageNumber}}</b>
                                         </span>
                                         <v-slider v-model="mandat.chargeTravail" step="2" snap :min="4" :max="10"></v-slider>
@@ -272,9 +272,11 @@ export default {
           this.$router.push('/smartview')
           bus.snackbar.showSnack = true
           if (this.mandat.chargeTravail > 6) {
-            bus.snackbar.message = 'Bon courage ! 💪'
+            bus.snackbar.message = 'Bon courage ! 🎅'
+            //💪
           } else {
-            bus.snackbar.message = 'Bonne traduction ! 😃'
+            bus.snackbar.message = 'Bonne traduction ! 🎅'
+            //😃
           }
         })
         .catch(error => {
@@ -329,7 +331,7 @@ export default {
       } else if (this.mandat.chargeTravail === 6) {
         return 'moyenne 😐'
       } else if (this.mandat.chargeTravail === 8) {
-        return 'grande 😥'
+        return 'grande 😓'
       } else if (this.mandat.chargeTravail > 9) {
         return 'énorme 😵'
       } else {
