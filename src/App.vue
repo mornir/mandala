@@ -49,7 +49,7 @@ export default {
 }
 
 .lightSnowflake {
-  background-image: url('../static/snowflake_black.svg'), url('../static/snowflake_black.svg');
+  background-image: url('../static/snowflake_black.svg'), url('../static/snowflake_black.svg'), url('../static/snowflake_black.svg'), url('../static/snowflake_black.svg'), url('../static/snowflake_black.svg'), url('../static/snowman.svg');
 }
 
 .stepper__wrapper .stepCard {
