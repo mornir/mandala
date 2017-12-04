@@ -1,33 +1,22 @@
-import Vue from 'vue';
-import VueFire from 'vuefire';
-import VueRouter from 'vue-router';
-import App from './App.vue';
-import Vuetify from 'vuetify';
-import VueClipboards from 'vue-clipboards';
-import moment from 'moment';
+import Vue from 'vue'
+import VueFire from 'vuefire'
+import Vuetify from 'vuetify'
+import App from './App'
+import router from './router'
+import VueClipboard from 'vue-clipboard2'
 
-Object.defineProperty(Vue.prototype, '$moment', {
-    value: moment
-});
+Vue.use(VueFire)
+Vue.use(Vuetify)
+Vue.use(VueClipboard)
+Vue.config.productionTip = false
 
-import {
-    routes
-} from './routes';
+Vue.filter('formatDate', isoDate =>
+  new Date(isoDate).toLocaleDateString('fr-FR')
+)
 
-Vue.config.productionTip = false;
-
-const router = new VueRouter({
-    mode: 'history',
-    routes
-});
-
-Vue.use(VueFire);
-Vue.use(VueRouter);
-Vue.use(Vuetify);
-Vue.use(VueClipboards);
-
+/* eslint-disable no-new */
 new Vue({
-    el: '#app',
-    router,
-    render: h => h(App)
-});
+  el: '#app',
+  router,
+  render: h => h(App)
+})

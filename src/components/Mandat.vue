@@ -1,217 +1,168 @@
 <template>
-<v-card horizontal class="mb-2" :class="currentStatut">
-
-    <v-card-column>
-        <v-card-text>
-            <v-layout>
-                <v-flex xs3>
-                    <strong>{{mandat.nom}}</strong>
-                </v-flex>
-                <v-flex xs2>
+    <v-flex v-bind="{ [`xs${mandat.chargeTravail}`]: true }">
+           <v-snackbar top v-model="snackbar"><span class="title">Titre du mandat copié <v-icon color="info">check_circle</v-icon></span></v-snackbar>
+        <v-card  :color="currentStatutColor" :id="mandat.questions ? 'borderQuestion' : ''">
+            <v-card-actions>
+                <span v-clipboard:copy="copyRefArchives" class="code-active" v-clipboard:success="onCopy">
                     <strong>{{mandat.code}}</strong>
-                    <div>{{mandat.mandant}}</div>
-                </v-flex>
-                <v-flex xs2>
-                    <div>
-                        <v-icon>send</v-icon>
-                        <strong>{{mandat.délai}}</strong>
-                    </div>
-                    <div v-if="mandat.heure !== '00:00' || mandat.priorité === 'Prioritaire'">
-                        <div>
-                            <v-icon class="amber--text text--accent-3">warning</v-icon>
-                            <strong v-if="mandat.priorité === 'Prioritaire'">{{mandat.priorité}}</strong>
-                            <strong v-if="mandat.heure !== '00:00'">{{mandat.heure}}</strong>
-                        </div>
-                    </div>
-                    <div v-else>
-                        Ordinaire
-                    </div>
-                </v-flex>
-                <v-flex xs1>
-                    <div>
-                        <v-icon>edit</v-icon>
-                        <strong>{{mandat.traducteur}}</strong>
-                    </div>
-                    <div>
-                        <v-icon>spellcheck</v-icon>
-                        <strong>{{mandat.réviseur}}</strong>
-                    </div>
-                </v-flex>
-                <v-flex xs2>
-                    <v-dialog v-model="dialogStatut" scrollable persistent>
-                        <v-btn outline slot="activator">{{mandat.statut}}</v-btn>
-                        <v-card>
-                            <v-toolbar class="indigo" light>
-                                <v-toolbar-title>Nouveau statut</v-toolbar-title>
-                            </v-toolbar>
-                            <v-card-row height="400px" width="800px">
-                                <v-card-text>
-                                    <v-radio label="Traduction" v-model="selectedStatut" value="Traduction"></v-radio>
-                                    <v-radio label="Premier jet" v-model="selectedStatut" value="Premier jet"></v-radio>
-                                    <v-radio label="Questions" v-model="selectedStatut" value="Questions"></v-radio>
-                                    <v-radio label="À réviser" v-model="selectedStatut" value="À réviser"></v-radio>
-                                    <v-radio label="Révision finie" v-model="selectedStatut" value="Révision finie"></v-radio>
-                                    <v-radio label="Liquidé" v-model="selectedStatut" value="Liquidé"></v-radio>
-                                </v-card-text>
-                            </v-card-row>
-                            <v-divider></v-divider>
-                            <v-card-row actions>
-                                <v-btn class="blue--text darken-1" flat @click.native="dialogStatut = false">Annuler</v-btn>
-                                <v-btn class="blue--text darken-1" flat @click.native="setStatut">Enregistrer</v-btn>
-                            </v-card-row>
-                        </v-card>
-                    </v-dialog>
-                </v-flex>
+                </span>
+                <v-spacer></v-spacer>
+                <v-menu offset-y>
+                    <v-btn flat round small :ripple="false" slot="activator">{{mandat.statut}}</v-btn>
+                    <v-list>
+                        <v-list-tile v-for="statut in statuts_trad" :key="statut.title" @click="setStatut(statut.title)">
+                            <v-list-tile-title>{{ statut.title }}</v-list-tile-title>
+                        </v-list-tile>
+                    </v-list>
+                </v-menu>
+                <v-spacer></v-spacer>
+          <span>
+                <v-btn icon :color="mandat.questions ? 'error' : ''" @click="toggleQuestions">
+                        <v-icon>question_answer</v-icon>
+                    </v-btn>
 
-                <v-flex xs1>
-                    <v-dialog v-model="dialogInfo" :width="700">
-                        <v-btn icon slot="activator" class="black--text">
-                            <v-icon>info</v-icon>
+                           <v-dialog v-model="dialogRemarque" persistent>
+                        <v-btn icon slot="activator" :color="mandat.remarque ? 'info' : ''" >
+                           <v-icon>chat</v-icon>
                         </v-btn>
-                        <v-card>
-                            <mandat-details :mandat="mandat"></mandat-details>
-
-                            <v-divider></v-divider>
-                            <v-card-row actions>
-                                <button v-clipboard="copyToClipboard">Copier dans Excel</button>
-                                <v-spacer></v-spacer>
-                                <v-btn class="blue--text darken-1" flat @click.native="dialogInfo = false">Fermer</v-btn>
-                                <v-btn v-if="mandat.traducteur === currentTranslator" class="blue--text darken-1" flat @click.native="editMandat">Modifier</v-btn>
-                            </v-card-row>
-                        </v-card>
-                    </v-dialog>
-                </v-flex>
-                <v-flex xs1>
-                    <v-dialog v-model="dialogRemarque" persistent>
-                        <v-btn icon slot="activator" class="black--text">
-                            <v-icon v-if="mandat.remarque">message</v-icon>
-                            <v-icon v-else>chat_bubble_outline</v-icon>
-                        </v-btn>
-                        <v-card>
-                            <v-toolbar class="indigo" light>
+                        <v-card class="stepCard">
+                            <v-toolbar flat>
                                 <v-toolbar-title>Laisser un message</v-toolbar-title>
                             </v-toolbar>
                             <v-card-text>
                                 <div v-if="!editRemarque">{{mandat.remarque}}</div>
                                 <div v-else>
-                                    <v-text-field name="remarque" v-model.trim="textRemarque" label="Remarque" multi-line></v-text-field>
+                                  <v-text-field name="remarque" v-model.trim="textRemarque" label="Remarque" multi-line>
+
+                                   </v-text-field>
                                 </div>
-                            </v-card-text>
-                            <v-divider></v-divider>
-                            <v-card-row actions>
-                                <v-btn class="blue--text darken-1" flat @click.native="closeRemarque">Fermer</v-btn>
-                                <v-btn v-if="editRemarque" class="blue--text darken-1" flat @click.native="setRemarque">enregistrer</v-btn>
-                                <v-btn v-else class="blue--text darken-1" flat @click.native="editRemarque = true">éditer</v-btn>
-                            </v-card-row>
+                         </v-card-text>
+                      
+                   <v-card-actions>
+                                <v-btn@click="closeRemarque">Fermer</v-btn>
+                                <v-btn v-if="editRemarque" @click="setRemarque" color="primary">enregistrer</v-btn>
+                                <v-btn v-else  @click="editRemarque = true" color="primary">éditer</v-btn>
+                   </v-card-actions>
                         </v-card>
                     </v-dialog>
-                </v-flex>
-            </v-layout>
-        </v-card-text>
-    </v-card-column>
 
+          </span>
+            </v-card-actions>
+            <v-card-text>
+              <router-link :to="'edit/' + mandat['.key']" tag="div" class="code-active title text-xs-center pb-2">
+               {{mandat.nom}}
+                </router-link>
+                <div class="line"></div>
+                <div class="subheading text-xs-center pt-2">
+                    <div>
+                      
+                        À renvoyer à <strong>{{mandat.mandant.text.split(' ')[0]}}</strong>  d'ici au 
+                          <v-icon color="error" v-if="mandat.heure !== '00:00' || mandat.priorité === 'Prioritaire'">warning</v-icon>
+                        <strong>{{mandat.délai | formatDate}}</strong>
+                        <strong v-if="mandat.heure !== '00:00'">{{mandat.heure}}</strong>
+                    </div>
+                    <div v-if="mandat.statut === 'À réviser' && mandat.réviseur === me">
+                                            Traduit par
+                        <strong>{{mandat.traducteur}}</strong>
+                    </div>
+                    <div v-else>
+                       Révision par
+                        <strong>{{mandat.réviseur}}</strong>
+                    </div>
+                </div>
+            </v-card-text>
 
-</v-card>
+        </v-card>
+           
+    </v-flex>
 </template>
 
 <script>
-    import MandatDetails from './MandatDetails.vue';
-
-    import {
-        auth
-    } from '../firebase';
-
-    export default {
-        props: ['mandat'],
-        data() {
-            return {
-                statuts: ['Traduction', 'Premiet jet', 'Questions', 'À réviser', 'Révision finie', 'Liquidé'],
-                currentTranslator: auth.currentUser.displayName,
-                selectedStatut: '',
-                dialogStatut: false,
-                dialogInfo: false,
-                dialogRemarque: false,
-                editRemarque: false,
-                textRemarque: this.mandat.remarque,
-                copyToClipboard: `<table>
-                                      <tr>
-                                        <td>${this.mandat.code}</td>
-                                        <td>${this.mandat.arrivée}</td>
-                                        <td>${this.mandat.nom}</td>
-                                        <td>${this.mandat.type}</td>
-                                        <td>1 Word</td>
-                                        <td>${this.mandat.activité}</td>
-                                        <td>${this.mandat.TAO}</td>
-                                        <td>${this.mandat.source}</td>
-                                        <td>${this.mandat.cible}</td>
-                                        <td>${this.mandat.traducteur}</td>
-                                        <td>${this.mandat.réviseur}</td>
-                                        <td>${this.mandat.délai}</td>
-                                        <td>${this.mandat.priorité}</td>
-                                        <td>${this.mandat.mandant}</td>
-                                        <td>${this.mandat.public_cible}</td>
-                                        <td>${this.mandat.centre_coûts}</td>
-                                        <td>${this.mandat.statut}</td>
-                                      </tr>
-                                    </table>`
-            };
+import { auth } from '../firebase'
+import bus from '@/js/bus'
+export default {
+  props: {
+    mandat: {
+      type: Object,
+      default: {}
+    }
+  },
+  data() {
+    return {
+      me: auth.currentUser.displayName,
+      snackbar: false,
+      dialogRemarque: false,
+      editRemarque: false,
+      textRemarque: this.mandat.remarque,
+      copyRefArchives: `${this.mandat.code} ${this.mandat.nom.replace(
+        /[\%\~\#\&\*\{\}\\\:\<\>\?\/\+\|\"]+/g,
+        ''
+      )}`,
+      statuts_trad: [
+        {
+          title: 'À traduire'
         },
-        methods: {
-            setStatut() {
-                this.dialogStatut = false;
-                this.$emit('changedStatut', this.selectedStatut);
-
-            },
-            setRemarque() {
-                this.dialogRemarque = false;
-                this.$emit('newRemarque', this.textRemarque);
-            },
-            closeRemarque() {
-                this.editRemarque = false;
-                this.dialogRemarque = false;
-                this.textRemarque = this.mandat.remarque;
-            },
-            editMandat() {
-                this.dialogInfo = false;
-
-                //after upgrading to Vuetify 0.13, can delete setTimeout
-                setTimeout(() => {
-                    this.$router.push({
-                        name: 'edit',
-                        params: {
-                            key: this.mandat['.key']
-                        }
-                    });
-                }, 200);
-            }
+        {
+          title: 'Premier jet fini'
         },
-        computed: {
-            currentStatut() {
-                if (this.mandat.statut === 'Premier jet') {
-                    return 'blue lighten-4 black--text';
-                } else if (this.mandat.statut === 'Questions') {
-                    return 'red lighten-2 black--text';
-                } else if (this.mandat.statut === 'À réviser') {
-                    //send notification
-                    return 'purple lighten-2 black--text';
-                } else if (this.mandat.statut === 'Révision finie') {
-                    //send notification
-                    return 'light-blue lighten-2 black--text';
-                } else if (this.mandat.statut === 'Liquidé') {
-                    return 'green lighten-2 black--text';
-                } else {
-                    return 'grey lighten-3 black--text';
-                }
-            }
+        {
+          title: 'À réviser'
         },
-        components: {
-            mandatDetails: MandatDetails
+        {
+          title: 'Révision finie'
+        },
+        {
+          title: 'Liquider le mandat'
         }
-    };
-
+      ]
+    }
+  },
+  computed: {
+    currentStatutColor() {
+      if (this.mandat.statut === 'Premier jet fini') {
+        return bus.darkTheme ? 'blue lighten-4' : 'cyan darken-1'
+      } else if (this.mandat.statut === 'À réviser') {
+        return bus.darkTheme ? 'purple lighten-2' : 'purple darken-2'
+      } else if (this.mandat.statut === 'Révision finie') {
+        return bus.darkTheme ? 'light-blue lighten-2' : 'indigo darken-3'
+      } else if (this.mandat.statut === 'Liquider le mandat') {
+        return bus.darkTheme ? 'green lighten-2' : 'green darken-2'
+      } else {
+        return ''
+      }
+    }
+  },
+  methods: {
+    setRemarque() {
+      this.editRemarque = false
+      this.dialogRemarque = false
+      this.$emit('newRemarque', this.textRemarque)
+    },
+    closeRemarque() {
+      this.editRemarque = false
+      this.dialogRemarque = false
+      this.textRemarque = this.mandat.remarque
+    },
+    toggleQuestions() {
+      this.$emit('questions', !this.mandat.questions)
+    },
+    setStatut(newStatut) {
+      this.$emit('setStatut', newStatut)
+    },
+    onCopy() {
+      this.snackbar = true
+    }
+  }
+}
 </script>
 
 <style>
+#borderQuestion {
+  border: 5px solid #ff5252 !important;
+}
 
-
+.code-active:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
 </style>

@@ -1,65 +1,70 @@
 <template>
-<v-app>
-    <v-toolbar light>
-        <router-link tag="v-toolbar-logo" to="/mesmandats" id="logo">MandaLa<small class="body-1">[ beta ]</small></router-link>
-        <v-toolbar-items>
-            <template v-if="currentUser">
-                <v-toolbar-item ripple :router=true href="/mesmandats">
-                    <v-icon>person</v-icon><span class="hidden-sm-and-down">Mes mandats</span></v-toolbar-item>
-                <v-toolbar-item ripple :router=true href="/touslesmandats">
-                    <v-icon>import_export</v-icon><span class="hidden-sm-and-down">Mandats</span></v-toolbar-item>
+  <v-app :light="theme" :dark="!theme">
+    <m-toolbar></m-toolbar>
 
-                <v-toolbar-item ripple :router=true href="/nouveau">
-                    <v-icon>add</v-icon><span class="hidden-sm-and-down">Nouveau</span></v-toolbar-item>
-                <v-toolbar-item ripple :router=true href="/rechercher">
-                    <v-icon>search</v-icon><span class="hidden-sm-and-down">Rechercher</span></v-toolbar-item>
-
-                <v-toolbar-item ripple :router=true href="mitarbeiter">
-                    <v-icon light>people</v-icon>
-                </v-toolbar-item>
-                <v-toolbar-item ripple :router=true href="parametres">
-                    <v-icon light>settings</v-icon>
-                </v-toolbar-item>
-              
-            </template>
-</v-toolbar-items>
-</v-toolbar>
-<main id="mainContainer">
-    <v-container>
-        <transition name="fade" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in" :duration="300">
-            <router-view></router-view>
-        </transition>
-    </v-container>
-</main>
-</v-app>
+    <main >
+      <v-content fill-height class="bg"  :class="{lightSnowflake: theme}">
+        <v-divider></v-divider>
+        <v-container fluid>
+          <router-view></router-view>
+        </v-container>
+      </v-content>
+    </main>
+  </v-app>
 </template>
 
 <script>
-    import {
-        auth
-    } from './firebase';
-    export default {
-        data() {
-            return {
-                currentUser: {}
-            };
-        },
-        beforeCreate() {
-            auth.onAuthStateChanged((user) => {
-                if (user) {
-                    // User is signed in.
-                    this.currentUser = user;
-                } else {
-                    // User is signed out.
-                    this.currentUser = null;
-                }
-            });
-        },
-    };
+import Toolbar from '@/components/Toolbar'
+import SmartView from '@/components/SmartView'
+import bus from '@/js/bus'
 
+export default {
+  data() {
+    return {}
+  },
+  computed: {
+    theme() {
+      return bus.darkTheme
+    }
+  },
+
+  components: {
+    mToolbar: Toolbar,
+    smartView: SmartView
+  }
+}
 </script>
 
 <style lang="stylus">
-    @import '../node_modules/vuetify/src/stylus/main' @import '../node_modules/animate.css/animate.min.css' @import './css/main.css'
+@import './stylus/main';
 
+.bg {
+  background-image: url('../static/snowflake.svg'), url('../static/snowflake.svg'), url('../static/snowflake.svg'), url('../static/snowflake.svg'), url('../static/snowflake.svg'), url('../static/snowman.svg');
+  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
+  background-position: 9% 15%, 27% 68%, 59% 49%, 5% 92%, 96% 12%, 95% 95%;
+  background-size: 120px 120px, 100px 100px, 150px 150px, 140px 140px, 110px 110px, 256px 256px;
+  background-attachment: fixed, fixed, fixed, fixed, fixed, fixed;
+  /* height: calc(100vh - 64px); */
+  min-height: calc(100vh - 64px);
+}
+
+.lightSnowflake {
+  background-image: url('../static/snowflake_black.svg'), url('../static/snowflake_black.svg'), url('../static/snowflake_black.svg'), url('../static/snowflake_black.svg'), url('../static/snowflake_black.svg'), url('../static/snowman.svg');
+}
+
+.stepper__wrapper .stepCard {
+  margin-bottom: 20px;
+}
+
+.stepCard {
+  border: 2px solid grey;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+/* @supports (display: grid) {
+   body * {
+   cursor: url('/static/santahand.cur'), auto !important;
+   }
+   } */
 </style>

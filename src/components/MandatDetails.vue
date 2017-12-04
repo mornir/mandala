@@ -1,6 +1,6 @@
 <template>
-<div>
-<v-toolbar class="indigo" light>
+<v-card flat class="stepCard">
+<v-toolbar flat>
     <v-toolbar-title>{{mandat.nom}}</v-toolbar-title>
 </v-toolbar>
     <v-card-text>
@@ -60,7 +60,7 @@
                 </v-flex>
                 
                 <v-flex xs5 sm4 md3 lg2 v-if="Array.isArray(mandat.fichiers)">
-                    <div>Fichiers</div><strong><ul><li v-for="file in mandat.fichiers" v-if="file.nombre">{{file.nombre}} {{file.fichier}}</li></ul></strong>
+                    <div>Fichiers</div><strong><ul><li v-for="file in mandat.fichiers" :key="file.fichier" v-if="file.nombre" >{{file.nombre}} {{file.fichier}}</li></ul></strong>
                 </v-flex>
                    <v-flex xs5 sm4 md3 lg2 v-else>
                     <div>Fichiers</div><strong>{{mandat.fichiers}}</strong>
@@ -73,24 +73,22 @@
         </div>
     </v-card-text>
 
-</div>
+     </v-card>
 </template>
 
 <script>
-    export default {
-        props: ['mandat']
-    };
-
+export default {
+  props: ['mandat']
+}
 </script>
 
 <style>
-    .details .flex {
-        margin-bottom: 16px;
-    }
-    
-    ul {
-        list-style-type: none;
-        padding: 0;
-    }
+.details .flex {
+  margin-bottom: 16px;
+}
 
+ul {
+  list-style-type: none;
+  padding: 0;
+}
 </style>
