@@ -7,13 +7,18 @@
                     <v-form v-model="validForm" ref="form" lazy-validation>
                         <v-layout row wrap justify-space-around>
 
-                            <v-flex xs4>
+                            <v-flex xs2>
                                 <v-text-field label="Kürzel" v-model="newMandant.Kürzel" :maxlength="4" box></v-text-field>
                             </v-flex>
 
-                            <v-flex xs6>
-                                <v-text-field label="Prénom + Nom" v-model="newMandant.text" box></v-text-field>
+                            <v-flex xs4>
+                                <v-text-field label="Prénom" v-model="newMandant.first" box required></v-text-field>
                             </v-flex>
+                            <v-flex xs4>
+                                <v-text-field label="Nom" v-model="newMandant.last" box></v-text-field>
+                            </v-flex>
+
+              
 
                             <v-flex xs4>
                                 <v-select label="Centre de coûts" :items="centres" v-model="selectedCenters" multiple/>
@@ -101,7 +106,9 @@ export default {
       newMandant: {
         Kürzel: '',
         text: '',
-        département: ''
+        département: '',
+        first: '',
+        last: ''
       },
       groupe: []
     }
@@ -109,6 +116,9 @@ export default {
 
   methods: {
     addMitarbeiter() {
+      const { first, last } = this.newMandant
+      this.newMandant.text = `${first} ${last}`
+
       this.selectedCenters.forEach(el => {
         db
           .ref('mandantsListe')

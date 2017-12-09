@@ -359,13 +359,18 @@ export default {
         () => {
           this.$bindAsArray(
             'mandants',
-            db.ref('mandantsListe/' + this.mandat.centre_coûts)
+            db
+              .ref('mandantsListe/' + this.mandat.centre_coûts)
+              .orderByChild('text')
           )
         }
       )
     } else {
       this.mandat = { ...Mandat }
-      this.$bindAsArray('mandants', db.ref('mandantsListe/VKF'))
+      this.$bindAsArray(
+        'mandants',
+        db.ref('mandantsListe/VKF').orderByChild('text')
+      )
     }
   }
 }
