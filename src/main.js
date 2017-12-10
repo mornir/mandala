@@ -4,10 +4,12 @@ import Vuetify from 'vuetify'
 import App from './App'
 import router from './router'
 import VueClipboard from 'vue-clipboard2'
+import VueConfetti from 'vue-confetti'
 
 Vue.use(VueFire)
 Vue.use(Vuetify)
 Vue.use(VueClipboard)
+Vue.use(VueConfetti)
 Vue.config.productionTip = false
 
 Vue.filter('formatDate', isoDate =>
