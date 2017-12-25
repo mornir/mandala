@@ -132,6 +132,7 @@ export default {
     }
   },
   created() {
+    this.$confetti.stop()
     this.snackbar.showSnack = bus.snackbar.showSnack
     this.snackbar.message = bus.snackbar.message
 

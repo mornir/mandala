@@ -4371,6 +4371,10 @@ vue-clipboard2@^0.0.6:
     clipboard "^1.5.16"
     vue "2"
 
+vue-confetti@^0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/vue-confetti/-/vue-confetti-0.3.2.tgz#26f9ac74b190d5320d4eaabcfd8630c51bd72bbb"
+
 vue-hot-reload-api@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/vue-hot-reload-api/-/vue-hot-reload-api-2.2.0.tgz#9a21b35ced3634434a43ee80efb7350ea8fb206d"

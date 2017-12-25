@@ -1,14 +1,14 @@
 <template>
     <v-flex v-bind="{ [`xs${mandat.chargeTravail}`]: true }">
            <v-snackbar top v-model="snackbar"><span class="title">Titre du mandat copié <v-icon color="info">check_circle</v-icon></span></v-snackbar>
-        <v-card  :color="currentStatutColor" :id="mandat.questions ? 'borderQuestion' : ''">
+        <v-card  :color="currentStatutColor" :id="mandat.questions ? 'borderQuestion' : ''" :class="{faded : isFaded}">
             <v-card-actions>
                 <span v-clipboard:copy="copyRefArchives" class="code-active" v-clipboard:success="onCopy">
                     <strong>{{mandat.code}}</strong>
                 </span>
                 <v-spacer></v-spacer>
                 <v-menu offset-y>
-                    <v-btn flat round small :ripple="false" slot="activator">{{mandat.statut}}</v-btn>
+                    <v-btn flat round small :ripple="false" slot="activator">{{isFaded ? 'En révision' : mandat.statut}}</v-btn>
                     <v-list>
                         <v-list-tile v-for="statut in statuts_trad" :key="statut.title" @click="setStatut(statut.title)">
                             <v-list-tile-title>{{ statut.title }}</v-list-tile-title>
@@ -39,7 +39,7 @@
                          </v-card-text>
                       
                    <v-card-actions>
-                                <v-btn@click="closeRemarque">Fermer</v-btn>
+                                <v-btn @click="closeRemarque">Fermer</v-btn>
                                 <v-btn v-if="editRemarque" @click="setRemarque" color="primary">enregistrer</v-btn>
                                 <v-btn v-else  @click="editRemarque = true" color="primary">éditer</v-btn>
                    </v-card-actions>
@@ -61,12 +61,14 @@
                         <strong>{{mandat.délai | formatDate}}</strong>
                         <strong v-if="mandat.heure !== '00:00'">{{mandat.heure}}</strong>
                     </div>
-                    <div v-if="mandat.statut === 'À réviser' && mandat.réviseur === me">
-                                            Traduit par
+           
+                    <div   v-if="mandat.statut === 'À réviser' && mandat.réviseur === me">
+                 Traduit par
                         <strong>{{mandat.traducteur}}</strong>
                     </div>
                     <div v-else>
-                       Révision par
+                         
+                               Révision par
                         <strong>{{mandat.réviseur}}</strong>
                     </div>
                 </div>
@@ -130,6 +132,11 @@ export default {
       } else {
         return ''
       }
+    },
+    isFaded() {
+      return (
+        this.mandat.statut === 'À réviser' && this.mandat.traducteur === this.me
+      )
     }
   },
   methods: {
@@ -164,5 +171,9 @@ export default {
 .code-active:hover {
   cursor: pointer;
   text-decoration: underline;
+}
+
+.faded {
+  opacity: 0.5;
 }
 </style>
