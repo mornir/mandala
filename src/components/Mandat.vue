@@ -49,9 +49,11 @@
           </span>
             </v-card-actions>
             <v-card-text>
-              <router-link :to="'edit/' + mandat['.key']" tag="div" class="code-active title text-xs-center pb-2">
+            <div class="text-xs-center pb-2">
+              <router-link :to="'edit/' + mandat['.key']" tag="span" class="code-active title">
                {{mandat.nom}}
                 </router-link>
+              </div>
                 <div class="line"></div>
                 <div class="subheading text-xs-center pt-2">
                     <div>
@@ -86,8 +88,8 @@ export default {
   props: {
     mandat: {
       type: Object,
-      default: {}
-    }
+      default: {},
+    },
   },
   data() {
     return {
@@ -102,21 +104,21 @@ export default {
       )}`,
       statuts_trad: [
         {
-          title: 'À traduire'
+          title: 'À traduire',
         },
         {
-          title: 'Premier jet fini'
+          title: 'Premier jet fini',
         },
         {
-          title: 'À réviser'
+          title: 'À réviser',
         },
         {
-          title: 'Révision finie'
+          title: 'Révision finie',
         },
         {
-          title: 'Liquider le mandat'
-        }
-      ]
+          title: 'Liquider le mandat',
+        },
+      ],
     }
   },
   computed: {
@@ -137,7 +139,7 @@ export default {
       return (
         this.mandat.statut === 'À réviser' && this.mandat.traducteur === this.me
       )
-    }
+    },
   },
   methods: {
     setRemarque() {
@@ -158,8 +160,8 @@ export default {
     },
     onCopy() {
       this.snackbar = true
-    }
-  }
+    },
+  },
 }
 </script>
 

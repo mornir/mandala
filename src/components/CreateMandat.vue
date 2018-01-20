@@ -212,8 +212,8 @@ export default {
   props: {
     code: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
   data() {
     return {
@@ -227,19 +227,19 @@ export default {
         { text: 'Rédactionnel', value: 'REDAC' },
         { text: 'Technique', value: 'TEC' },
         { text: 'Juridique', value: 'JUR' },
-        { text: 'Financier', value: 'FINANC' }
+        { text: 'Financier', value: 'FINANC' },
       ],
       activities: [
         'Traduction',
         'Adaptation',
         'Correction',
         'Rédaction',
-        'Révision'
+        'Révision',
       ],
       disableWeekends: date => {
         return !(date.getDay() === 0 || date.getDay() === 6)
       },
-      mandat: {}
+      mandat: {},
     }
   },
   methods: {
@@ -272,11 +272,9 @@ export default {
           this.$router.push('/smartview')
           bus.snackbar.showSnack = true
           if (this.mandat.chargeTravail > 6) {
-            bus.snackbar.message = 'Bon courage ! 🎅'
-            //💪
+            bus.snackbar.message = 'Bon courage ! 💪'
           } else {
-            bus.snackbar.message = 'Bonne traduction ! 🎅'
-            //😃
+            bus.snackbar.message = 'Bonne traduction ! 😃'
           }
         })
         .catch(error => {
@@ -322,7 +320,7 @@ export default {
         'mandants',
         db.ref('mandantsListe/' + this.mandat.centre_coûts)
       )
-    }
+    },
   },
   computed: {
     pageNumber() {
@@ -347,7 +345,7 @@ export default {
         this.mandat.mandant.text &&
         this.mandat.public_cible
       )
-    }
+    },
   },
   created() {
     if (this.code) {
@@ -372,7 +370,7 @@ export default {
         db.ref('mandantsListe/VKF').orderByChild('text')
       )
     }
-  }
+  },
 }
 </script>
 

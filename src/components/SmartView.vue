@@ -71,10 +71,10 @@ export default {
     isLoading: true,
     liquideMandatDialog: false,
     me: auth.currentUser.displayName,
-    activeMandat: {}
+    activeMandat: {},
   }),
   firebase: {
-    failedMandats: db.ref('errors')
+    failedMandats: db.ref('errors'),
   },
   computed: {
     mesMandats() {
@@ -83,7 +83,7 @@ export default {
           trad.traducteur === this.me ||
           (trad.réviseur === this.me && trad.statut === 'À réviser')
       )
-    }
+    },
   },
   methods: {
     updateQuestions(newBool, mandat) {
@@ -101,6 +101,24 @@ export default {
       this.$firebaseRefs.mandats.child(`${key}/statut`).set(newStatut)
     },
     liquideMandat() {
+      const charge = this.activeMandat.chargeTravail
+      let shape = 'rect'
+      let durée = 3000
+      let colors = ['red', 'pink', '#ba0000']
+      if (charge === 8) {
+        shape = 'circle'
+        durée = 4000
+        colors = ['#FF851B', '#FF4136', '#85144b', '#F012BE', '#B10DC9']
+      }
+      if (charge === 10) {
+        shape = 'heart'
+        durée = 6000
+        colors = null // uses the default colors
+      }
+      if (charge > 4) {
+        this.dropConfetti(shape, durée, colors)
+      }
+
       this.animation = 'fold'
       this.liquideMandatDialog = false
 
@@ -116,8 +134,9 @@ export default {
         .then(() => {
           this.$firebaseRefs.mandats.child(key).remove()
         })
-
-      setTimeout(() => (this.animation = 'roll'), 2000)
+        .then(() => {
+          setTimeout(() => (this.animation = 'roll'), 2000)
+        })
     },
     snackBarClipboard() {
       this.snackbar.message = 'Titre du mandat copié'
@@ -129,10 +148,18 @@ export default {
         .child(key)
         .child('remarque')
         .set(newRemarque)
-    }
+    },
+    dropConfetti(shape = 'rect', durée = 3000, colors) {
+      this.$confetti.start({
+        shape,
+        colors,
+      })
+      setTimeout(() => {
+        this.$confetti.stop()
+      }, durée)
+    },
   },
   created() {
-    this.$confetti.stop()
     this.snackbar.showSnack = bus.snackbar.showSnack
     this.snackbar.message = bus.snackbar.message
 
@@ -148,8 +175,8 @@ export default {
   },
   components: {
     Mandat: Mandat,
-    mandatDetails: MandatDetails
-  }
+    mandatDetails: MandatDetails,
+  },
 }
 </script>
 
@@ -177,7 +204,49 @@ export default {
   justify-content: center;
 }
 
+.roll-enter-active {
+  animation: rollIn 1s;
+}
+
+.roll-leave-active {
+  animation: rollOut 1s;
+  position: absolute; /*apply a absolute positioning to items that are leaving to remove them from the natural flow in order to trigger the move transition on the rest of the items */
+}
+
+.roll-move {
+  transition: transform 1s;
+}
+
+.fold-leave-active {
+  animation: fold 1s;
+}
+
+.fold-move {
+  transition: transform 1s;
+  transition-delay: 1s;
+}
+
 /* originally authored by Nick Pettit - https://github.com/nickpettit/glide */
+
+@keyframes fold {
+  0% {
+    animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform: scale3d(1, 1, 1);
+  }
+  30% {
+    animation-timing-function: cubic-bezier(0.455, 0.03, 0.515, 0.955);
+    transform: scale3d(1, 0.4, 1);
+  }
+  60% {
+    animation-timing-function: cubic-bezier(0.455, 0.03, 0.515, 0.955);
+    transform: scale3d(0.4, 0.4, 1);
+  }
+  100% {
+    opacity: 0;
+    animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+    transform: scale3d(0.2, 0.2, 0.2);
+  }
+}
 
 @keyframes rollIn {
   from {
@@ -199,51 +268,6 @@ export default {
   to {
     opacity: 0;
     transform: translate3d(100%, 0, 0) rotate3d(0, 0, 1, 120deg);
-  }
-}
-
-.roll-enter-active {
-  animation: rollIn 1s;
-}
-
-.roll-leave-active {
-  animation: rollOut 1s;
-  position: absolute;
-}
-
-.roll-move {
-  transition: transform 1s;
-  /*transition: all 1s;*/
-}
-
-.fold-leave-active {
-  animation: fold 1s;
-}
-
-.fold-move {
-  transition: transform 1s;
-  /*transition: all 1s;*/
-  transition-delay: 1s;
-}
-
-@keyframes fold {
-  0% {
-    animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    transform: scale3d(1, 1, 1);
-  }
-  30% {
-    animation-timing-function: cubic-bezier(0.455, 0.03, 0.515, 0.955);
-    transform: scale3d(1, 0.4, 1);
-  }
-  60% {
-    opacity: 1;
-    animation-timing-function: cubic-bezier(0.455, 0.03, 0.515, 0.955);
-    transform: scale3d(0.4, 0.4, 1);
-  }
-  100% {
-    opacity: 0;
-    animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
-    transform: scale3d(0.2, 0.2, 0.2);
   }
 }
 </style>
