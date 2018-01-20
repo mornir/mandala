@@ -71,10 +71,10 @@ export default {
     isLoading: true,
     liquideMandatDialog: false,
     me: auth.currentUser.displayName,
-    activeMandat: {}
+    activeMandat: {},
   }),
   firebase: {
-    failedMandats: db.ref('errors')
+    failedMandats: db.ref('errors'),
   },
   computed: {
     mesMandats() {
@@ -83,7 +83,7 @@ export default {
           trad.traducteur === this.me ||
           (trad.réviseur === this.me && trad.statut === 'À réviser')
       )
-    }
+    },
   },
   methods: {
     updateQuestions(newBool, mandat) {
@@ -129,10 +129,9 @@ export default {
         .child(key)
         .child('remarque')
         .set(newRemarque)
-    }
+    },
   },
   created() {
-    this.$confetti.stop()
     this.snackbar.showSnack = bus.snackbar.showSnack
     this.snackbar.message = bus.snackbar.message
 
@@ -148,8 +147,8 @@ export default {
   },
   components: {
     Mandat: Mandat,
-    mandatDetails: MandatDetails
-  }
+    mandatDetails: MandatDetails,
+  },
 }
 </script>
 
@@ -208,12 +207,11 @@ export default {
 
 .roll-leave-active {
   animation: rollOut 1s;
-  position: absolute;
+  position: absolute; /*apply a absolute positioning to items that are leaving to remove them from the natural flow in order to trigger the move transition on the rest of the items */
 }
 
 .roll-move {
   transition: transform 1s;
-  /*transition: all 1s;*/
 }
 
 .fold-leave-active {
@@ -222,7 +220,6 @@ export default {
 
 .fold-move {
   transition: transform 1s;
-  /*transition: all 1s;*/
   transition-delay: 1s;
 }
 

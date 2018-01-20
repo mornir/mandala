@@ -2,14 +2,13 @@
     <v-toolbar flat app>
         <v-toolbar-title id="logo" class="display-2">
             <router-link to="/smartview" tag="div">
-            <span>MandaLa</span>
-    <!--             <span class="hvr-buzz">m</span>
+<span class="hvr-buzz">m</span>
                 <span class="hvr-buzz">a</span>
                 <span class="hvr-buzz">n</span>
                 <span class="hvr-buzz">d</span>
                 <span class="hvr-buzz">a</span>
                 <span class="hvr-buzz">l</span>
-                <span class="hvr-buzz pr-1">a</span> -->
+                <span class="hvr-buzz pr-1">a</span>
             </router-link>
         </v-toolbar-title>
 
@@ -51,13 +50,13 @@ export default {
       navLinks: [
         {
           title: 'Mandants',
-          link: '/mandants'
+          link: '/mandants',
         },
         {
           title: 'Administration',
-          link: '/admin'
-        }
-      ]
+          link: '/admin',
+        },
+      ],
     }
   },
   methods: {
@@ -68,7 +67,7 @@ export default {
         localStorage.setItem('theme', '1')
       }
       bus.darkTheme = !bus.darkTheme
-    }
+    },
   },
   computed: {
     lightDark() {
@@ -77,8 +76,8 @@ export default {
       } else {
         return '💡'
       }
-    }
-  }
+    },
+  },
 }
 </script>
 
@@ -88,7 +87,6 @@ export default {
   margin-right: 2rem;
   text-decoration: none;
   cursor: pointer;
-  font-family: 'Pacifico', cursive;
 }
 
 .more-link:hover {
@@ -104,14 +102,12 @@ export default {
 }
 
 #logo {
-  /* font-family: 'Hanalei', cursive;*/
-  font-family: 'Pacifico', cursive;
+  font-family: 'Hanalei', cursive;
   color: red;
-  /*cursor: default;*/
-  cursor: url('/static/santahand.cur'), auto;
+  cursor: default;
 }
 
-/* @keyframes hvr-buzz {
+@keyframes hvr-buzz {
   50% {
     transform: translateX(3px) rotate(2deg);
   }
@@ -133,6 +129,6 @@ export default {
 }
 
 .hvr-buzz:hover {
-  animation-play-state: running; 
-}*/
+  animation-play-state: running;
+}
 </style>
