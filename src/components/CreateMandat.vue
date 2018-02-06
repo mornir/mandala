@@ -152,29 +152,38 @@
                                     </label>
                                 </v-flex>
                                 <v-flex xs9>
-                                    <label class="subheading">Révision par
-                                        <b>{{mandat.réviseur}}</b>
+                                    <label class="subheading"><span v-if="mandat.réviseur !== 'Sans révision'">Révision par</span>
+                                        <b>{{mandat.réviseur}}</b>    </label>
                                         <v-radio-group v-model="mandat.réviseur" row>
+                                            <v-layout row>
+                                                <v-flex xs6>
                                             <v-radio label="Carine" value="Carine" v-if="currentUser !== 'Carine'" color="primary"></v-radio>
                                                 <v-radio label="Jérôme" value="Jérôme" v-if="currentUser !== 'Jérôme'" color="primary"></v-radio>
+
                                             <v-radio label="Sarah" value="Sarah" v-if="currentUser !== 'Sarah'" color="primary"></v-radio>
+                                            </v-flex>
+                                                <v-flex xs6>
+                                            <v-radio label="Sans révision" value="Sans révision" color="primary"></v-radio>
                                             <v-radio label="Autre" value="Autre" color="primary"></v-radio>
+                                                    </v-flex>
+                                            </v-layout>
                                         </v-radio-group>
-                                    </label>
+                                
+                                </v-flex>
+                                            <v-flex xs9>
+                                    <v-text-field box v-if="mandat.réviseur === 'Autre'" label="Autre réviseur" v-model="autreRéviseur" hide-details></v-text-field>
                                 </v-flex>
                                 <v-flex xs9 v-if="editing">
                                     <label class="subheading">Traduction par
-                                        <b>{{mandat.traducteur}}</b>
+                                        <b>{{mandat.traducteur}}</b> </label>
                                         <v-radio-group v-model="mandat.traducteur" row>
                                             <v-radio label="Carine" value="Carine" color="primary"></v-radio>
                                                 <v-radio label="Jérôme" value="Jérôme" color="primary"></v-radio>
                                             <v-radio label="Sarah" value="Sarah" color="primary"></v-radio>
                                         </v-radio-group>
-                                    </label>
+                         
                                 </v-flex>
-                                <v-flex xs9>
-                                    <v-text-field box v-if="mandat.réviseur === 'Autre'" label="Autre réviseur" v-model="autreRéviseur" hide-details></v-text-field>
-                                </v-flex>
+                    
                             </v-layout>
                         </div>
 

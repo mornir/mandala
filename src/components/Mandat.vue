@@ -67,11 +67,12 @@
                     <div   v-if="mandat.statut === 'À réviser' && mandat.réviseur === me">
                  Traduit par
                         <strong>{{mandat.traducteur}}</strong>
+                        <span v-if="mandat.TAO === 'Non'"><span class="sansTrados">sans</span> Trados</span>  
                     </div>
                     <div v-else>
                          
-                               Révision par
-                        <strong>{{mandat.réviseur}}</strong>
+                        <span v-if="mandat.réviseur !== 'Sans révision'">Révision par</span>
+                        <strong>{{mandat.réviseur}}</strong>   
                     </div>
                 </div>
             </v-card-text>
@@ -177,5 +178,10 @@ export default {
 
 .faded {
   opacity: 0.5;
+}
+
+.sansTrados {
+  text-decoration: underline;
+  text-decoration-color: red;
 }
 </style>
