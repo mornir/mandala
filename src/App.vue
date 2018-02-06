@@ -19,19 +19,19 @@ import SmartView from '@/components/SmartView'
 import bus from '@/js/bus'
 
 export default {
-  data() {
-    return {}
-  },
-  computed: {
-    theme() {
-      return bus.darkTheme
-    },
-  },
+	data() {
+		return {}
+	},
+	computed: {
+		theme() {
+			return bus.darkTheme
+		},
+	},
 
-  components: {
-    mToolbar: Toolbar,
-    smartView: SmartView,
-  },
+	components: {
+		mToolbar: Toolbar,
+		smartView: SmartView,
+	},
 }
 </script>
 
@@ -49,14 +49,13 @@ export default {
 }
 
 .bg {
-  background-image: url('../static/bg.png')
+  background-image: url('../static/bg2.png');
   background-size: cover;
   background-position: center center;
   background-attachment: fixed;
- 
 }
+
 main {
   min-height: calc(100vh - 64px);
 }
-
 </style>
