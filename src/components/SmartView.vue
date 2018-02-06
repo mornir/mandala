@@ -27,13 +27,13 @@
         <v-layout row wrap v-else justify-center>
 
             <v-flex xs10 v-if="!mesMandats.length">
-                <blockquote>Man kann sogar behaupten, dass eine Übersetzung um so abweichender wird, je mühsamer sie nach Treue strebt.
+       <!--          <blockquote>Man kann sogar behaupten, dass eine Übersetzung um so abweichender wird, je mühsamer sie nach Treue strebt.
                     <footer>
                         <small>
                             <em>&mdash; Wilhelm von Humboldt</em>
                         </small>
                     </footer>
-                </blockquote>
+                </blockquote> -->
             </v-flex>
 
             <v-flex xs12>
