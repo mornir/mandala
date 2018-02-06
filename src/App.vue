@@ -3,7 +3,7 @@
     <m-toolbar></m-toolbar>
 
     <main >
-      <v-content fill-height>
+      <v-content class="bg">
         <v-divider></v-divider>
         <v-container fluid>
           <router-view></router-view>
@@ -46,6 +46,17 @@ export default {
   border: 2px solid grey;
   padding: 5px;
   border-radius: 10px;
+}
+
+.bg {
+  background-image: url('../static/bg.png')
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+ 
+}
+main {
+  min-height: calc(100vh - 64px);
 }
 
 </style>
