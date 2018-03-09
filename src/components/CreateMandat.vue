@@ -45,7 +45,7 @@
                                 </v-flex>
                             </v-layout>
                             <v-layout class="mb-2" justify-center>
-                                <v-flex xs2 v-for="(file, index) in mandat.fichiers" :key="file.fichier">
+                                <v-flex xs2 v-for="file in mandat.fichiers" :key="file.fichier">
                                     <input name="file.fichier" v-model.number="file.nombre" type="number" min="0" style="width: 50px;">
                                 </v-flex>
                             </v-layout>
