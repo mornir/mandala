@@ -82,11 +82,6 @@ export default {
 </script>
 
 <style scoped>
-@font-face {
-  font-family: shanghai;
-  src: url(../assets/shanghai.woff) format('woff');
-}
-
 .my-nav-link {
   font-size: 18px;
   margin-right: 2rem;
@@ -107,7 +102,7 @@ export default {
 }
 
 #logo {
-  font-family: shanghai, 'Hanalei', sans-serif;
+  font-family: 'Hanalei', cursive;
   color: red;
   cursor: default;
 }
