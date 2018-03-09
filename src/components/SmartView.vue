@@ -110,7 +110,7 @@ export default {
         durée = 4000
         colors = ['#FF851B', '#FF4136', '#85144b', '#F012BE', '#B10DC9']
       }
-      if (charge === 10) {
+      if (charge === 12) {
         shape = 'heart'
         durée = 6000
         colors = null // uses the default colors
